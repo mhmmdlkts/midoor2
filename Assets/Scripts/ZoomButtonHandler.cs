@@ -9,6 +9,11 @@ public class ZoomButtonHandler : MonoBehaviour
     private bool isZoom;
     public float zoomConstant = 0.235355f;
 
+    void Start()
+    {
+        isZoom = false;
+    }
+    
     public void zoom()
     {
         if (isZoom)
