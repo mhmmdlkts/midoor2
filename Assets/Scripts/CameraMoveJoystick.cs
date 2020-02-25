@@ -9,19 +9,19 @@ public class CameraMoveJoystick : MonoBehaviour
     public float multiply, multiplyVer, multiplyHor, multiplyPos, multiplyRot, verticalBorder, horizontalBorder;
     private Vector3 firstPos;
     private Quaternion firstRot;
+    private JoystickMove joystickMove;
 
     void Start()
     {
         firstPos = gameObject.transform.position;
         firstRot = gameObject.transform.rotation;
+        joystickMove = joystick.GetComponent<JoystickMove>();
     }
     
     void Update()
     {
-        if (joystick.GetComponent<JoystickMove>().pressed)
-            moveAim(joystick.Horizontal, joystick.Vertical);
-        else
-            resetAim();
+        if (joystickMove.pressed)
+            moveAim(joystickMove.getHorizontal(), joystickMove.getVertical());
     }
 
     private void resetAim()
@@ -32,12 +32,12 @@ public class CameraMoveJoystick : MonoBehaviour
     
     private void moveAim(float hor, float ver)
     {
+        Vector3 pos = gameObject.transform.position;
         gameObject.transform.position = new Vector3((hor + firstPos.x) * multiplyPos * multiply * multiplyHor,
-                (ver + firstPos.y) * multiplyPos * multiply * multiplyVer,
-                gameObject.transform.position.z);
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3((ver + firstRot.x) * multiplyRot * multiply * multiplyVer,
-                (hor + firstRot.y) * multiplyRot * multiply * multiplyHor,
-                gameObject.transform.rotation.z));
+                (ver + firstPos.y) * multiplyPos * multiply * multiplyVer, pos.z);
+        
+        gameObject.transform.rotation = Quaternion.Euler(new Vector3((ver + firstRot.x) * multiplyRot * multiply * multiplyVer,
+            (hor + firstRot.y) * multiplyRot * multiply * multiplyHor, pos.z));
     }
     
     private bool isInVerticalBorder()
