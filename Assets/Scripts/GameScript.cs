@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
@@ -64,7 +65,7 @@ public class GameScript : MonoBehaviour
 
     public void quitGame()
     {
-        print("quit");
+        SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
     }
 
     void newRound()
