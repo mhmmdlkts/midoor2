@@ -8,11 +8,13 @@ using UnityEngine.UI;
 public class ShotButtonHandler : MonoBehaviour
 {
     private GameObject scope, aim;
+    public AudioSource shotSound;
     public bool isShotable;
     
     // Start is called before the first frame update
     void Start()
     {
+        shotSound = gameObject.GetComponent<AudioSource>();
         scope = GameObject.Find("Scope");
         aim = GameObject.Find("aim3d");
         isShotable = true;
@@ -28,13 +30,19 @@ public class ShotButtonHandler : MonoBehaviour
     {
         if (!isShotable)
             return;
+        shotSound.Play();
         if (aim.GetComponent<aim>().onAim)
         {
-            Destroy(aim.GetComponent<aim>().getEnemy());
-            aim.GetComponent<aim>().hited();
+            shot_kill();
         }
         setShotable(false);
         StartCoroutine("refreshAmmo");
+    }
+
+    public void shot_kill()
+    {
+        Destroy(aim.GetComponent<aim>().getEnemy());
+        aim.GetComponent<aim>().hited();
     }
 
     IEnumerator refreshAmmo()

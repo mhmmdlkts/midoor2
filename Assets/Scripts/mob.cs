@@ -9,11 +9,14 @@ public class mob : MonoBehaviour
     public bool isMid;
     private ct ctScript;
     public float atachChance;
-        float a = 1;
 
     private GameObject enemyClone;
     // Start is called before the first frame update
     void Start()
+    {
+    }
+
+    public void creatMob()
     {
         if (enemy == null)
             return;

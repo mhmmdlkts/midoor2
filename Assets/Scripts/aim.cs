@@ -7,8 +7,9 @@ public class aim : MonoBehaviour
 {
     public bool onAim;
     public int countOfColliders;
+    public GameObject game;
 
-    public GameObject enemy;
+    private GameObject enemy;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,5 +52,6 @@ public class aim : MonoBehaviour
         countOfColliders = 0;
         onAim = false;
         enemy = null;
+        game.GetComponent<GameScript>().killed();
     }
 }
