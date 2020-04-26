@@ -243,8 +243,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: changeNameClick
+      - m_Target: {fileID: 217732065}
+        m_MethodName: button_set_name
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 131523836}
   - component: {fileID: 131523835}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonRemoveAds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -432,12 +432,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9be1f73727641da85bf29b5d44c0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pp: {fileID: 0}
-  name: {fileID: 0}
-  kills: {fileID: 0}
-  money: {fileID: 0}
-  wins: {fileID: 0}
-  rank: {fileID: 0}
+  pp: {fileID: 1257446135}
+  name: {fileID: 3149905}
+  money: {fileID: 1782971894}
+  wins: {fileID: 603096437}
+  rank: {fileID: 1163919169}
+  inputName: {fileID: 506224872}
+  rankList:
+  - {fileID: 9187587806299091465, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: -5816361172942584644, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 1273951564124524195, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 8513910016133113318, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 348269907404730137, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: -8244517452593228659, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 5095021013381400005, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 3518560430433575116, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 3579711509396444436, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 3690435919610801514, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 3018715944428037812, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 4480538826965226580, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 4030922109200473541, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 7456903428902405284, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 1925282617249709651, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 8150898808637217836, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: -2414026758798727912, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
+  - {fileID: 8006852633057629510, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
 --- !u!20 &217732066
 Camera:
   m_ObjectHideFlags: 0
@@ -574,7 +593,7 @@ GameObject:
   - component: {fileID: 398051523}
   - component: {fileID: 398051522}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonMoreCoins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1163,7 +1182,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 836833592}
-  - component: {fileID: 836833591}
   m_Layer: 0
   m_Name: AdManager
   m_TagString: Untagged
@@ -1171,18 +1189,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &836833591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 836833590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09429a9b54ab6d94086e6c5cf9e33122, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &836833592
 Transform:
   m_ObjectHideFlags: 0
@@ -1607,7 +1613,7 @@ GameObject:
   - component: {fileID: 1526531897}
   - component: {fileID: 1526531896}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonRanked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1676,8 +1682,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: btnClickRanked
+      - m_Target: {fileID: 217732065}
+        m_MethodName: button_ranked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

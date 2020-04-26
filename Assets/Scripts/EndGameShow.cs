@@ -6,21 +6,25 @@ using UnityEngine.UI;
 
 public class EndGameShow : MonoBehaviour
 {
-    public GameObject ppImg, nameLabel, killsLabel, winsLabel, rankImg;
-    public int tot_kills, kills, winns, rank, newWin=0;
+    public GameObject ppImg, moneyLabel, nameLabel, killsLabel, winsLabel, rankImg;
+    public int tot_kills, kills, money, winns, rank, newWin=0;
     public String name;
     public String KILLS_TEXT = "Kills : ";
-    public String WINS_TEXT  = "Wins  : ";
+    public String WINS_TEXT  = "Wins : ";
+    public String MONEY_TEXT = "Money : $";
+    private int winMoneyBonus = 200;
+    private int loseMoneyBonus = 50;
     public Sprite[] rankList;
 
-    private Text a, b, c;
+    private Text a, b, c, d;
 
-    private Image d;
+    private Image e;
     // Start is called before the first frame update
     void Start()
     {
         tot_kills = PlayerPrefs.GetInt("total_kill",0);
         winns = PlayerPrefs.GetInt("total_wins",0);
+        money = PlayerPrefs.GetInt("money",0);
         rank = PlayerPrefs.GetInt("rank",0);
         newWin = PlayerPrefs.GetInt("new_win",0);
         kills = PlayerPrefs.GetInt("new_kills",0);
@@ -28,9 +32,10 @@ public class EndGameShow : MonoBehaviour
         a = nameLabel.GetComponent<UnityEngine.UI.Text>();
         b = killsLabel.GetComponent<UnityEngine.UI.Text>();
         c = winsLabel.GetComponent<UnityEngine.UI.Text>();
-        d = rankImg.GetComponent<Image>();
+        d = moneyLabel.GetComponent<UnityEngine.UI.Text>();
+        e = rankImg.GetComponent<Image>();
         writeStatus();
-        Invoke("show", 1);
+        show();
     }
 
     public void writeStatus()
@@ -38,7 +43,13 @@ public class EndGameShow : MonoBehaviour
         a.text = name;
         b.text = KILLS_TEXT + tot_kills;
         c.text = WINS_TEXT + winns;
-        d.sprite = rankList[rank];
+        d.text = MONEY_TEXT + money;
+        e.sprite = rankList[rank];
+    }
+
+    private int getNewMoney()
+    {
+        return (kills * 10) + (newWin == 1 ? winMoneyBonus : loseMoneyBonus);
     }
 
     public void show()
@@ -57,13 +68,21 @@ public class EndGameShow : MonoBehaviour
     {
         c.text += " + " + newWin;
         PlayerPrefs.SetInt("total_wins", winns+newWin);
+        Invoke("setMoney", 1);
+    }
+
+    private void setMoney()
+    {
+        int newMoney = getNewMoney();
+        d.text += " + " + newMoney;
+        PlayerPrefs.SetInt("money", money+newMoney);
         Invoke("setRank", 1);
     }
 
     private void setRank()
     {
         PlayerPrefs.SetInt("rank", rank+newWin); 
-        d.sprite = rankList[rank+newWin];
+        e.sprite = rankList[rank+newWin];
         Invoke("quitGame", 1);
     }
 

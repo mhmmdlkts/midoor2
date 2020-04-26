@@ -16,7 +16,12 @@ public class ShowDialogs : MonoBehaviour
     {
         PlayerPrefs.SetInt("new_kills", kills);
         PlayerPrefs.SetInt("new_win", tWin?1:0);
-        GameObject dialog = Instantiate(gameEndPanel);
+        Invoke("showNowEndDialog", 1);
+    }
+
+    public void showNowEndDialog()
+    {
+        GameObject dialog = Instantiate(gameEndPanel, gameEndPanel.transform.position, gameEndPanel.transform.rotation);
         dialog.transform.SetParent (gameObject.transform, false);
     }
 }

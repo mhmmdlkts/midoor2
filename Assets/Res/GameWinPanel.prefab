@@ -1,5 +1,85 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1573543702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1573543703}
+  - component: {fileID: 1573543705}
+  - component: {fileID: 1573543704}
+  m_Layer: 5
+  m_Name: GameWinMoney
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1573543703
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573543702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7011144142815769884}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 89.735, y: -115.96}
+  m_SizeDelta: {x: 160, y: 18.770004}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1573543705
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573543702}
+  m_CullTransparentMesh: 0
+--- !u!114 &1573543704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573543702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Money = $200
+
+'
 --- !u!1 &7011144142786949745
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,10 +112,10 @@ RectTransform:
   m_Father: {fileID: 7011144142815769884}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 90.235, y: -19.185017}
-  m_SizeDelta: {x: 160, y: 18.77}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 90.235, y: -93.8}
+  m_SizeDelta: {x: 160, y: 18.770004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7011144142786949756
 CanvasRenderer:
@@ -60,6 +140,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -90,7 +171,7 @@ GameObject:
   - component: {fileID: 7011144142815769885}
   - component: {fileID: 7011144142815769883}
   m_Layer: 5
-  m_Name: sil
+  m_Name: GameWinPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,13 +193,14 @@ RectTransform:
   - {fileID: 7011144144028798143}
   - {fileID: 7011144142863299718}
   - {fileID: 7011144142786949758}
+  - {fileID: 1573543703}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.137146}
-  m_SizeDelta: {x: -453, y: -401.57}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -72}
+  m_SizeDelta: {x: 347, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7011144142815769882
 CanvasRenderer:
@@ -143,6 +225,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.04805981, g: 0.24234608, b: 0.3773585, a: 0.7176471}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -169,16 +252,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ppImg: {fileID: 7011144144068076163}
+  moneyLabel: {fileID: 1573543702}
   nameLabel: {fileID: 7011144143066668878}
   killsLabel: {fileID: 7011144142863299737}
   winsLabel: {fileID: 7011144142786949745}
   rankImg: {fileID: 7011144144028798142}
+  tot_kills: 0
   kills: 0
+  money: 0
   winns: 0
   rank: 0
+  newWin: 0
   name: Mali
   KILLS_TEXT: 'Kills : '
   WINS_TEXT: 'Wins  : '
+  MONEY_TEXT: 'Money : $'
   rankList:
   - {fileID: 9187587806299091465, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
   - {fileID: -5816361172942584644, guid: c828b4d62e75ff64e9cf02daec57a989, type: 3}
@@ -230,10 +318,10 @@ RectTransform:
   m_Father: {fileID: 7011144142815769884}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 90.235, y: 7.4}
-  m_SizeDelta: {x: 160, y: 18.77}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 90.234985, y: -70.6}
+  m_SizeDelta: {x: 160, y: 18.770004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7011144142863299716
 CanvasRenderer:
@@ -258,6 +346,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -274,7 +363,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Kills  = 1
+  m_Text: Kills = 1
 --- !u!1 &7011144143066668878
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +424,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -384,9 +474,9 @@ RectTransform:
   m_Father: {fileID: 7011144142815769884}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49.255, y: 23.3}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 49.255, y: -158}
   m_SizeDelta: {x: 79.04, y: 31.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7011144144028798141
@@ -412,6 +502,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -486,6 +577,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
