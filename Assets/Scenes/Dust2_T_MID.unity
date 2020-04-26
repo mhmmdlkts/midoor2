@@ -1022,6 +1022,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameEndPanel: {fileID: 7011144142815769887, guid: e03c44c5a54de4cbfa4f2416c255b85d,
     type: 3}
+  roundEndPanel: {fileID: 5705463371622355934, guid: 48330313a93d84ca0931fa927417557b,
+    type: 3}
 --- !u!1 &399048364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,7 +1467,7 @@ GameObject:
   - component: {fileID: 643938406}
   - component: {fileID: 643938405}
   m_Layer: 5
-  m_Name: Button
+  m_Name: HomeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1557,7 +1559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5686275}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2498,6 +2500,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 5894458673715456990, guid: 9b07207a76c594d4eb25a3720a2af09e, type: 3}
   isMid: 1
+  isAtack: 0
+  isStoped: 0
   atachChance: 0
 --- !u!1 &1208619286
 GameObject:
@@ -4161,10 +4165,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 316719119}
     m_Modifications:
+    - target: {fileID: 1234961422426577883, guid: 48330313a93d84ca0931fa927417557b,
+        type: 3}
+      propertyPath: stayTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5705463371622355934, guid: 48330313a93d84ca0931fa927417557b,
         type: 3}
       propertyPath: m_Name
       value: win_lose_panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5705463371622355934, guid: 48330313a93d84ca0931fa927417557b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5705463371622355935, guid: 48330313a93d84ca0931fa927417557b,
         type: 3}

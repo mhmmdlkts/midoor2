@@ -55,12 +55,19 @@ public class GameScript : MonoBehaviour
 
     void gameWin()
     {
+        endGame();
         canvas.GetComponent<ShowDialogs>().showGameEndDialog(true, kills);
     }
 
     void gameLose()
     {
+        endGame();
         canvas.GetComponent<ShowDialogs>().showGameEndDialog(false, kills);
+    }
+
+    void endGame()
+    {
+        sp0.GetComponent<mob>().stopMove();
     }
 
     public void quitGame()
@@ -105,14 +112,16 @@ public class GameScript : MonoBehaviour
     private void roundWin()
     {
         tScore++;
-        gameObject.GetComponent<showWin>().show(true);
+        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(true);
+        //gameObject.GetComponent<showWin>().show(true);
         endRound();
     }
     
     private void roundLose()
     {
         ctScore++;
-        gameObject.GetComponent<showWin>().show(false);
+        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(false);
+        //gameObject.GetComponent<showWin>().show(false);
         endRound();
     }
 

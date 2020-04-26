@@ -7,6 +7,7 @@ public class mob : MonoBehaviour
 {
     public GameObject enemy;
     public bool isMid;
+    public bool isAtack, isStoped;
     private ct ctScript;
     public float atachChance;
 
@@ -14,6 +15,7 @@ public class mob : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isStoped = false;
     }
 
     public void creatMob()
@@ -28,8 +30,11 @@ public class mob : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        setPerspektif();
-        MoveMob();
+        if (!isStoped)
+        {
+            setPerspektif();
+            MoveMob();
+        }
     }
 
     void MoveMob()
@@ -75,5 +80,10 @@ public class mob : MonoBehaviour
         
         float newY = Convert.ToSingle((enemyClone.transform.position.z * 0.344) - 5.428);
         enemyClone.transform.position = new Vector3(enemyClone.transform.position.x, newY, enemyClone.transform.position.z);
+    }
+
+    public void stopMove()
+    {
+        isStoped = true;
     }
 }
