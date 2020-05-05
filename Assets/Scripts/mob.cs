@@ -18,7 +18,7 @@ public class mob : MonoBehaviour
         isStoped = false;
     }
 
-    public void creatMob()
+    public void creatMobs()
     {
         if (enemy == null)
             return;
@@ -32,7 +32,7 @@ public class mob : MonoBehaviour
     {
         if (!isStoped)
         {
-            setPerspektif();
+            //setPerspektif();
             MoveMob();
         }
     }

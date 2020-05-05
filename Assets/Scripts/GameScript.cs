@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5;
+    public GameObject[] aimPoints; // B, Mid, Long
+    public int isLokingIn, maxLooks;
 
     private int time, ctCount, tScore = 0, ctScore = 0, kills = 0;
     public int roundTime;
@@ -16,6 +19,8 @@ public class GameScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isLokingIn = 1; // Mid
+        maxLooks = aimPoints.Length;
         newRound();
     }
 
@@ -82,7 +87,7 @@ public class GameScript : MonoBehaviour
         startCountdown();
         ctCount = 5;
         updateScore();
-        sp0.GetComponent<mob>().creatMob();
+        sp0.GetComponent<CT_SPAWN>().creatFirstStrategy();
         ppSetActive(true);
     }
 
@@ -142,7 +147,7 @@ public class GameScript : MonoBehaviour
         {
             case 4: case 3: case 2: case 1:
                 ppSetActive(false);
-                sp0.GetComponent<mob>().creatMob();
+                //sp0.GetComponent<mob>().creatMob();
                 break;
             case 0:
                 ppSetActive(false);
@@ -176,7 +181,7 @@ public class GameScript : MonoBehaviour
             {
                 return;
             }
-            int rnd = 0;
+            int rnd;
             do
             {
                 rnd = Random.Range(0, 5);
@@ -198,4 +203,35 @@ public class GameScript : MonoBehaviour
         foreach(GameObject enemy in enemies)
             Destroy(enemy);
     }
+
+    public void lookLeft()
+    {
+        if (isLokingIn <= 0)
+            return;
+        setLook(--isLokingIn);
+    }
+
+    public void lookRight()
+    {
+        if (isLokingIn >= maxLooks-1)
+            return;
+        setLook(++isLokingIn);
+    }
+
+    void setLook(int lookAt)
+    {
+        GameObject looks = aimPoints[lookAt];
+        gameObject.GetComponent<Transform>().position = looks.GetComponent<Transform>().position;
+    }
+    
+    public enum T_STRATEGY
+    {
+        B, MID, Long
+    }
+    
+    public enum CT_STRATEGY
+    {
+        B1, B2, MID, LowerT, Short, Long
+    }
+    
 }

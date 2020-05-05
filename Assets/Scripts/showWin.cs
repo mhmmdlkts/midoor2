@@ -68,6 +68,8 @@ public class showWin : MonoBehaviour
 
     void setClear()
     {
+        if(text == null || panel == null)
+            return;
         text.GetComponent<Text>().color = new Color(0,0,0,0);
         panel.GetComponent<Image>().color = new Color(0,0,0,0);
         text.GetComponent<Text>().text = "";

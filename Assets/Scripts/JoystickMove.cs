@@ -26,7 +26,8 @@ public class JoystickMove : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
 
     public float getVertical()
     {
-      float ver = joyVertical + joystick.Vertical;
+      return joystick.Vertical;
+      float ver = /*joyVertical*/ + joystick.Vertical;
       /*if (ver > 0)
         ver = Math.Min(ver, limVer);
       else
@@ -47,7 +48,8 @@ public class JoystickMove : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
 
     public float getHorizontal()
     {
-      float hor = joyHorizontal + joystick.Horizontal;
+      return joystick.Horizontal;
+      float hor = /*joyHorizontal*/ + joystick.Horizontal;
       /*if (hor > 0)
         hor = Math.Min(hor, limHor);
       else

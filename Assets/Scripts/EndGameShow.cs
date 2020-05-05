@@ -82,7 +82,8 @@ public class EndGameShow : MonoBehaviour
     private void setRank()
     {
         PlayerPrefs.SetInt("rank", rank+newWin); 
-        e.sprite = rankList[rank+newWin];
+        if (rank < 17)
+            e.sprite = rankList[rank+newWin];
         Invoke("quitGame", 1);
     }
 

@@ -9,6 +9,7 @@ public class ct : MonoBehaviour
     public float speed;
     public bool isAtack;
     public float d, a;
+    public GameScript.CT_STRATEGY strategy;
     void Start()
     {
         speed = 1;
@@ -56,4 +57,35 @@ public class ct : MonoBehaviour
         isAtack = false;
     }
     
+}
+
+public interface IStrategy
+{
+    object DoAlgorithm(object data);
+}
+
+// Concrete Strategies implement the algorithm while following the base
+// Strategy interface. The interface makes them interchangeable in the
+// Context.
+class ConcreteStrategyA : IStrategy
+{
+    public object DoAlgorithm(object data)
+    {
+        var list = data as List<string>;
+        list.Sort();
+
+        return list;
+    }
+}
+
+class ConcreteStrategyB : IStrategy
+{
+    public object DoAlgorithm(object data)
+    {
+        var list = data as List<string>;
+        list.Sort();
+        list.Reverse();
+
+        return list;
+    }
 }
