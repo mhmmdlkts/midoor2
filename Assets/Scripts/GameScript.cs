@@ -8,10 +8,11 @@ using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
-    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5;
+    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5;
     public GameObject[] aimPoints; // B, Mid, Long
     public int isLokingIn, maxLooks;
 
+    private String yourName;
     private int time, ctCount, tScore = 0, ctScore = 0, kills = 0;
     public int roundTime;
     private Coroutine co;
@@ -19,6 +20,7 @@ public class GameScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        yourName = PlayerPrefs.GetString("name", "Mali");
         isLokingIn = 1; // Mid
         maxLooks = aimPoints.Length;
         newRound();
@@ -141,6 +143,9 @@ public class GameScript : MonoBehaviour
     public void killed()
     {
         Destroy(aim.GetComponent<aim>().getEnemy());
+        
+        GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
+        info.GetComponent<deathInfo>().configure(true, 0, false, yourName, "Bot Test");
         ctCount--;
         kills++;
         switch (ctCount)

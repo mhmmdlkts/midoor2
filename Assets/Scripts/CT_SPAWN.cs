@@ -41,9 +41,9 @@ public class CT_SPAWN : MonoBehaviour
 
     void Update()
     {
-        actionsSize = actions.Count;
-        if (actions.Count > 0 && actions.Peek().executeTime < CurrentTimeMillis())
-            doAction(actions.Dequeue());
+        if (actions.Count > 0)
+            if (actions.Peek().executeTime < CurrentTimeMillis())
+                doAction(actions.Dequeue());
     }
 
     void doAction(Action action)
@@ -61,7 +61,6 @@ public class CT_SPAWN : MonoBehaviour
 
     public void newAction(GameObject spawnPoint)
     {
-        Debug.Log("New Action CT SPAWN");
         long exTime = generateRandomWaitTimeInMillis() + getLastTimeToExecute();
         lastExecutionTime = exTime;
         actions.Enqueue(new Action(exTime, spawnPoint));

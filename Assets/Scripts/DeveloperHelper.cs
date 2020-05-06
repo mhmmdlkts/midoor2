@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DeveloperHelper : MonoBehaviour
 {
-    public GameObject shot_button, zoom_button;
+    public GameObject shot_button, zoom_button, shot_test;
     // Start is called before the first frame update
+    private GameObject or;
+    private GameObject dialog;
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -73,6 +75,10 @@ public class DeveloperHelper : MonoBehaviour
             GameObject.Find("ctSpawn").GetComponent<ctMidSpawn>().hide();
             GameObject.Find("bSpawn_behind_box").GetComponent<ctBBoxSpawn>().hide();
             GameObject.Find("bSpawn_behind_wall").GetComponent<bWallSpawn>().hide();
+        }
+        if (Input.GetKeyDown("m"))
+        {
+            Instantiate(shot_test, shot_test.transform.position, shot_test.transform.rotation);
         }
     }
 }
