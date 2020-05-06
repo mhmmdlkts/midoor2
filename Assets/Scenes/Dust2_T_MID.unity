@@ -976,6 +976,13 @@ MonoBehaviour:
   onAim: 0
   countOfColliders: 0
   game: {fileID: 2016928300}
+  whichBodyPart: 0
+  minHead: 250
+  maxHead: 430
+  minBody: 87
+  maxBody: 160
+  minLegs: 60
+  maxLegs: 99
 --- !u!136 &188460266
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3712,6 +3719,7 @@ MonoBehaviour:
   spawnPointGroups:
   - {fileID: 338868766}
   - {fileID: 489569870}
+  firstHealthy: 100
   minWaitTime: 1
   maxWaitTime: 3
 --- !u!114 &1180569298
@@ -5401,6 +5409,13 @@ MonoBehaviour:
   onAim: 0
   countOfColliders: 0
   game: {fileID: 0}
+  whichBodyPart: 0
+  minHead: 0
+  maxHead: 0
+  minBody: 0
+  maxBody: 0
+  minLegs: 0
+  maxLegs: 0
 --- !u!58 &1815410380
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -33,7 +33,8 @@ public class ShotButtonHandler : MonoBehaviour
         shotSound.Play();
         if (aim.GetComponent<aim>().onAim)
         {
-            shot_kill();
+            aim.GetComponent<aim>().hited();
+          //  shot_kill();
         }
         setShotable(false);
         StartCoroutine("refreshAmmo");
@@ -41,8 +42,7 @@ public class ShotButtonHandler : MonoBehaviour
 
     public void shot_kill()
     {
-        Destroy(aim.GetComponent<aim>().getEnemy());
-        aim.GetComponent<aim>().hited();
+        //Destroy(aim.GetComponent<aim>().getEnemy());
     }
 
     IEnumerator refreshAmmo()

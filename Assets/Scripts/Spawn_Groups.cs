@@ -21,8 +21,8 @@ public class Spawn_Groups : MonoBehaviour
         
     }
 
-    public void creatInARandomPointMob()
+    public void creatInARandomPointMob(int healthy)
     {
-        mobGen.GetComponent<CT_SPAWN>().newAction(spawnPoints[rnd.Next(0,spawnPoints.Length)]);
+        mobGen.GetComponent<CT_SPAWN>().newAction(spawnPoints[rnd.Next(0,spawnPoints.Length)], healthy);
     }
 }

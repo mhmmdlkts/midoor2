@@ -8,10 +8,12 @@ public struct Action
 {
     public long executeTime;
     public GameObject spawnPoint;
-    public Action(long executeTime, GameObject spawnPoint)
+    public int healthy;
+    public Action(long executeTime, GameObject spawnPoint, int healthy)
     {
         this.executeTime = executeTime;
         this.spawnPoint = spawnPoint;
+        this.healthy = healthy;
     }
 }
 
@@ -23,6 +25,7 @@ public class CT_SPAWN : MonoBehaviour
     private GameObject[] enemyClone;
     private long lastExecutionTime;
     public GameObject[] spawnPointGroups;
+    public int firstHealthy = 100;
     
     Random rnd;
 
@@ -48,22 +51,22 @@ public class CT_SPAWN : MonoBehaviour
 
     void doAction(Action action)
     {
-        action.spawnPoint.GetComponent<mobGoDesPoint>().newAction();
+        action.spawnPoint.GetComponent<mobGoDesPoint>().newAction(action.healthy);
     }
 
     public void creatFirstStrategy()
     {
         for (int i = 0; i < PLAYERS_COUNT; i++)
         {
-            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob();
+            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(firstHealthy);
         }
     }
 
-    public void newAction(GameObject spawnPoint)
+    public void newAction(GameObject spawnPoint, int healthy)
     {
         long exTime = generateRandomWaitTimeInMillis() + getLastTimeToExecute();
         lastExecutionTime = exTime;
-        actions.Enqueue(new Action(exTime, spawnPoint));
+        actions.Enqueue(new Action(exTime, spawnPoint, healthy));
     }
 
     public long getLastTimeToExecute()

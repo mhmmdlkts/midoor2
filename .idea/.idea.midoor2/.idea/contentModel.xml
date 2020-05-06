@@ -42,16 +42,37 @@
         <e p="Scripts" t="Include">
           <e p="aim.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
+          <e p="ChangeShow.cs" t="Include" />
           <e p="ct.cs" t="Include" />
+          <e p="CT_SPAWN.cs" t="Include" />
+          <e p="deathInfo.cs" t="Include" />
           <e p="DeveloperHelper.cs" t="Include" />
           <e p="EndGameShow.cs" t="Include" />
+          <e p="EndRoundShow.cs" t="Include" />
+          <e p="enemy.cs" t="Include" />
           <e p="GameScript.cs" t="Include" />
+          <e p="HomeButton.cs" t="Include" />
+          <e p="HomeButton1.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
+          <e p="MainMenu.cs" t="Include" />
           <e p="mob.cs" t="Include" />
+          <e p="mobGoDesPoint.cs" t="Include" />
           <e p="MoveAim.cs" t="Include" />
           <e p="ShotButtonHandler.cs" t="Include" />
           <e p="ShowDialogs.cs" t="Include" />
           <e p="showWin.cs" t="Include" />
+          <e p="Spawn_Groups.cs" t="Include" />
+          <e p="SpawnPoints" t="Include">
+            <e p="ct" t="Include">
+              <e p="bWallSpawn.cs" t="Include" />
+              <e p="ctBBoxSpawn.cs" t="Include" />
+              <e p="ctLongDoorSpawn.cs" t="Include" />
+              <e p="ctLongWallSpawn.cs" t="Include" />
+              <e p="ctMidSpawn.cs" t="Include" />
+              <e p="midLeftSpawn.cs" t="Include" />
+              <e p="midRightSpawn.cs" t="Include" />
+            </e>
+          </e>
           <e p="ZoomButtonHandler.cs" t="Include" />
         </e>
       </e>

@@ -9,6 +9,7 @@ public class mobGoDesPoint : MonoBehaviour
     private Random rnd;
     public GameObject mob, createdMob, desPoint;
     public bool isGoingPick = false, isGoingHide = false, isFiring = false;
+    private Queue<int> healthyList;
     public int pendingDoActions;
     public GameObject parrentGroup;
     public int minFireTime = 0;
@@ -18,6 +19,7 @@ public class mobGoDesPoint : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        healthyList = new Queue<int>();
         pendingDoActions = 0;
         rnd = new Random();
     }
@@ -50,22 +52,24 @@ public class mobGoDesPoint : MonoBehaviour
         Invoke("doAction", waitTime);
     }
 
-    public void newAction()
+    public void newAction(int healthy)
     {
         pendingDoActions++;
+        healthyList.Enqueue(healthy);
     }
 
     public void doAction()
     {
         pendingDoActions--;
-        spawnMob();
+        spawnMob(healthyList.Dequeue());
         pick();
     }
 
-    public void spawnMob()
+    public void spawnMob(int healthy)
     {
         Debug.Log("spawn");
         createdMob = Instantiate(mob, gameObject.transform.position, gameObject.transform.rotation);
+        createdMob.GetComponent<enemy>().setHealty(healthy);
     }
 
     public void goPicking()
@@ -102,8 +106,9 @@ public class mobGoDesPoint : MonoBehaviour
 
     public void changePoint()
     {
+        int healthy = createdMob.GetComponent<enemy>().healthy;
         Destroy(createdMob);
-        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob();   
+        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(healthy);   
     }
 
     public void pick()
