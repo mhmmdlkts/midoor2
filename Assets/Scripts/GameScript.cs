@@ -91,6 +91,7 @@ public class GameScript : MonoBehaviour
         updateScore();
         sp0.GetComponent<CT_SPAWN>().creatFirstStrategy();
         ppSetActive(true);
+        setLook(isLokingIn = 1);
     }
 
     void endRound()

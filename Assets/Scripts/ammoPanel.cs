@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ammoPanel : MonoBehaviour
 {
     private Text ammoText;
+    private AudioSource audioSource;
 
     public int START_AMMO = 40, MAX_IN_RELOAD = 10;
 
@@ -16,6 +17,7 @@ public class ammoPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
         isShootable = true;
         reloaded_ammo = MAX_IN_RELOAD;
         tot_ammo_ex_reloaded = START_AMMO - MAX_IN_RELOAD;
@@ -56,6 +58,7 @@ public class ammoPanel : MonoBehaviour
         //TODO play sound
         if (tot_ammo_ex_reloaded == 0)
             return;
+        audioSource.Play();
         if (tot_ammo_ex_reloaded > MAX_IN_RELOAD)
         {
             reloaded_ammo = MAX_IN_RELOAD;
@@ -66,7 +69,7 @@ public class ammoPanel : MonoBehaviour
             reloaded_ammo = tot_ammo_ex_reloaded;
             tot_ammo_ex_reloaded = 0;
         }
-        Invoke("updateAmmoTextPanel", 1.5f);
+        Invoke("updateAmmoTextPanel", 3.4f);
     }
     
     
