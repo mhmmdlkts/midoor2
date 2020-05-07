@@ -167,3 +167,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stayTime: 1
+  text: {fileID: 5705463371486286865}
+  panel: {fileID: 5705463371622355934}

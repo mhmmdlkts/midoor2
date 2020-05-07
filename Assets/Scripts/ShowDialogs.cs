@@ -43,12 +43,14 @@ public class ShowDialogs : MonoBehaviour
     public void showNowRoundWinDialog()
     {
         GameObject dialog = Instantiate(roundEndPanel, roundEndPanel.transform.position, roundEndPanel.transform.rotation);
+        dialog.GetComponent<EndRoundShow>().show(true);
         dialog.transform.SetParent (gameObject.transform, false);
     }
     
     public void showNowRoundLoseDialog()
     {
         GameObject dialog = Instantiate(roundEndPanel, roundEndPanel.transform.position, roundEndPanel.transform.rotation);
+        dialog.GetComponent<EndRoundShow>().show(false);
         dialog.transform.SetParent (gameObject.transform, false);
     }
 }

@@ -6,12 +6,14 @@ public class ZoomButtonHandler : MonoBehaviour
 {
     public Camera cam1, cam2;
     public SpriteRenderer scope1;
+    public AudioSource zoomSound;
     public Canvas canvas;
     private bool isZoom;
     public float zoomConstant;
 
     void Start()
     {
+        zoomSound = gameObject.GetComponent<AudioSource>();
         isZoom = false;
         zoomConstant = 0.235355f;
     }
@@ -33,6 +35,7 @@ public class ZoomButtonHandler : MonoBehaviour
 
     private void setCamZoom()
     {
+        zoomSound.Play();
         canvas.worldCamera = isZoom?cam2:cam1;
         cam1.enabled = !isZoom;
         cam2.enabled = isZoom;

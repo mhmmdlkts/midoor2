@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class ShotButtonHandler : MonoBehaviour
 {
-    private GameObject scope, aim;
+    private GameObject scope, aim, ammo;
     public AudioSource shotSound;
     public bool isShotable;
     
@@ -17,6 +17,7 @@ public class ShotButtonHandler : MonoBehaviour
         shotSound = gameObject.GetComponent<AudioSource>();
         scope = GameObject.Find("Scope");
         aim = GameObject.Find("aim3d");
+        ammo = GameObject.Find("ammo");
         isShotable = true;
     }
 
@@ -28,8 +29,9 @@ public class ShotButtonHandler : MonoBehaviour
 
     public void shot()
     {
-        if (!isShotable)
+        if (!isShotable || !ammo.GetComponent<ammoPanel>().isShootable)
             return;
+        ammo.GetComponent<ammoPanel>().oneShot();
         shotSound.Play();
         if (aim.GetComponent<aim>().onAim)
         {
@@ -53,7 +55,6 @@ public class ShotButtonHandler : MonoBehaviour
 
     void setShotable(bool shotable)
     {
-        Console.Write(shotable);
         isShotable = shotable;
         scope.SetActive(shotable);
     }

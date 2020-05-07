@@ -42,7 +42,7 @@ public class showWin : MonoBehaviour
         return stayTime;
     }
 
-    void setCT()
+    public void setCT()
     {
         panel.SetActive(true);
         text.GetComponent<Text>().color = CT_TEXT_COLOR;
@@ -51,7 +51,7 @@ public class showWin : MonoBehaviour
         panel.SetActive(true);
     }
 
-    void setT()
+    public void setT()
     {
         panel.SetActive(true);
         text.GetComponent<Text>().color = T_TEXT_COLOR;
