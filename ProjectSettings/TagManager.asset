@@ -6,6 +6,12 @@ TagManager:
   tags:
   - CT
   - Canvas
+  - HARD_5
+  - HARD_4
+  - HARD_3
+  - HARD_2
+  - HARD_1
+  - HARD_0
   layers:
   - Default
   - TransparentFX

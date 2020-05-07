@@ -33,11 +33,7 @@ public class ShotButtonHandler : MonoBehaviour
             return;
         ammo.GetComponent<ammoPanel>().oneShot();
         shotSound.Play();
-        if (aim.GetComponent<aim>().onAim)
-        {
-            aim.GetComponent<aim>().hited();
-          //  shot_kill();
-        }
+        aim.GetComponent<aim>().shoted();
         setShotable(false);
         StartCoroutine("refreshAmmo");
     }

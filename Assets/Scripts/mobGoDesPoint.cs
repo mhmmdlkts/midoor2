@@ -67,7 +67,6 @@ public class mobGoDesPoint : MonoBehaviour
 
     public void spawnMob(int healthy)
     {
-        Debug.Log("spawn");
         createdMob = Instantiate(mob, gameObject.transform.position, gameObject.transform.rotation);
         createdMob.GetComponent<enemy>().setHealty(healthy);
     }
@@ -142,7 +141,7 @@ public class mobGoDesPoint : MonoBehaviour
 
     public void doFiring()
     {
-        Debug.Log("Fire");
+        
     }
 
     public void stopFiring()

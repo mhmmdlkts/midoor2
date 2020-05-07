@@ -8,7 +8,7 @@ public class deathInfo : MonoBehaviour
 {
     private GameObject container;
 
-    public GameObject killerNameLabel, killedNameLabel, weopenImg, headImg;
+    public GameObject killerNameLabel, killedNameLabel, weopenImg, headImg, wallImg;
 
     private Color32 CT_TEXT_COLOR, T_TEXT_COLOR;
     
@@ -23,11 +23,12 @@ public class deathInfo : MonoBehaviour
         Invoke("destroyDialog",1.0f);
     }
 
-    public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, String killerName, String killedName)
+    public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)
     {
         killerNameLabel.GetComponent<Text>().text = killerName;
         killedNameLabel.GetComponent<Text>().text = killedName;
         headImg.SetActive(isHeadShot);
+        wallImg.SetActive(isWall);
         weopenImg.GetComponent<Image>().sprite = weapons[weaponCode];
         StartCoroutine(AdjustTransInTheEndOfFrame(ctIsDeath));
     }

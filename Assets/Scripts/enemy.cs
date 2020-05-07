@@ -14,7 +14,6 @@ public class enemy : MonoBehaviour
     public void setHealty(int healthy)
     {
         this.healthy = healthy;
-        Debug.Log(healthy);
     }
 
     public int giveDamage(int damage)

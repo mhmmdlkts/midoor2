@@ -139,19 +139,19 @@ public class GameScript : MonoBehaviour
         tScorLabel.GetComponent<UnityEngine.UI.Text>().text = tScore + "";
     }
 
-    public void hited(GameObject enemy, int damageGiven, bool isHead)
+    public void hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
     {
         Debug.Log(enemy == null);
         if (enemy.GetComponent<enemy>().giveDamage(damageGiven) <= 0)
-            killed(enemy, isHead);
+            killed(enemy, isHead, isWall);
     }
 
-    public void killed(GameObject enemy, bool isHead)
+    public void killed(GameObject enemy, bool isHead, bool isWall)
     {
         Destroy(enemy);
         
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
-        info.GetComponent<deathInfo>().configure(true, 0, isHead, yourName, "Bot Test");
+        info.GetComponent<deathInfo>().configure(true, 0, isHead, isWall, yourName, "Bot Test");
         ctCount--;
         kills++;
         switch (ctCount)
