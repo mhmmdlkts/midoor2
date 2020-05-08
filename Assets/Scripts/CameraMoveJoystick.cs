@@ -20,6 +20,8 @@ public class CameraMoveJoystick : MonoBehaviour
     
     void Update()
     {
+        if(GameScript.isStoped)
+            return;
         gameScript = GameObject.Find("MOVABLE").GetComponent<GameScript>();
         whereIsLooking = gameScript.isLokingIn;
         if (joystickMove.pressed)

@@ -7,18 +7,21 @@ using Random = System.Random;
 public class mobGoDesPoint : MonoBehaviour
 {
     private Random rnd;
-    public GameObject mob, createdMob, desPoint;
+    public GameObject mob, createdMob, desPoint, mainObject;
     public bool isGoingPick = false, isGoingHide = false, isFiring = false;
     private Queue<int> healthyList;
     public int pendingDoActions;
     public GameObject parrentGroup;
     public int minFireTime = 0;
     public int maxFireTime = 2;
-
+    private AudioSource audioSource;
+    
     private float speed = 2.0f;
     // Start is called before the first frame update
     void Start()
     {
+        mainObject = GameObject.Find("MOVABLE");
+        audioSource = gameObject.GetComponent<AudioSource>();
         healthyList = new Queue<int>();
         pendingDoActions = 0;
         rnd = new Random();
@@ -27,10 +30,16 @@ public class mobGoDesPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameScript.isStoped)
+        {
+            return;
+        }
+
         if (pendingDoActions > 0 && !isGoingHide && !isGoingPick && !isFiring)
         {
             doAction();
         }
+        
         if (isGoingPick)
         {
             goPicking();
@@ -139,13 +148,30 @@ public class mobGoDesPoint : MonoBehaviour
         Invoke("stopFiring", fireTime);
     }
 
+    private long nextFire = 0;
     public void doFiring()
     {
-        
+        if(nextFire < CurrentTimeMillis())
+            fire();
+    }
+
+    public void fire()
+    {
+        nextFire = CurrentTimeMillis() + 1000;
+        Debug.Log("FIRE!!!!");
+        mainObject.GetComponent<GameScript>().givePlayerDamage(27);
+        if(audioSource != null)
+            audioSource.Play();
     }
 
     public void stopFiring()
     {
         hide();
+    }
+
+    public long CurrentTimeMillis()
+    { 
+        DateTime Jan1st1970 = new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        return (long) (DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
     }
 }

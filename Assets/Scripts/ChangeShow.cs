@@ -20,11 +20,15 @@ public class ChangeShow : MonoBehaviour
 
     public void lookRight()
     {
+        if (GameScript.isStoped)
+            return;
         gameScript.lookRight();
     }
 
     public void lookLeft()
     {
+        if (GameScript.isStoped)
+            return;
         gameScript.lookLeft();
     }
 }

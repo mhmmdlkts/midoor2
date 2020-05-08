@@ -12,17 +12,17 @@ public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text;
     public GameObject[] aimPoints; // B, Mid, Long
-    public int isLokingIn, maxLooks, playersHealthy;
+    public int isLokingIn, maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
 
     private String yourName;
     private int time, ctCount, tScore = 0, ctScore = 0, kills = 0;
     public int roundTime;
     private Coroutine co;
     private static readonly int WIN_SCORE = 3;
+    public static bool isStoped = true;
     // Start is called before the first frame update
     void Start()
     {
-        setHealthy(100);
         yourName = PlayerPrefs.GetString("name", "Mali");
         isLokingIn = 1; // Mid
         maxLooks = aimPoints.Length;
@@ -115,6 +115,8 @@ public class GameScript : MonoBehaviour
 
     void newRound()
     {
+        isStoped = false;
+        setHealthy(PLAYERS_START_HEALTHY);
         killAllMobs();
         setTime(roundTime);
         startCountdown();
@@ -127,6 +129,7 @@ public class GameScript : MonoBehaviour
 
     void endRound()
     {
+        isStoped = true;
         CancelInvoke("countdown");
         updateScore();
         if (tScore >= WIN_SCORE)
@@ -139,7 +142,7 @@ public class GameScript : MonoBehaviour
         }
         else
         {
-            Invoke("newRound",5f);
+            Invoke("newRound",EndRoundShow.stayTime);
             //newRound();
         }
     }

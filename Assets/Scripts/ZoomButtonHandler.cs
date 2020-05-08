@@ -20,6 +20,8 @@ public class ZoomButtonHandler : MonoBehaviour
     
     public void zoom()
     {
+        if (GameScript.isStoped)
+            return;
         isZoom = !isZoom;
         if (isZoom)
         {

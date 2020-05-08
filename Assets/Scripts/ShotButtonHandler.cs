@@ -29,7 +29,7 @@ public class ShotButtonHandler : MonoBehaviour
 
     public void shot()
     {
-        if (!isShotable || !ammo.GetComponent<ammoPanel>().isShootable)
+        if (GameScript.isStoped || !isShotable || !ammo.GetComponent<ammoPanel>().isShootable)
             return;
         ammo.GetComponent<ammoPanel>().oneShot();
         shotSound.Play();

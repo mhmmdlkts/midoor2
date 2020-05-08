@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EndRoundShow : MonoBehaviour
 {
-    public float stayTime;
+    public static float stayTime = 2f;
     public GameObject text, panel;
     private Color32 CT_PANEL_COLOR, T_PANEL_COLOR, CT_TEXT_COLOR, T_TEXT_COLOR;
     private String T_WIN_MESSAGE, CT_WIN_MESSAGE;
