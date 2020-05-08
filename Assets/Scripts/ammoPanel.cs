@@ -18,10 +18,15 @@ public class ammoPanel : MonoBehaviour
     void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
+        ammoText = gameObject.GetComponent<Text>();
+        resetAmmo();
+    }
+
+    public void resetAmmo()
+    {
         isShootable = true;
         reloaded_ammo = MAX_IN_RELOAD;
         tot_ammo_ex_reloaded = START_AMMO - MAX_IN_RELOAD;
-        ammoText = gameObject.GetComponent<Text>();
         updateAmmoTextPanel();
     }
 

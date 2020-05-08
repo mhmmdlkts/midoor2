@@ -9,8 +9,10 @@ public class DeveloperHelper : MonoBehaviour
     // Start is called before the first frame update
     private GameObject or;
     private GameObject dialog;
+    private ParticleSystem partical;
     void Start()
     {
+        partical = GameObject.Find("partical").GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -34,7 +36,16 @@ public class DeveloperHelper : MonoBehaviour
         }
         if (Input.GetKeyDown("space"))
         {
-            shot_button.GetComponent<ShotButtonHandler>().shot_kill();
+            partical.Emit(150);
+        }
+        if (Input.GetKeyDown("v"))
+        {
+            if(partical.isStopped)
+                partical.Play();
+            else
+            {
+                partical.Stop();
+            }
         }
         if (Input.GetKeyDown("t"))
         {

@@ -10,19 +10,22 @@ using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
-    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text;
+    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text, ammo;
     public GameObject[] aimPoints; // B, Mid, Long
     public int isLokingIn, maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
 
-    private String yourName;
+    public static String yourName;
     private int time, ctCount, tScore = 0, ctScore = 0, kills = 0;
     public int roundTime;
     private Coroutine co;
     private static readonly int WIN_SCORE = 3;
     public static bool isStoped = true;
+
+    public static int rank;
     // Start is called before the first frame update
     void Start()
     {
+        rank = PlayerPrefs.GetInt("rank",0);
         yourName = PlayerPrefs.GetString("name", "Mali");
         isLokingIn = 1; // Mid
         maxLooks = aimPoints.Length;
@@ -82,7 +85,6 @@ public class GameScript : MonoBehaviour
 
     public void timeOut()
     {
-        Debug.Log("time wow");
         roundLose();
     }
 
@@ -115,6 +117,7 @@ public class GameScript : MonoBehaviour
 
     void newRound()
     {
+        ammo.GetComponent<ammoPanel>().resetAmmo();
         isStoped = false;
         setHealthy(PLAYERS_START_HEALTHY);
         killAllMobs();

@@ -159,7 +159,7 @@ public class mobGoDesPoint : MonoBehaviour
     {
         nextFire = CurrentTimeMillis() + 1000;
         Debug.Log("FIRE!!!!");
-        mainObject.GetComponent<GameScript>().givePlayerDamage(27);
+        mainObject.GetComponent<GameScript>().givePlayerDamage(3);
         if(audioSource != null)
             audioSource.Play();
     }
