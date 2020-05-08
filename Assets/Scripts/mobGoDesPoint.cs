@@ -10,11 +10,14 @@ public class mobGoDesPoint : MonoBehaviour
     public GameObject mob, createdMob, desPoint, mainObject;
     public bool isGoingPick = false, isGoingHide = false, isFiring = false;
     private Queue<int> healthyList;
-    public int pendingDoActions;
+    public int pendingDoActions, thisLokkingPos;
     public GameObject parrentGroup;
     public int minFireTime = 0;
     public int maxFireTime = 2;
     private AudioSource audioSource;
+    public AudioClip[] hitted;
+    public AudioClip[] misHitted;
+    public int hitChance;
     
     private float speed = 2.0f;
     // Start is called before the first frame update
@@ -159,9 +162,29 @@ public class mobGoDesPoint : MonoBehaviour
     {
         nextFire = CurrentTimeMillis() + 1000;
         Debug.Log("FIRE!!!!");
-        mainObject.GetComponent<GameScript>().givePlayerDamage(3);
-        if(audioSource != null)
-            audioSource.Play();
+        bool hit = rnd.Next(0, 100) < hitChance;
+        if (hit && thisLokkingPos == GameScript.isLokingIn)
+        {
+            audioSource.clip = hitted[rnd.Next(0, hitted.Length)];
+            giveDamage();
+        }
+        else
+        {
+            audioSource.clip = misHitted[rnd.Next(0, misHitted.Length)];
+        }
+        audioSource.Play();
+    }
+
+    public void giveDamage()
+    {
+        int damage = 0;
+        switch (thisLokkingPos)
+        {
+            case 0: damage = 27; break;
+            case 1: damage = 350; break;
+            case 2: damage = 26; break;
+        }
+        mainObject.GetComponent<GameScript>().givePlayerDamage(damage);
     }
 
     public void stopFiring()

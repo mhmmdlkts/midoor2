@@ -9,7 +9,6 @@ public class aim : MonoBehaviour
     public int RESISTANCE_4, RESISTANCE_3, RESISTANCE_2, RESISTANCE_1;
     public float LAST_RES_Z_5, LAST_RES_Z_4, LAST_RES_Z_3, LAST_RES_Z_2, LAST_RES_Z_1;
     public bool onAim;
-    //public int countOfHARD_5, countOfHARD_4, countOfHARD_3, countOfHARD_2, countOfHARD_1,
     public int countOfHARD_0;
     public int countOfMobColliders;
     public GameObject game;
@@ -41,11 +40,7 @@ public class aim : MonoBehaviour
             updateBodyPart(other);
             enemy = other.gameObject;
         }
-        /*if (other.gameObject.tag == "HARD_5") countOfHARD_5++;
-        if (other.gameObject.tag == "HARD_4") countOfHARD_4++;
-        if (other.gameObject.tag == "HARD_3") countOfHARD_3++;
-        if (other.gameObject.tag == "HARD_2") countOfHARD_2++;
-        if (other.gameObject.tag == "HARD_1") countOfHARD_1++;*/
+        
         if (other.gameObject.tag == "HARD_0") countOfHARD_0++;
 
         if (other.gameObject.tag == "HARD_5")
@@ -69,11 +64,7 @@ public class aim : MonoBehaviour
             if (!onAim)
                 enemy = null;
         }
-        /*if (other.gameObject.tag == "HARD_5") countOfHARD_5--;
-        if (other.gameObject.tag == "HARD_4") countOfHARD_4--;
-        if (other.gameObject.tag == "HARD_3") countOfHARD_3--;
-        if (other.gameObject.tag == "HARD_2") countOfHARD_2--;
-        if (other.gameObject.tag == "HARD_1") countOfHARD_1--;*/
+        
         if (other.gameObject.tag == "HARD_0") countOfHARD_0--;
 
         if (other.gameObject.tag == "HARD_5")
@@ -87,22 +78,6 @@ public class aim : MonoBehaviour
         if (other.gameObject.tag == "HARD_1") 
             LAST_RES_Z_1 = float.MaxValue;
     }
-
-    /*public int aimResistance()
-    {
-        if (countOfHARD_5 > 0)
-            return Int32.MaxValue;
-        if (countOfHARD_4 > 0)
-            return RESISTANCE_4;
-        if (countOfHARD_3 > 0)
-            return RESISTANCE_3;
-        if (countOfHARD_2 > 0)
-            return RESISTANCE_2;
-        if (countOfHARD_1 > 0)
-            return RESISTANCE_1;
-        return 0;
-        return 0;
-    }*/
 
     public int aimResistance()
     {
@@ -130,13 +105,6 @@ public class aim : MonoBehaviour
 
     private void resetWallColliders()
     {
-        /*countOfHARD_0 = 0;
-        countOfHARD_1 = 0;
-        countOfHARD_2 = 0;
-        countOfHARD_3 = 0;
-        countOfHARD_4 = 0;
-        countOfHARD_5 = 0;*/
-
         LAST_RES_Z_1 = float.MaxValue;
         LAST_RES_Z_2 = float.MaxValue;
         LAST_RES_Z_3 = float.MaxValue;
