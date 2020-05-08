@@ -59,7 +59,7 @@ public class GameScript : MonoBehaviour
 
     public void startCountdown()
     {
-        InvokeRepeating("countdown", 0, 1);
+        InvokeRepeating("countdown", 1, 1);
     }
 
     public void countdown()
@@ -82,6 +82,7 @@ public class GameScript : MonoBehaviour
 
     public void timeOut()
     {
+        Debug.Log("time wow");
         roundLose();
     }
 
@@ -115,7 +116,7 @@ public class GameScript : MonoBehaviour
     void newRound()
     {
         killAllMobs();
-        setTime(roundTime+1);
+        setTime(roundTime);
         startCountdown();
         ctCount = 5;
         updateScore();
@@ -138,7 +139,8 @@ public class GameScript : MonoBehaviour
         }
         else
         {
-            newRound();
+            Invoke("newRound",5f);
+            //newRound();
         }
     }
 
@@ -158,9 +160,14 @@ public class GameScript : MonoBehaviour
     private void roundLose()
     {
         ctScore++;
-        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(false);
-        //gameObject.GetComponent<showWin>().show(false);
+        StartCoroutine(showDialgNextFrame());
         endRound();
+    }
+
+    private IEnumerator showDialgNextFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(false);
     }
 
     void updateScore()

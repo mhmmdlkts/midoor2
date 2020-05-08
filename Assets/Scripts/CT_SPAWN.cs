@@ -44,6 +44,8 @@ public class CT_SPAWN : MonoBehaviour
 
     void Update()
     {
+        if(actions == null)
+            return;
         if (actions.Count > 0)
             if (actions.Peek().executeTime < CurrentTimeMillis())
                 doAction(actions.Dequeue());
