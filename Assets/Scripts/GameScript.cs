@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
-    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5;
+    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text;
     public GameObject[] aimPoints; // B, Mid, Long
-    public int isLokingIn, maxLooks;
+    public int isLokingIn, maxLooks, playersHealthy;
 
     private String yourName;
     private int time, ctCount, tScore = 0, ctScore = 0, kills = 0;
@@ -20,6 +22,7 @@ public class GameScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        setHealthy(100);
         yourName = PlayerPrefs.GetString("name", "Mali");
         isLokingIn = 1; // Mid
         maxLooks = aimPoints.Length;
@@ -29,7 +32,29 @@ public class GameScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       // setHealthy(playersHealthy); // TODO DELETE FROM HERE
+    }
+
+    public void setHealthy(int healthy)
+    {
+        playersHealthy = healthy;
+        if (playersHealthy < 0)
+            playersHealthy = 0;
+        healthy_text.GetComponent<Text>().text = playersHealthy+"";
+        Color32 h_bar_color = healthy_panel.GetComponent<Image>().color;
+        byte newGreen = Decimal.ToByte(255 / 100 * playersHealthy);
+        healthy_panel.GetComponent<Image>().color = new Color32(h_bar_color.r,newGreen,h_bar_color.b,h_bar_color.a);
+        float maxLength = healthy_panel_outside.GetComponent<RectTransform>().sizeDelta.x;
+        float maxHeight = healthy_panel_outside.GetComponent<RectTransform>().sizeDelta.y;
+        RectTransform rct = healthy_panel.GetComponent<RectTransform>();
+        rct.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxLength / 100 * playersHealthy);
+        if (playersHealthy == 0)
+            playerDeath();
+    }
+
+    public void givePlayerDamage(int damage)
+    {
+        setHealthy(playersHealthy - damage);
     }
 
     public void startCountdown()
@@ -56,6 +81,11 @@ public class GameScript : MonoBehaviour
     }
 
     public void timeOut()
+    {
+        roundLose();
+    }
+
+    public void playerDeath()
     {
         roundLose();
     }
