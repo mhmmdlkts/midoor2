@@ -163,7 +163,8 @@ public class mobGoDesPoint : MonoBehaviour
         nextFire = CurrentTimeMillis() + 1000;
         Debug.Log("FIRE!!!!");
         bool hit = rnd.Next(0, 100) < hitChance;
-        createdMob.GetComponent<enemy>().playFireParticle();
+        if (createdMob != null)
+            createdMob.GetComponent<enemy>().playFireParticle();
         if (hit && thisLokkingPos == GameScript.isLokingIn)
         {
             audioSource.clip = hitted[rnd.Next(0, hitted.Length)];

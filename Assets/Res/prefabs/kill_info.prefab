@@ -235,6 +235,8 @@ MonoBehaviour:
   wallImg: {fileID: 6592855149917270495}
   weapons:
   - {fileID: 21300000, guid: 2d1a9951c8cb44c2d891bd695f5b66c8, type: 3}
+  - {fileID: 21300000, guid: 3b824e6daa09d44f9921a00154fa4542, type: 3}
+  - {fileID: 21300000, guid: 11f97080ded8a47f8baf6b31fec40156, type: 3}
 --- !u!1 &5400180289026822219
 GameObject:
   m_ObjectHideFlags: 0

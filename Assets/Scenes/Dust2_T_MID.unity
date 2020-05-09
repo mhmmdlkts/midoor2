@@ -1159,8 +1159,8 @@ MonoBehaviour:
   countOfMobColliders: 0
   game: {fileID: 2016928300}
   whichBodyPart: 0
-  minHead: 460
-  maxHead: 430
+  minHead: 430
+  maxHead: 460
   minBody: 99
   maxBody: 115
   minLegs: 60
