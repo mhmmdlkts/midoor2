@@ -49,7 +49,6 @@ public class GameScript : MonoBehaviour
         byte newGreen = Decimal.ToByte(255 / 100 * playersHealthy);
         healthy_panel.GetComponent<Image>().color = new Color32(h_bar_color.r,newGreen,h_bar_color.b,h_bar_color.a);
         float maxLength = healthy_panel_outside.GetComponent<RectTransform>().sizeDelta.x;
-        float maxHeight = healthy_panel_outside.GetComponent<RectTransform>().sizeDelta.y;
         RectTransform rct = healthy_panel.GetComponent<RectTransform>();
         rct.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxLength / 100 * playersHealthy);
         if (playersHealthy == 0)

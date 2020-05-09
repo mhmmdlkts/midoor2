@@ -163,6 +163,7 @@ public class mobGoDesPoint : MonoBehaviour
         nextFire = CurrentTimeMillis() + 1000;
         Debug.Log("FIRE!!!!");
         bool hit = rnd.Next(0, 100) < hitChance;
+        createdMob.GetComponent<enemy>().playFireParticle();
         if (hit && thisLokkingPos == GameScript.isLokingIn)
         {
             audioSource.clip = hitted[rnd.Next(0, hitted.Length)];
@@ -177,6 +178,7 @@ public class mobGoDesPoint : MonoBehaviour
 
     public void giveDamage()
     {
+        GameObject.Find("Canvas").GetComponent<BloodieScreen>().showBlood();
         int damage = 0;
         switch (thisLokkingPos)
         {

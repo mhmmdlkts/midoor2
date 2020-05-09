@@ -5,6 +5,7 @@ using UnityEngine;
 public class enemy : MonoBehaviour
 {
     public int healthy;
+    public GameObject fireParticle;
 
     private ParticleSystem particleSystem;
     // Start is called before the first frame update
@@ -25,6 +26,17 @@ public class enemy : MonoBehaviour
         GetComponent<ParticleSystem>().Emit(damage*2);
         setHealty(healthy-damage);
         return healthy;
+    }
+
+    public void playFireParticle()
+    {
+        fireParticle.GetComponent<ParticleSystem>().Play();
+        Invoke("stopFireParticle",0.15f);
+    }
+
+    public void stopFireParticle()
+    {
+        fireParticle.GetComponent<ParticleSystem>().Stop();
     }
     
     // Update is called once per frame

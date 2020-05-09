@@ -40,12 +40,7 @@ public class DeveloperHelper : MonoBehaviour
         }
         if (Input.GetKeyDown("v"))
         {
-            if(partical.isStopped)
-                partical.Play();
-            else
-            {
-                partical.Stop();
-            }
+            
         }
         if (Input.GetKeyDown("t"))
         {

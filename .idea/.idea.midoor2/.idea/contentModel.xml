@@ -42,6 +42,7 @@
         <e p="Scripts" t="Include">
           <e p="aim.cs" t="Include" />
           <e p="ammoPanel.cs" t="Include" />
+          <e p="BloodieScreen.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
           <e p="ChangeShow.cs" t="Include" />
           <e p="ct.cs" t="Include" />
