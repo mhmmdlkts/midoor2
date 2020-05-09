@@ -39,6 +39,13 @@ public class GameScript : MonoBehaviour
        // setHealthy(playersHealthy); // TODO DELETE FROM HERE
     }
 
+    public void givePlayerDamage(int damage, int weaponCode, bool isHead)
+    {
+        setHealthy(playersHealthy - damage);
+        if (playersHealthy == 0)
+            playerDeath(weaponCode, isHead);
+    }
+
     public void setHealthy(int healthy)
     {
         playersHealthy = healthy;
@@ -51,13 +58,6 @@ public class GameScript : MonoBehaviour
         float maxLength = healthy_panel_outside.GetComponent<RectTransform>().sizeDelta.x;
         RectTransform rct = healthy_panel.GetComponent<RectTransform>();
         rct.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxLength / 100 * playersHealthy);
-        if (playersHealthy == 0)
-            playerDeath();
-    }
-
-    public void givePlayerDamage(int damage)
-    {
-        setHealthy(playersHealthy - damage);
     }
 
     public void startCountdown()
@@ -88,8 +88,10 @@ public class GameScript : MonoBehaviour
         roundLose();
     }
 
-    public void playerDeath()
+    public void playerDeath(int weaponCode, bool isHead)
     {
+        GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
+        info.GetComponent<deathInfo>().configure(false, weaponCode, isHead, false, "TODO CHANGE NAME", yourName);
         roundLose();
     }
 

@@ -9,6 +9,7 @@ public class deathInfo : MonoBehaviour
     private GameObject container;
 
     public GameObject killerNameLabel, killedNameLabel, weopenImg, headImg, wallImg;
+    public float stayTime;
 
     private Color32 CT_TEXT_COLOR, T_TEXT_COLOR;
     
@@ -20,7 +21,7 @@ public class deathInfo : MonoBehaviour
         T_TEXT_COLOR = new Color32(177,169,122, 255); 
         container = GameObject.Find("kill_info_container");
         gameObject.transform.SetParent (container.transform, false);
-        Invoke("destroyDialog",1.0f);
+        Invoke("destroyDialog",stayTime);
     }
 
     public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)

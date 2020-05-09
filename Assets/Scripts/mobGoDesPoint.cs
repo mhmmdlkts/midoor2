@@ -181,13 +181,27 @@ public class mobGoDesPoint : MonoBehaviour
     {
         GameObject.Find("Canvas").GetComponent<BloodieScreen>().showBlood();
         int damage = 0;
+        int weaponCode = 0;
+        bool isHead = false; //TODO HEAD CHANCE
         switch (thisLokkingPos)
         {
-            case 0: damage = 27; break;
-            case 1: damage = 350; break;
-            case 2: damage = 26; break;
+            case 0: 
+                damage = 27;
+                weaponCode = 3;
+                isHead = false;
+                break;
+            case 1:
+                damage = 350;
+                weaponCode = 0;
+                isHead = true;
+                break;
+            case 2:
+                damage = 26;
+                weaponCode = 3;
+                isHead = false;
+                break;
         }
-        mainObject.GetComponent<GameScript>().givePlayerDamage(damage);
+        mainObject.GetComponent<GameScript>().givePlayerDamage(damage,weaponCode, isHead);
     }
 
     public void stopFiring()
