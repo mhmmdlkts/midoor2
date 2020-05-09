@@ -9,11 +9,13 @@ public struct Action
     public long executeTime;
     public GameObject spawnPoint;
     public int healthy;
-    public Action(long executeTime, GameObject spawnPoint, int healthy)
+    public String name;
+    public Action(long executeTime, GameObject spawnPoint, int healthy, String name)
     {
         this.executeTime = executeTime;
         this.spawnPoint = spawnPoint;
         this.healthy = healthy;
+        this.name = name;
     }
 }
 
@@ -26,7 +28,8 @@ public class CT_SPAWN : MonoBehaviour
     private long lastExecutionTime;
     public GameObject[] spawnPointGroups;
     public int firstHealthy = 100;
-    
+    private List<String> enemysNameList;
+
     Random rnd;
 
     public int minWaitTime = 1, maxWaitTime = 3;
@@ -40,6 +43,8 @@ public class CT_SPAWN : MonoBehaviour
         rnd = new Random();
         actions = new Queue<Action>();
         enemyClone = new GameObject[PLAYERS_COUNT];
+        enemysNameList = new List<String>();
+        initEnemysFirstNameList(PLAYERS_COUNT);
     }
 
     void Update()
@@ -51,24 +56,30 @@ public class CT_SPAWN : MonoBehaviour
                 doAction(actions.Dequeue());
     }
 
+    void initEnemysFirstNameList(int count)
+    {
+        for (int i = 0; i < count; i++)
+            enemysNameList.Add(gameObject.GetComponent<GetRandomEnemyName>().getRandomName());
+    }
+
     void doAction(Action action)
     {
-        action.spawnPoint.GetComponent<mobGoDesPoint>().newAction(action.healthy);
+        action.spawnPoint.GetComponent<mobGoDesPoint>().newAction(action);
     }
 
     public void creatFirstStrategy()
     {
         for (int i = 0; i < PLAYERS_COUNT; i++)
         {
-            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(firstHealthy);
+            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(firstHealthy, enemysNameList[i]);
         }
     }
 
-    public void newAction(GameObject spawnPoint, int healthy)
+    public void newAction(GameObject spawnPoint, int healthy, String name)
     {
         long exTime = generateRandomWaitTimeInMillis() + getLastTimeToExecute();
         lastExecutionTime = exTime;
-        actions.Enqueue(new Action(exTime, spawnPoint, healthy));
+        actions.Enqueue(new Action(exTime, spawnPoint, healthy, name));
     }
 
     public long getLastTimeToExecute()

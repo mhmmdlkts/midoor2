@@ -53,6 +53,7 @@
           <e p="EndRoundShow.cs" t="Include" />
           <e p="enemy.cs" t="Include" />
           <e p="GameScript.cs" t="Include" />
+          <e p="GetRandomEnemyName.cs" t="Include" />
           <e p="HomeButton.cs" t="Include" />
           <e p="HomeButton1.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
@@ -76,6 +77,9 @@
             </e>
           </e>
           <e p="ZoomButtonHandler.cs" t="Include" />
+        </e>
+        <e p="Values" t="Include">
+          <e p="BotNames.txt" t="Include" />
         </e>
       </e>
       <e p="midoor2.sln" t="IncludeFlat" />

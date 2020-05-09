@@ -9,7 +9,7 @@ public class mobGoDesPoint : MonoBehaviour
     private Random rnd;
     public GameObject mob, createdMob, desPoint, mainObject;
     public bool isGoingPick = false, isGoingHide = false, isFiring = false;
-    private Queue<int> healthyList;
+    private Queue<Action> actionList;
     public int pendingDoActions, thisLokkingPos;
     public GameObject parrentGroup;
     public int minFireTime = 0;
@@ -25,7 +25,7 @@ public class mobGoDesPoint : MonoBehaviour
     {
         mainObject = GameObject.Find("MOVABLE");
         audioSource = gameObject.GetComponent<AudioSource>();
-        healthyList = new Queue<int>();
+        actionList = new Queue<Action>();
         pendingDoActions = 0;
         rnd = new Random();
     }
@@ -64,23 +64,24 @@ public class mobGoDesPoint : MonoBehaviour
         Invoke("doAction", waitTime);
     }
 
-    public void newAction(int healthy)
+    public void newAction(Action action)
     {
         pendingDoActions++;
-        healthyList.Enqueue(healthy);
+        actionList.Enqueue(action);
     }
 
     public void doAction()
     {
         pendingDoActions--;
-        spawnMob(healthyList.Dequeue());
+        spawnMob(actionList.Dequeue());
         pick();
     }
 
-    public void spawnMob(int healthy)
+    public void spawnMob(Action action)
     {
         createdMob = Instantiate(mob, gameObject.transform.position, gameObject.transform.rotation);
-        createdMob.GetComponent<enemy>().setHealty(healthy);
+        createdMob.GetComponent<enemy>().setHealty(action.healthy);
+        createdMob.GetComponent<enemy>().setName(action.name);
     }
 
     public void goPicking()
@@ -118,8 +119,9 @@ public class mobGoDesPoint : MonoBehaviour
     public void changePoint()
     {
         int healthy = createdMob.GetComponent<enemy>().healthy;
+        String name = createdMob.GetComponent<enemy>().name;
         Destroy(createdMob);
-        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(healthy);   
+        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(healthy, name);   
     }
 
     public void pick()
@@ -201,7 +203,7 @@ public class mobGoDesPoint : MonoBehaviour
                 isHead = false;
                 break;
         }
-        mainObject.GetComponent<GameScript>().givePlayerDamage(damage,weaponCode, isHead);
+        mainObject.GetComponent<GameScript>().givePlayerDamage(damage,weaponCode, isHead, createdMob);
     }
 
     public void stopFiring()

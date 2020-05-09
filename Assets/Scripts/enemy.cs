@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class enemy : MonoBehaviour
 {
+    public String name;
     public int healthy;
     public GameObject fireParticle;
 
@@ -14,6 +16,11 @@ public class enemy : MonoBehaviour
         particleSystem = gameObject.GetComponent<ParticleSystem>();
         
         gameObject.GetComponent<Renderer>().sortingLayerName = "Foreground";
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public void setHealty(int healthy)
@@ -37,11 +44,5 @@ public class enemy : MonoBehaviour
     public void stopFireParticle()
     {
         fireParticle.GetComponent<ParticleSystem>().Stop();
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

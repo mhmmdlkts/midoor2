@@ -39,11 +39,11 @@ public class GameScript : MonoBehaviour
        // setHealthy(playersHealthy); // TODO DELETE FROM HERE
     }
 
-    public void givePlayerDamage(int damage, int weaponCode, bool isHead)
+    public void givePlayerDamage(int damage, int weaponCode, bool isHead, GameObject enemy)
     {
         setHealthy(playersHealthy - damage);
         if (playersHealthy == 0)
-            playerDeath(weaponCode, isHead);
+            playerDeath(weaponCode, isHead, enemy);
     }
 
     public void setHealthy(int healthy)
@@ -88,10 +88,10 @@ public class GameScript : MonoBehaviour
         roundLose();
     }
 
-    public void playerDeath(int weaponCode, bool isHead)
+    public void playerDeath(int weaponCode, bool isHead, GameObject enemy)
     {
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
-        info.GetComponent<deathInfo>().configure(false, weaponCode, isHead, false, "TODO CHANGE NAME", yourName);
+        info.GetComponent<deathInfo>().configure(false, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
         roundLose();
     }
 
@@ -196,7 +196,7 @@ public class GameScript : MonoBehaviour
         Destroy(enemy);
         
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
-        info.GetComponent<deathInfo>().configure(true, 0, isHead, isWall, yourName, "Bot Test");
+        info.GetComponent<deathInfo>().configure(true, 0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
         ctCount--;
         kills++;
         switch (ctCount)
