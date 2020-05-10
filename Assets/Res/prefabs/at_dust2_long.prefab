@@ -4764,9 +4764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6709586487344042581}
   - component: {fileID: 6709586487344042587}
-  - component: {fileID: 370749312695894098}
   - component: {fileID: 8970020902349502398}
-  - component: {fileID: 8154709486878336360}
   - component: {fileID: 1261754898854018646}
   - component: {fileID: 6296277880867179975}
   - component: {fileID: 3906837855779442029}
@@ -4846,23 +4844,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &370749312695894098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6709586487344042582}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed7a5ab5668045faa72f74de268b61a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  isMid: 0
-  isAtack: 0
-  isStoped: 0
-  atachChance: 0
 --- !u!54 &8970020902349502398
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4879,23 +4860,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8154709486878336360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6709586487344042582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9334f36ffe324e599af76046d75cd90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0
-  isAtack: 0
-  d: 0
-  a: 0
-  strategy: 0
 --- !u!136 &1261754898854018646
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4961,6 +4925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b609f583c1a45aea8e6c29e5c56fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
   healthy: 0
   fireParticle: {fileID: 6106206191225031810}
 --- !u!199 &8121012177691147989

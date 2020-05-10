@@ -6,25 +6,18 @@ using UnityEngine;
 public class ShowDialogs : MonoBehaviour
 {
     public GameObject gameEndPanel, roundEndPanel;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float showAfter = 0;
 
     public void showRoundEndDialog(bool tWin)
     {
-        String methodName;
         if (tWin)
         {
-            methodName = "showNowRoundWinDialog";
+            Invoke("showNowRoundWinDialog",showAfter);
         }
         else
         {
-            methodName = "showNowRoundLoseDialog";
+            Invoke("showNowRoundLoseDialog",showAfter);
         }
-        Invoke(methodName, 0);
     }
 
     public void showGameEndDialog(bool tWin, int kills)

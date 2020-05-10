@@ -45,7 +45,6 @@
           <e p="BloodieScreen.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
           <e p="ChangeShow.cs" t="Include" />
-          <e p="ct.cs" t="Include" />
           <e p="CT_SPAWN.cs" t="Include" />
           <e p="deathInfo.cs" t="Include" />
           <e p="DeveloperHelper.cs" t="Include" />
@@ -55,12 +54,9 @@
           <e p="GameScript.cs" t="Include" />
           <e p="GetRandomEnemyName.cs" t="Include" />
           <e p="HomeButton.cs" t="Include" />
-          <e p="HomeButton1.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
-          <e p="mob.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
-          <e p="MoveAim.cs" t="Include" />
           <e p="ShotButtonHandler.cs" t="Include" />
           <e p="ShowDialogs.cs" t="Include" />
           <e p="showWin.cs" t="Include" />

@@ -5,11 +5,6 @@ using UnityEngine;
 public class BloodieScreen : MonoBehaviour
 {
     public GameObject bloodie;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void showBlood()
     {

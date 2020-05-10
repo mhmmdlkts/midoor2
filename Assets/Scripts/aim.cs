@@ -17,7 +17,7 @@ public class aim : MonoBehaviour
     private Random rnd;
 
     public GameObject enemy;
-    // Start is called before the first frame update
+    
     void Start()
     {
         rnd = new Random();
@@ -25,8 +25,7 @@ public class aim : MonoBehaviour
         resetWallColliders();
         onAim = false;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         onAim = countOfMobColliders > 0;
@@ -81,7 +80,6 @@ public class aim : MonoBehaviour
 
     public int aimResistance()
     {
-        Debug.Log("OnAIM: " + onAim);
         if (!onAim)
             return -1;
         if (LAST_RES_Z_5 < enemy.GetComponent<Transform>().position.z)
@@ -129,7 +127,6 @@ public class aim : MonoBehaviour
     public void hited()
     {
         int ress = aimResistance();
-        Debug.Log(ress);
         game.GetComponent<GameScript>().hited(getEnemy(), calculateDamage() - ress, whichBodyPart == 0, ress > 0);
         countOfMobColliders = 0;
         onAim = false;

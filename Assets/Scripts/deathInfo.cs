@@ -13,8 +13,8 @@ public class deathInfo : MonoBehaviour
 
     private Color32 CT_TEXT_COLOR, T_TEXT_COLOR;
     
-    public Sprite[] weapons; //awp: 0
-    // Start is called before the first frame update
+    public Sprite[] weapons; //awp: 0, ak47: 1, knife: 2, m4a4: 3
+    
     void Start()
     {
         CT_TEXT_COLOR = new Color32(167,180,207, 255);

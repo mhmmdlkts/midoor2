@@ -11,8 +11,6 @@ public class showWin : MonoBehaviour
     private Color32 CT_PANEL_COLOR, T_PANEL_COLOR, CT_TEXT_COLOR, T_TEXT_COLOR;
     private String T_WIN_MESSAGE, CT_WIN_MESSAGE;
     
-    // Start is called before the first frame update
-    
     void Start()
     {
         CT_TEXT_COLOR = new Color32(167,180,207, 255);
@@ -24,12 +22,6 @@ public class showWin : MonoBehaviour
         panel = GameObject.Find("win_lose_panel");
         text = GameObject.Find("win_lose_text");
         setClear();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public float show(bool tWin)

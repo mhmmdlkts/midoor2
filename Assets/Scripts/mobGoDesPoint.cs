@@ -164,7 +164,6 @@ public class mobGoDesPoint : MonoBehaviour
     public void fire()
     {
         nextFire = CurrentTimeMillis() + 1000;
-        Debug.Log("FIRE!!!!");
         bool hit = rnd.Next(0, 100) < hitChance;
         if (createdMob != null)
             createdMob.GetComponent<enemy>().playFireParticle();

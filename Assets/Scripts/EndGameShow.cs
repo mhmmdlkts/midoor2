@@ -19,7 +19,7 @@ public class EndGameShow : MonoBehaviour
     private Text a, b, c, d;
 
     private Image e;
-    // Start is called before the first frame update
+    
     void Start()
     {
         tot_kills = PlayerPrefs.GetInt("total_kill",0);

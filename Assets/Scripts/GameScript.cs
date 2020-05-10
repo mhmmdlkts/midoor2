@@ -23,7 +23,7 @@ public class GameScript : MonoBehaviour
     public static bool isStoped = true;
 
     public static int rank;
-    // Start is called before the first frame update
+    
     void Start()
     {
         rank = PlayerPrefs.GetInt("rank",0);
@@ -31,12 +31,6 @@ public class GameScript : MonoBehaviour
         isLokingIn = 1; // Mid
         maxLooks = aimPoints.Length;
         newRound();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       // setHealthy(playersHealthy); // TODO DELETE FROM HERE
     }
 
     public void givePlayerDamage(int damage, int weaponCode, bool isHead, GameObject enemy)
@@ -109,7 +103,7 @@ public class GameScript : MonoBehaviour
 
     void endGame()
     {
-        sp0.GetComponent<mob>().stopMove();
+        
     }
 
     public void quitGame()
@@ -186,7 +180,6 @@ public class GameScript : MonoBehaviour
 
     public void hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
     {
-        Debug.Log(enemy == null);
         if (enemy.GetComponent<enemy>().giveDamage(damageGiven) <= 0)
             killed(enemy, isHead, isWall);
     }
@@ -278,11 +271,6 @@ public class GameScript : MonoBehaviour
     {
         GameObject looks = aimPoints[lookAt];
         gameObject.GetComponent<Transform>().position = looks.GetComponent<Transform>().position;
-    }
-    
-    public enum T_STRATEGY
-    {
-        B, MID, Long
     }
     
     public enum CT_STRATEGY

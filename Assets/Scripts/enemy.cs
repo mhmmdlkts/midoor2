@@ -10,7 +10,7 @@ public class enemy : MonoBehaviour
     public GameObject fireParticle;
 
     private ParticleSystem particleSystem;
-    // Start is called before the first frame update
+    
     void Start()
     {
         particleSystem = gameObject.GetComponent<ParticleSystem>();

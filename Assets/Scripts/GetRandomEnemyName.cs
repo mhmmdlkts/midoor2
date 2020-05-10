@@ -36,7 +36,7 @@ public class GetRandomEnemyName : MonoBehaviour
     {
         if (tot_names <= index)
         {
-            Debug.Log("Out of Bound -GetRandomEnemyName.cs-");
+            Debug.LogError("Out of Bound -GetRandomEnemyName.cs-");
             return "NULL";
         }
         return botListDat.text.Split('\n')[index];

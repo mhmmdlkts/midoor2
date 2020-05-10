@@ -10,16 +10,9 @@ public class Spawn_Groups : MonoBehaviour
     public GameObject[] spawnPoints;
 
     private Random rnd;
-    // Start is called before the first frame update
     void Start()
     {
         rnd = new Random();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void creatInARandomPointMob(int healthy, String name)

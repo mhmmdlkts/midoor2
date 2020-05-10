@@ -14,7 +14,7 @@ public class ammoPanel : MonoBehaviour
     public bool isShootable;
 
     private int reloaded_ammo, tot_ammo_ex_reloaded;
-    // Start is called before the first frame update
+    
     void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
@@ -28,12 +28,6 @@ public class ammoPanel : MonoBehaviour
         reloaded_ammo = MAX_IN_RELOAD;
         tot_ammo_ex_reloaded = START_AMMO - MAX_IN_RELOAD;
         updateAmmoTextPanel();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void oneShot()

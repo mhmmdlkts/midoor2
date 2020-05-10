@@ -21,12 +21,6 @@ public class ShotButtonHandler : MonoBehaviour
         isShotable = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void shot()
     {
         if (GameScript.isStoped || !isShotable || !ammo.GetComponent<ammoPanel>().isShootable)
@@ -36,11 +30,6 @@ public class ShotButtonHandler : MonoBehaviour
         aim.GetComponent<aim>().shoted();
         setShotable(false);
         StartCoroutine("refreshAmmo");
-    }
-
-    public void shot_kill()
-    {
-        //Destroy(aim.GetComponent<aim>().getEnemy());
     }
 
     IEnumerator refreshAmmo()
