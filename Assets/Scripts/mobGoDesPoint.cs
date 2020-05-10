@@ -7,7 +7,8 @@ using Random = System.Random;
 public class mobGoDesPoint : MonoBehaviour
 {
     private Random rnd;
-    public GameObject mob, createdMob, desPoint, mainObject;
+    public GameObject mob, createdMob, desPoint, firePoint;
+    private GameObject mainObject;
     public bool isGoingPick = false, isGoingHide = false, isFiring = false;
     private Queue<Action> actionList;
     public int pendingDoActions, thisLokkingPos;
@@ -91,14 +92,14 @@ public class mobGoDesPoint : MonoBehaviour
             stop();
             return;
         }
-        if (createdMob.GetComponent<Transform>().position == desPoint.GetComponent<Transform>().position)
+        if (createdMob.GetComponent<Transform>().position == firePoint.GetComponent<Transform>().position)
         {
             startFiring();
             return;
         }
         
         float step =speed*Time.deltaTime;
-        createdMob.transform.position = Vector3.MoveTowards(createdMob.GetComponent<Transform>().position, desPoint.GetComponent<Transform>().position, step);
+        createdMob.transform.position = Vector3.MoveTowards(createdMob.GetComponent<Transform>().position, firePoint.GetComponent<Transform>().position, step);
     }
 
     public void goHiding()
@@ -108,12 +109,12 @@ public class mobGoDesPoint : MonoBehaviour
             stop();
             return;
         }
-        if (createdMob.GetComponent<Transform>().position == gameObject.GetComponent<Transform>().position)
+        if (createdMob.GetComponent<Transform>().position == desPoint.GetComponent<Transform>().position)
         {
             changePoint();
         }
         float step =speed*Time.deltaTime;
-        createdMob.transform.position = Vector3.MoveTowards(createdMob.GetComponent<Transform>().position, gameObject.GetComponent<Transform>().position, step);
+        createdMob.transform.position = Vector3.MoveTowards(createdMob.GetComponent<Transform>().position, desPoint.GetComponent<Transform>().position, step);
     }
 
     public void changePoint()

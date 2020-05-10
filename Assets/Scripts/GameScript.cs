@@ -90,9 +90,9 @@ public class GameScript : MonoBehaviour
 
     public void playerDeath(int weaponCode, bool isHead, GameObject enemy)
     {
+        roundLose();
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
         info.GetComponent<deathInfo>().configure(false, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
-        roundLose();
     }
 
     void gameWin()
