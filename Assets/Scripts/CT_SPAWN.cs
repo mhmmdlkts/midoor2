@@ -58,6 +58,7 @@ public class CT_SPAWN : MonoBehaviour
 
     void initEnemysFirstNameList(int count)
     {
+        gameObject.GetComponent<GetRandomEnemyName>().initNames();
         for (int i = 0; i < count; i++)
             enemysNameList.Add(gameObject.GetComponent<GetRandomEnemyName>().getRandomName());
     }

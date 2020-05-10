@@ -15,26 +15,20 @@ public class GetRandomEnemyName : MonoBehaviour
     private int tot_names;
 
     private Random rnd;
-    // Start is called before the first frame update
-    void Start()
+
+    public void initNames()
     {
         rnd = new Random();
         usedIndexes = new List<int>();
         tot_names = botListDat.text.Split('\n').Length;
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public String getRandomName()
     {
         int index;
-        do { index = rnd.Next(0,tot_names); } while (usedIndexes.Contains(index));
-
+        do { index = rnd.Next(0,tot_names); }
+        while (usedIndexes.Contains(index));
+        usedIndexes.Add(index);
         return getAt(index);
     }
 
