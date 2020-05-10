@@ -429,7 +429,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 2
-  parrentGroup: {fileID: 489569870}
+  parrentGroup: {fileID: 338868766}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -439,7 +439,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 50
-  speed: 2
+  localMoveSpeed: 1
+  localFireSpeed: 1
+  localHitChance: 1
 --- !u!82 &70531817
 AudioSource:
   m_ObjectHideFlags: 0
@@ -462,7 +464,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0.02
+  Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -496,7 +498,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1295,7 +1297,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 1
-  parrentGroup: {fileID: 338868766}
+  parrentGroup: {fileID: 489569870}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -1304,7 +1306,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}
   hitChance: 20
-  speed: 2
+  localMoveSpeed: 1
+  localFireSpeed: 1
+  localHitChance: 1
 --- !u!82 &229535617
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8017,7 +8021,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 0
-  parrentGroup: {fileID: 338868766}
+  parrentGroup: {fileID: 489569870}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -8027,7 +8031,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 33
-  speed: 2
+  localMoveSpeed: 1
+  localFireSpeed: 1
+  localHitChance: 1
 --- !u!82 &838160018
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9037,7 +9043,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 1
-  parrentGroup: {fileID: 489569870}
+  parrentGroup: {fileID: 338868766}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -9046,7 +9052,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}
   hitChance: 20
-  speed: 2
+  localMoveSpeed: 1
+  localFireSpeed: 1
+  localHitChance: 1
 --- !u!82 &1150542297
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10022,7 +10030,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 2
-  parrentGroup: {fileID: 489569870}
+  parrentGroup: {fileID: 338868766}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -10032,7 +10040,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 50
-  speed: 5
+  localMoveSpeed: 1
+  localFireSpeed: 1
+  localHitChance: 1
 --- !u!82 &1416907303
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11756,7 +11766,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 0
-  parrentGroup: {fileID: 338868766}
+  parrentGroup: {fileID: 489569870}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -11766,7 +11776,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 33
-  speed: 2
+  localMoveSpeed: 1
+  localFireSpeed: 1
+  localHitChance: 1
 --- !u!82 &1794837386
 AudioSource:
   m_ObjectHideFlags: 0
