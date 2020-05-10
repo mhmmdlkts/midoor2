@@ -8,7 +8,6 @@ public class aim : MonoBehaviour
 {
     public int RESISTANCE_4, RESISTANCE_3, RESISTANCE_2, RESISTANCE_1;
     public float LAST_RES_Z_5, LAST_RES_Z_4, LAST_RES_Z_3, LAST_RES_Z_2, LAST_RES_Z_1;
-    public bool onAim;
     public int countOfHARD_0;
     public int countOfMobColliders;
     public GameObject game;
@@ -23,12 +22,11 @@ public class aim : MonoBehaviour
         rnd = new Random();
         countOfMobColliders = 0;
         resetWallColliders();
-        onAim = false;
     }
-    
-    void Update()
+
+    private bool isOnAim()
     {
-        onAim = countOfMobColliders > 0;
+        return countOfMobColliders > 0;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,7 +35,8 @@ public class aim : MonoBehaviour
         {
             countOfMobColliders++;
             updateBodyPart(other);
-            enemy = other.gameObject;
+            if (enemy == null)
+                enemy = other.gameObject;
         }
         
         if (other.gameObject.tag == "HARD_0") countOfHARD_0++;
@@ -60,7 +59,7 @@ public class aim : MonoBehaviour
         {
             countOfMobColliders--;
             updateBodyPart(other);
-            if (!onAim)
+            if (!isOnAim())
                 enemy = null;
         }
         
@@ -80,7 +79,7 @@ public class aim : MonoBehaviour
 
     public int aimResistance()
     {
-        if (!onAim)
+        if (isOnAim())
             return -1;
         if (LAST_RES_Z_5 < enemy.GetComponent<Transform>().position.z)
             return Int32.MaxValue;
@@ -112,7 +111,7 @@ public class aim : MonoBehaviour
 
     public void shoted()
     {
-        if (onAim && isOnSafeZone())
+        if (isOnAim() && isOnSafeZone())
         {
             hited();
         }
@@ -127,9 +126,10 @@ public class aim : MonoBehaviour
     public void hited()
     {
         int ress = aimResistance();
-        game.GetComponent<GameScript>().hited(getEnemy(), calculateDamage() - ress, whichBodyPart == 0, ress > 0);
+        bool isDeath = game.GetComponent<GameScript>().hited(getEnemy(), calculateDamage() - ress, whichBodyPart == 0, ress > 0);
+        
+        // TODO if death
         countOfMobColliders = 0;
-        onAim = false;
         enemy = null;
     }
     

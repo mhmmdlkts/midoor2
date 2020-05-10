@@ -178,10 +178,15 @@ public class GameScript : MonoBehaviour
         tScorLabel.GetComponent<UnityEngine.UI.Text>().text = tScore + "";
     }
 
-    public void hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
+    public bool hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
     {
         if (enemy.GetComponent<enemy>().giveDamage(damageGiven) <= 0)
+        {
             killed(enemy, isHead, isWall);
+            return true;
+        }
+
+        return false;
     }
 
     public void killed(GameObject enemy, bool isHead, bool isWall)
