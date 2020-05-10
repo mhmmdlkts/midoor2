@@ -45,6 +45,10 @@ public class mobGoDesPoint : MonoBehaviour
             return;
         }
 
+        if (createdMob == null)
+        {
+            stop();
+        }
         if (pendingDoActions > 0 && !isGoingHide && !isGoingPick && !isFiring)
         {
             doAction();

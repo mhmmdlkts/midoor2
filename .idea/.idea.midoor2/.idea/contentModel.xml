@@ -39,6 +39,9 @@
             </e>
           </e>
         </e>
+        <e p="Res" t="Include">
+          <e p="BotNames.txt" t="Include" />
+        </e>
         <e p="Scripts" t="Include">
           <e p="aim.cs" t="Include" />
           <e p="ammoPanel.cs" t="Include" />
@@ -73,9 +76,6 @@
             </e>
           </e>
           <e p="ZoomButtonHandler.cs" t="Include" />
-        </e>
-        <e p="Values" t="Include">
-          <e p="BotNames.txt" t="Include" />
         </e>
       </e>
       <e p="midoor2.sln" t="IncludeFlat" />
