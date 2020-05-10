@@ -8,6 +8,7 @@ public class enemy : MonoBehaviour
     public String name;
     public int healthy;
     public GameObject fireParticle;
+    public bool isFiring;
 
     private ParticleSystem particleSystem;
     
@@ -37,12 +38,14 @@ public class enemy : MonoBehaviour
 
     public void playFireParticle()
     {
+        isFiring = true;
         fireParticle.GetComponent<ParticleSystem>().Play();
         Invoke("stopFireParticle",0.15f);
     }
 
     public void stopFireParticle()
     {
+        isFiring = false;
         fireParticle.GetComponent<ParticleSystem>().Stop();
     }
 }

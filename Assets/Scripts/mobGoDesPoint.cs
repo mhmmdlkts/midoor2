@@ -156,7 +156,6 @@ public class mobGoDesPoint : MonoBehaviour
     public void fire()
     {
         nextFire = CurrentTimeMillis() + getNextFireInMilliSec();
-        Debug.Log(getHitChance());
         bool hit = rnd.Next(0, 100) < getHitChance();
         if (createdMob != null)
             createdMob.GetComponent<enemy>().playFireParticle();
@@ -223,6 +222,11 @@ public class mobGoDesPoint : MonoBehaviour
     {
         if(nextFire < CurrentTimeMillis())
             fire();
+
+        if (createdMob != null && createdMob.GetComponent<enemy>().isFiring)
+        {
+            
+        }
     }
 
     public void giveDamage(bool isHead)
