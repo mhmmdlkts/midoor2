@@ -20,8 +20,15 @@ public class mobGoDesPoint : MonoBehaviour
     public AudioClip[] misHitted;
     public int hitChance;
     
-    private float speed = 2.0f;
-    // Start is called before the first frame update
+    public float localMoveSpeed;
+    public static float globalMoveSpeed = 2.0f;
+    
+    public float localFireSpeed;
+    public static float globalFireSpeed = 0.75f;
+    
+    public float localHitChance;
+    public static float globalHitChance = 25.0f;
+    
     void Start()
     {
         mainObject = GameObject.Find("MOVABLE");
@@ -30,8 +37,7 @@ public class mobGoDesPoint : MonoBehaviour
         pendingDoActions = 0;
         rnd = new Random();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (GameScript.isStoped)
@@ -58,6 +64,36 @@ public class mobGoDesPoint : MonoBehaviour
         {
             doFiring();
         }
+    }
+
+    private float getMoveSpeed()
+    {
+        return localMoveSpeed * globalMoveSpeed * rankMultiply(1);
+    }
+
+    private int getNextFireInMilliSec()
+    {
+        return (int)(localFireSpeed * globalFireSpeed * rankMultiply(1) * 1000);
+    }
+
+    private float getFireTime()
+    {
+        return Convert.ToSingle(rnd.Next(minFireTime * 1000, maxFireTime * 1000)) / 1000;
+    }
+
+    private int getHitChance()
+    {
+        return (int)(localHitChance * globalHitChance + rankMultiply(1.5f));
+    }
+
+    private int getHitHeadChance()
+    {
+        return getHitChance();
+    }
+
+    private float rankMultiply(float multply)
+    {
+        return (((float)GameScript.rank / (float)GameScript.tot_rank * 3) + 1) * multply;
     }
 
     public void doActionLater(float waitTime)
@@ -98,7 +134,7 @@ public class mobGoDesPoint : MonoBehaviour
             return;
         }
         
-        float step =speed*Time.deltaTime;
+        float step =getMoveSpeed()*Time.deltaTime;
         createdMob.transform.position = Vector3.MoveTowards(createdMob.GetComponent<Transform>().position, firePoint.GetComponent<Transform>().position, step);
     }
 
@@ -113,8 +149,36 @@ public class mobGoDesPoint : MonoBehaviour
         {
             changePoint();
         }
-        float step =speed*Time.deltaTime;
+        float step =getMoveSpeed()*Time.deltaTime;
         createdMob.transform.position = Vector3.MoveTowards(createdMob.GetComponent<Transform>().position, desPoint.GetComponent<Transform>().position, step);
+    }
+
+    public void fire()
+    {
+        nextFire = CurrentTimeMillis() + getNextFireInMilliSec();
+        Debug.Log(getHitChance());
+        bool hit = rnd.Next(0, 100) < getHitChance();
+        if (createdMob != null)
+            createdMob.GetComponent<enemy>().playFireParticle();
+        if (hit && thisLokkingPos == GameScript.isLokingIn)
+        {
+            bool hitHead = rnd.Next(0, 100) < getHitHeadChance();
+            if (hitHead)
+            {
+                audioSource.clip = hitted[rnd.Next(0, hitted.Length)]; // TODO different Head Voice
+                giveDamage(true);
+            }
+            else
+            {
+                audioSource.clip = hitted[rnd.Next(0, hitted.Length)];
+                giveDamage(false);
+            }
+        }
+        else
+        {
+            audioSource.clip = misHitted[rnd.Next(0, misHitted.Length)];
+        }
+        audioSource.Play();
     }
 
     public void changePoint()
@@ -150,7 +214,7 @@ public class mobGoDesPoint : MonoBehaviour
     {
         stop();
         isFiring = true;
-        float fireTime = Convert.ToSingle(rnd.Next(minFireTime * 1000, maxFireTime * 1000)) / 1000;
+        float fireTime = getFireTime();
         Invoke("stopFiring", fireTime);
     }
 
@@ -161,46 +225,24 @@ public class mobGoDesPoint : MonoBehaviour
             fire();
     }
 
-    public void fire()
-    {
-        nextFire = CurrentTimeMillis() + 1000;
-        bool hit = rnd.Next(0, 100) < hitChance;
-        if (createdMob != null)
-            createdMob.GetComponent<enemy>().playFireParticle();
-        if (hit && thisLokkingPos == GameScript.isLokingIn)
-        {
-            audioSource.clip = hitted[rnd.Next(0, hitted.Length)];
-            giveDamage();
-        }
-        else
-        {
-            audioSource.clip = misHitted[rnd.Next(0, misHitted.Length)];
-        }
-        audioSource.Play();
-    }
-
-    public void giveDamage()
+    public void giveDamage(bool isHead)
     {
         GameObject.Find("Canvas").GetComponent<BloodieScreen>().showBlood();
         int damage = 0;
         int weaponCode = 0;
-        bool isHead = false; //TODO HEAD CHANCE
         switch (thisLokkingPos)
         {
             case 0: 
-                damage = 27;
+                damage = isHead?88:27;
                 weaponCode = 3;
-                isHead = false;
                 break;
             case 1:
-                damage = 350;
+                damage = isHead?350:85;
                 weaponCode = 0;
-                isHead = true;
                 break;
             case 2:
-                damage = 26;
+                damage = isHead?84:26;
                 weaponCode = 3;
-                isHead = false;
                 break;
         }
         mainObject.GetComponent<GameScript>().givePlayerDamage(damage,weaponCode, isHead, createdMob);

@@ -439,6 +439,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 50
+  speed: 2
 --- !u!82 &70531817
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1170,7 +1171,6 @@ MonoBehaviour:
   LAST_RES_Z_3: 0
   LAST_RES_Z_2: 0
   LAST_RES_Z_1: 0
-  onAim: 0
   countOfHARD_0: 0
   countOfMobColliders: 0
   game: {fileID: 2016928300}
@@ -1304,6 +1304,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}
   hitChance: 20
+  speed: 2
 --- !u!82 &229535617
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1978,7 +1979,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405377843}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.38, y: -0.28, z: -0.18}
+  m_LocalPosition: {x: -4.28, y: -0.28, z: -0.18}
   m_LocalScale: {x: 0.3483799, y: 0.3483799, z: 0.3483799}
   m_Children: []
   m_Father: {fileID: 2033837280}
@@ -8026,6 +8027,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 33
+  speed: 2
 --- !u!82 &838160018
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9044,6 +9046,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}
   hitChance: 20
+  speed: 2
 --- !u!82 &1150542297
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10029,6 +10032,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 50
+  speed: 5
 --- !u!82 &1416907303
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11762,6 +11766,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   hitChance: 33
+  speed: 2
 --- !u!82 &1794837386
 AudioSource:
   m_ObjectHideFlags: 0

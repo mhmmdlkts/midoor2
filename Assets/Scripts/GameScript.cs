@@ -23,6 +23,7 @@ public class GameScript : MonoBehaviour
     public static bool isStoped = true;
 
     public static int rank;
+    public static int tot_rank = 18;
     
     void Start()
     {
