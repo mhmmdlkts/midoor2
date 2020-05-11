@@ -21,13 +21,13 @@ public class mobGoDesPoint : MonoBehaviour
     public int hitChance;
     
     public float localMoveSpeed;
-    public static float globalMoveSpeed = 2.0f;
+    public static float globalMoveSpeed = 1.5f;
     
     public float localFireSpeed;
-    public static float globalFireSpeed = 0.75f;
+    public static float globalFireSpeed = 0.5f;
     
     public float localHitChance;
-    public static float globalHitChance = 25.0f;
+    public static float globalHitChance = 15.0f;
     
     void Start()
     {
