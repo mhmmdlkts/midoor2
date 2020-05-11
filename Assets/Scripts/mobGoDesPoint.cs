@@ -18,7 +18,7 @@ public class mobGoDesPoint : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip[] hitted;
     public AudioClip[] misHitted;
-    public int hitChance;
+    public float arriveDelay;
     
     public float localMoveSpeed;
     public static float globalMoveSpeed = 1.5f;
@@ -108,6 +108,7 @@ public class mobGoDesPoint : MonoBehaviour
     public void newAction(Action action)
     {
         pendingDoActions++;
+        action.addDelay(arriveDelay);
         actionList.Enqueue(action);
     }
 
@@ -189,7 +190,7 @@ public class mobGoDesPoint : MonoBehaviour
         int healthy = createdMob.GetComponent<enemy>().healthy;
         String name = createdMob.GetComponent<enemy>().name;
         Destroy(createdMob);
-        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(healthy, name);   
+        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(healthy, name, (long)(arriveDelay*1000));   
     }
 
     public void pick()

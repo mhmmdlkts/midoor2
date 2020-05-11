@@ -17,6 +17,11 @@ public struct Action
         this.healthy = healthy;
         this.name = name;
     }
+
+    public void addDelay(float delay)
+    {
+        executeTime += (long)(delay*1000);
+    }
 }
 
 public class CT_SPAWN : MonoBehaviour
@@ -29,6 +34,7 @@ public class CT_SPAWN : MonoBehaviour
     public GameObject[] spawnPointGroups;
     public int firstHealthy = 100;
     private List<String> enemysNameList;
+    public float firstMobWaitTime;
 
     Random rnd;
 
@@ -69,13 +75,13 @@ public class CT_SPAWN : MonoBehaviour
     {
         for (int i = 0; i < PLAYERS_COUNT; i++)
         {
-            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(firstHealthy, enemysNameList[i]);
+            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(firstHealthy, enemysNameList[i], (long)(firstMobWaitTime*1000));
         }
     }
 
-    public void newAction(GameObject spawnPoint, int healthy, String name)
+    public void newAction(GameObject spawnPoint, int healthy, String name, long delay)
     {
-        long exTime = generateRandomWaitTimeInMillis() + getLastTimeToExecute();
+        long exTime = generateRandomWaitTimeInMillis() + getLastTimeToExecute() + delay;
         lastExecutionTime = exTime;
         actions.Enqueue(new Action(exTime, spawnPoint, healthy, name));
     }
