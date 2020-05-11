@@ -8687,6 +8687,11 @@ PrefabInstance:
       propertyPath: handleRange
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8135886326569738823, guid: 56fae09712773584fb63896d473a98ee,
+        type: 3}
+      propertyPath: snapX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8135886326569738825, guid: 56fae09712773584fb63896d473a98ee,
         type: 3}
       propertyPath: m_Name
@@ -12422,6 +12427,7 @@ GameObject:
   - component: {fileID: 2016928305}
   - component: {fileID: 2016928307}
   - component: {fileID: 2016928302}
+  - component: {fileID: 2016928306}
   m_Layer: 0
   m_Name: MOVABLE
   m_TagString: Untagged
@@ -12528,6 +12534,20 @@ MonoBehaviour:
   zoom_button: {fileID: 1681762576}
   shot_test: {fileID: 4355013985709434692, guid: 040d5065942d74fbd99bc2642433c6d8,
     type: 3}
+--- !u!114 &2016928306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016928300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef0e9d11b3b34b1d997be0ad137c949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shot_button: {fileID: 1138701088}
+  zoom_button: {fileID: 1681762576}
 --- !u!114 &2016928307
 MonoBehaviour:
   m_ObjectHideFlags: 0

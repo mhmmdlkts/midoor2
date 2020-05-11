@@ -48,6 +48,7 @@
           <e p="BloodieScreen.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
           <e p="ChangeShow.cs" t="Include" />
+          <e p="ControllerControls.cs" t="Include" />
           <e p="CT_SPAWN.cs" t="Include" />
           <e p="deathInfo.cs" t="Include" />
           <e p="DeveloperHelper.cs" t="Include" />

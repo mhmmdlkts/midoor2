@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class JoystickMove : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 {
-  public bool pressed;
+  public static bool pressed;
   public Joystick joystick;
   public float joyVertical, joyHorizontal, tmpVer, tmpHor, limVer, limHor;
   
@@ -20,18 +20,26 @@ public class JoystickMove : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     // Update is called once per frame
     void Update()
     {
-      tmpVer = joystick.Vertical;
-      tmpHor = joystick.Horizontal;
+      if (ControllerControls.isUsingJoystick)
+      {
+        tmpVer = Input.GetAxis("Vertical");
+        tmpHor = Input.GetAxis("Horizontal");
+      }
+      else
+      {
+        tmpVer = joystick.Vertical;
+        tmpHor = joystick.Horizontal;
+      }
     }
 
     public float getVertical()
     {
-      return joystick.Vertical;
+      return tmpVer;
     }
 
     public float getHorizontal()
     {
-      return joystick.Horizontal;
+      return tmpHor;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -42,7 +50,7 @@ public class JoystickMove : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     public void OnPointerUp(PointerEventData eventData)
     {
       pressed = false;
-      joyVertical = tmpVer + getVertical();
-      joyHorizontal = tmpHor + getHorizontal();
+      //joyVertical = tmpVer + getVertical();
+      //joyHorizontal = tmpHor + getHorizontal();
     }
 }

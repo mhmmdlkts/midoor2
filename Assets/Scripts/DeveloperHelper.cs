@@ -18,31 +18,27 @@ public class DeveloperHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown("h"))
         {
             gameObject.GetComponent<ChangeShow>().lookRight();
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown("f"))
         {
             gameObject.GetComponent<ChangeShow>().lookLeft();
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            shot_button.GetComponent<ShotButtonHandler>().shot();
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown("t"))
         {
             zoom_button.GetComponent<ZoomButtonHandler>().zoom();
         }
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("g"))
         {
-            partical.Emit(150);
+            shot_button.GetComponent<ShotButtonHandler>().shot();
         }
         if (Input.GetKeyDown("v"))
         {
             
         }
-        if (Input.GetKeyDown("t"))
+        if (Input.GetKeyDown("r"))
         {
             gameObject.GetComponent<GameScript>().timeOut();
         }
@@ -74,17 +70,13 @@ public class DeveloperHelper : MonoBehaviour
             GameObject.Find("bSpawn_behind_box").GetComponent<ctBBoxSpawn>().pick();
             GameObject.Find("bSpawn_behind_wall").GetComponent<bWallSpawn>().pick();
         }
-        if (Input.GetKeyDown("h"))
+        if (Input.GetKeyDown("o"))
         {
             GameObject.Find("longSpawn_dooble_door").GetComponent<ctLongDoorSpawn>().hide();
             GameObject.Find("longSpawn_behind_wall").GetComponent<ctLongWallSpawn>().hide();
             GameObject.Find("ctSpawn").GetComponent<ctMidSpawn>().hide();
             GameObject.Find("bSpawn_behind_box").GetComponent<ctBBoxSpawn>().hide();
             GameObject.Find("bSpawn_behind_wall").GetComponent<bWallSpawn>().hide();
-        }
-        if (Input.GetKeyDown("m"))
-        {
-            Instantiate(shot_test, shot_test.transform.position, shot_test.transform.rotation);
         }
     }
 }
