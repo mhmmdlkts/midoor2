@@ -438,7 +438,7 @@ MonoBehaviour:
   misHitted:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  arriveDelay: 6
+  arriveDelay: 2
   localMoveSpeed: 1
   localFireSpeed: 1
   localHitChance: 1
@@ -1306,8 +1306,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}
   arriveDelay: 1
-  localMoveSpeed: 1
-  localFireSpeed: 1
+  localMoveSpeed: 0.5
+  localFireSpeed: 2
   localHitChance: 0.5
 --- !u!82 &229535617
 AudioSource:
@@ -1773,7 +1773,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -5, y: 5}
+  m_AnchoredPosition: {x: -25, y: 25}
   m_SizeDelta: {x: 160, y: 145}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &348330470
@@ -2269,7 +2269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 1827261119}
-  multiply: 5
+  multiply: 10
   multiplyVer: 1
   multiplyHor: 1
   multiplyPos: 0.75
@@ -8066,9 +8066,6 @@ MonoBehaviour:
   misHitted:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
   arriveDelay: 3
   localMoveSpeed: 1
   localFireSpeed: 1
@@ -8648,12 +8645,12 @@ PrefabInstance:
     - target: {fileID: 8135886326569738822, guid: 56fae09712773584fb63896d473a98ee,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -380.96475
+      value: -384.91504
       objectReference: {fileID: 0}
     - target: {fileID: 8135886326569738822, guid: 56fae09712773584fb63896d473a98ee,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -119.137634
+      value: -121.77118
       objectReference: {fileID: 0}
     - target: {fileID: 8135886326569738822, guid: 56fae09712773584fb63896d473a98ee,
         type: 3}
@@ -8749,6 +8746,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135886327475159579, guid: 56fae09712773584fb63896d473a98ee,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135886327475159579, guid: 56fae09712773584fb63896d473a98ee,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8135886327784587630, guid: 56fae09712773584fb63896d473a98ee,
         type: 3}
@@ -9091,8 +9098,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}
   arriveDelay: 1
-  localMoveSpeed: 1
-  localFireSpeed: 1
+  localMoveSpeed: 0.5
+  localFireSpeed: 2
   localHitChance: 0.5
 --- !u!82 &1150542297
 AudioSource:
@@ -10140,7 +10147,7 @@ MonoBehaviour:
   misHitted:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  arriveDelay: 4
+  arriveDelay: 3
   localMoveSpeed: 1
   localFireSpeed: 1
   localHitChance: 1
@@ -11876,11 +11883,7 @@ MonoBehaviour:
   misHitted:
   - {fileID: 8300000, guid: 7cfe977a5f6c14a598b08af83b54f42e, type: 3}
   - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  - {fileID: 8300000, guid: 4859cfce4abda4ef795e55169ed02eb7, type: 3}
-  arriveDelay: 3
+  arriveDelay: 2.5
   localMoveSpeed: 1
   localFireSpeed: 1
   localHitChance: 1
@@ -12955,10 +12958,10 @@ RectTransform:
   m_Father: {fileID: 316719119}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 77.2229, y: 31}
-  m_SizeDelta: {x: 126.4458, y: 42.411667}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 66.7, y: -100.31}
+  m_SizeDelta: {x: 126.4458, y: 42.411682}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2096493236
 MonoBehaviour:
