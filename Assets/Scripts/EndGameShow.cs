@@ -52,19 +52,32 @@ public class EndGameShow : MonoBehaviour
         {
             winSerie++;
             loseSerie = 0;
-        } else {
+        } else if (newWin == -1){
             loseSerie++;
             winSerie = 0;
-        }
+        } else if (newWin == 0){ /* tie */}
+
         PlayerPrefs.SetInt("loseSerie",loseSerie);
         PlayerPrefs.SetInt("winSerie",winSerie);
-        isRankUpgrade = (winSerie != 0 && winSerie % WinLoseSerieForNewRank == 0 && rank < GameScript.tot_rank);
-        isRankDowngrade = (loseSerie != 0 && loseSerie % WinLoseSerieForNewRank == 0 && rank >= 0);
+        isRankUpgrade = (winSerie != 0 && winSerie % WinLoseSerieForNewRank == 0);
+        isRankDowngrade = (loseSerie != 0 && loseSerie % WinLoseSerieForNewRank == 0);
         if (isRankUpgrade)
-            rank++;
+            rankUp();
         if (isRankDowngrade)
-            rank--;
+            rankDown();
         PlayerPrefs.SetInt("rank", rank); 
+    }
+
+    private void rankDown()
+    {
+        if(rank > 0)
+            rank--;
+    }
+
+    private void rankUp()
+    {
+        if(rank < GameScript.tot_rank)
+            rank++;
     }
 
     public void writeStatus()
@@ -94,7 +107,7 @@ public class EndGameShow : MonoBehaviour
 
     private void setWins()
     {
-        c.text += " + " + newWin;
+        c.text += " + " + (newWin == 1 ? 1 : 0);
         Invoke("setMoney", 1);
     }
 

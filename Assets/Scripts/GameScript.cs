@@ -16,10 +16,10 @@ public class GameScript : MonoBehaviour
     public static int isLokingIn;
 
     public static String yourName;
-    private int time, ctCount, tScore = 0, ctScore = 0, kills = 0;
+    private int time, ctCount, tScore, ctScore, kills;
     public int roundTime;
-    private Coroutine co;
-    private static readonly int WIN_SCORE = 3;
+    public int startRounds;
+    private static readonly int WIN_SCORE = 16;
     public static bool isStoped = true;
 
     public static int rank;
@@ -27,6 +27,9 @@ public class GameScript : MonoBehaviour
     
     void Start()
     {
+        kills = 0;
+        ctScore = startRounds;
+        tScore = startRounds;
         rank = PlayerPrefs.GetInt("rank",0);
         yourName = PlayerPrefs.GetString("name", "Mali");
         isLokingIn = 1; // Mid
@@ -92,19 +95,22 @@ public class GameScript : MonoBehaviour
 
     void gameWin()
     {
-        endGame();
-        canvas.GetComponent<ShowDialogs>().showGameEndDialog(true, kills);
+        endGame(1);
+    }
+
+    void gameTied()
+    {
+        endGame(0);
     }
 
     void gameLose()
     {
-        endGame();
-        canvas.GetComponent<ShowDialogs>().showGameEndDialog(false, kills);
+        endGame(-1);
     }
 
-    void endGame()
+    void endGame(int isWinn)
     {
-        
+        canvas.GetComponent<ShowDialogs>().showGameEndDialog(isWinn, kills);
     }
 
     public void quitGame()
@@ -132,6 +138,10 @@ public class GameScript : MonoBehaviour
         isStoped = true;
         CancelInvoke("countdown");
         updateScore();
+        if (tScore == 15 && ctScore == 15)
+        {
+            gameTied();
+        }
         if (tScore >= WIN_SCORE)
         {
             gameWin();
@@ -143,7 +153,6 @@ public class GameScript : MonoBehaviour
         else
         {
             Invoke("newRound",EndRoundShow.stayTime);
-            //newRound();
         }
     }
 
@@ -156,7 +165,6 @@ public class GameScript : MonoBehaviour
     {
         tScore++;
         canvas.GetComponent<ShowDialogs>().showRoundEndDialog(true);
-        //gameObject.GetComponent<showWin>().show(true);
         endRound();
     }
     
@@ -175,8 +183,8 @@ public class GameScript : MonoBehaviour
 
     void updateScore()
     {
-        ctScorLaber.GetComponent<UnityEngine.UI.Text>().text = ctScore + "";
-        tScorLabel.GetComponent<UnityEngine.UI.Text>().text = tScore + "";
+        ctScorLaber.GetComponent<Text>().text = ctScore + "";
+        tScorLabel.GetComponent<Text>().text = tScore + "";
     }
 
     public bool hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
@@ -277,11 +285,6 @@ public class GameScript : MonoBehaviour
     {
         GameObject looks = aimPoints[lookAt];
         gameObject.GetComponent<Transform>().position = looks.GetComponent<Transform>().position;
-    }
-    
-    public enum CT_STRATEGY
-    {
-        B1, B2, MID, LowerT, Short, Long
     }
     
 }
