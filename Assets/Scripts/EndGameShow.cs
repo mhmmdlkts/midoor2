@@ -27,7 +27,7 @@ public class EndGameShow : MonoBehaviour
         tot_kills = PlayerPrefs.GetInt("total_kill",0);
         winns = PlayerPrefs.GetInt("total_wins",0);
         money = PlayerPrefs.GetInt("money",0);
-        rank = PlayerPrefs.GetInt("rank",0);
+        rank = PlayerPrefs.GetInt("rank",4);
         newWin = PlayerPrefs.GetInt("new_win",0);
         kills = PlayerPrefs.GetInt("new_kills",0);
         name = PlayerPrefs.GetString("name", "Mali");

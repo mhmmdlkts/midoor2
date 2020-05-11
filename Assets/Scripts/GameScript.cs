@@ -30,7 +30,7 @@ public class GameScript : MonoBehaviour
         kills = 0;
         ctScore = startRounds;
         tScore = startRounds;
-        rank = PlayerPrefs.GetInt("rank",0);
+        rank = PlayerPrefs.GetInt("rank",4);
         yourName = PlayerPrefs.GetString("name", "Mali");
         isLokingIn = 1; // Mid
         maxLooks = aimPoints.Length;
