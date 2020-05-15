@@ -588,7 +588,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 2
-  parrentGroup: {fileID: 0}
+  parrentGroup: {fileID: 1810105029}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -741,7 +741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobGen: {fileID: 1892932575}
-  mainSpawnPoint: {fileID: 1860833808}
+  mainSpawnPoint: {fileID: 1150542293}
   spawnPoints:
   - {fileID: 1049301163}
   - {fileID: 658443218}
@@ -790,7 +790,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobGen: {fileID: 1892932575}
   mainSpawnPoint: {fileID: 302100754}
-  spawnPoints: []
+  spawnPoints:
+  - {fileID: 2068827356}
+  - {fileID: 1385763640}
 --- !u!1 &93989239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,7 +1684,7 @@ GameObject:
   - component: {fileID: 229535616}
   - component: {fileID: 229535617}
   m_Layer: 0
-  m_Name: midRight
+  m_Name: midRight_CT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1738,7 +1740,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 1
-  parrentGroup: {fileID: 0}
+  parrentGroup: {fileID: 1810105029}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -2074,7 +2076,7 @@ GameObject:
   - component: {fileID: 302100756}
   - component: {fileID: 302100755}
   m_Layer: 0
-  m_Name: midRight
+  m_Name: midRight_T
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2197,7 +2199,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 1
-  parrentGroup: {fileID: 84469340}
+  parrentGroup: {fileID: 1926326529}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -4033,7 +4035,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 0
-  parrentGroup: {fileID: 84469340}
+  parrentGroup: {fileID: 1926326529}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -9810,7 +9812,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 0
-  parrentGroup: {fileID: 0}
+  parrentGroup: {fileID: 84469340}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -10529,7 +10531,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 0
-  parrentGroup: {fileID: 84469340}
+  parrentGroup: {fileID: 1926326529}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -11233,7 +11235,7 @@ GameObject:
   - component: {fileID: 1150542296}
   - component: {fileID: 1150542297}
   m_Layer: 0
-  m_Name: midLeft
+  m_Name: midLeft_CT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11289,7 +11291,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 1
-  parrentGroup: {fileID: 0}
+  parrentGroup: {fileID: 84469340}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -11618,7 +11620,6 @@ GameObject:
   - component: {fileID: 1180569295}
   - component: {fileID: 1180569297}
   - component: {fileID: 1180569298}
-  - component: {fileID: 1180569299}
   m_Layer: 0
   m_Name: mobGeneratorT
   m_TagString: Untagged
@@ -11654,9 +11655,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionsSize: 0
   enemy: {fileID: 5894458673715456990, guid: 9b07207a76c594d4eb25a3720a2af09e, type: 3}
+  main: {fileID: 2016928300}
   spawnPointGroups:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1810105029}
+  - {fileID: 84469340}
   firstHealthy: 100
   firstMobWaitTime: 2
   minWaitTime: 1
@@ -11668,7 +11670,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180569294}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2cd6c2a47fded464587947b548606656, type: 3}
   m_Name: 
@@ -11676,19 +11678,6 @@ MonoBehaviour:
   mob: {fileID: 5894458673715456990, guid: 9b07207a76c594d4eb25a3720a2af09e, type: 3}
   createdMob: {fileID: 0}
   desPoint: {fileID: 1150542293}
---- !u!114 &1180569299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180569294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df4097bc96e4c45f5a5ff6b431ea0985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  botListDat: {fileID: 4900000, guid: 97dc110a922ef48e6a34c8ad845df033, type: 3}
 --- !u!1 &1189444197
 GameObject:
   m_ObjectHideFlags: 0
@@ -12718,7 +12707,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 2
-  parrentGroup: {fileID: 1810105029}
+  parrentGroup: {fileID: 92571725}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -12925,7 +12914,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 2
-  parrentGroup: {fileID: 0}
+  parrentGroup: {fileID: 1810105029}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -15382,7 +15371,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 0
-  parrentGroup: {fileID: 0}
+  parrentGroup: {fileID: 84469340}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -15553,7 +15542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobGen: {fileID: 1892932575}
-  mainSpawnPoint: {fileID: 302100754}
+  mainSpawnPoint: {fileID: 229535613}
   spawnPoints:
   - {fileID: 1385763640}
   - {fileID: 2068827356}
@@ -15770,7 +15759,7 @@ GameObject:
   - component: {fileID: 1860833810}
   - component: {fileID: 1860833809}
   m_Layer: 0
-  m_Name: midLeft
+  m_Name: midLeft_T
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15893,7 +15882,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 1
-  parrentGroup: {fileID: 1810105029}
+  parrentGroup: {fileID: 92571725}
   minFireTime: 0
   maxFireTime: 2
   hitted:
@@ -16072,7 +16061,6 @@ GameObject:
   - component: {fileID: 1892932579}
   - component: {fileID: 1892932578}
   - component: {fileID: 1892932577}
-  - component: {fileID: 1892932576}
   m_Layer: 0
   m_Name: mobGeneratorCT
   m_TagString: Untagged
@@ -16080,19 +16068,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1892932576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1892932575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df4097bc96e4c45f5a5ff6b431ea0985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  botListDat: {fileID: 4900000, guid: 97dc110a922ef48e6a34c8ad845df033, type: 3}
 --- !u!114 &1892932577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16100,7 +16075,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892932575}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2cd6c2a47fded464587947b548606656, type: 3}
   m_Name: 
@@ -16122,9 +16097,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionsSize: 0
   enemy: {fileID: 5894458673715456990, guid: 9b07207a76c594d4eb25a3720a2af09e, type: 3}
+  main: {fileID: 2016928300}
   spawnPointGroups:
-  - {fileID: 1810105029}
-  - {fileID: 84469340}
+  - {fileID: 1926326529}
+  - {fileID: 92571725}
   firstHealthy: 100
   firstMobWaitTime: 2
   minWaitTime: 1
@@ -16188,7 +16164,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobGen: {fileID: 1892932575}
   mainSpawnPoint: {fileID: 1860833808}
-  spawnPoints: []
+  spawnPoints:
+  - {fileID: 1049301163}
+  - {fileID: 658443218}
 --- !u!1 &1960619351
 GameObject:
   m_ObjectHideFlags: 0
@@ -16517,6 +16495,7 @@ GameObject:
   - component: {fileID: 2016928307}
   - component: {fileID: 2016928302}
   - component: {fileID: 2016928306}
+  - component: {fileID: 2016928308}
   m_Layer: 0
   m_Name: MOVABLE
   m_TagString: Untagged
@@ -16594,13 +16573,16 @@ MonoBehaviour:
   - {fileID: 3839595}
   - {fileID: 395077351}
   - {fileID: 1034778398}
+  ownPP: {fileID: 21300000, guid: d2f86406d4fd4dd419da1e1c1347b962, type: 3}
+  tPP: {fileID: 21300000, guid: 9a35fef351759074286d11e9c5de9bf5, type: 3}
+  ctPP: {fileID: 21300000, guid: 94f6770fa0822f548b9be8e362ce3f16, type: 3}
   maxLooks: 0
   playersHealthy: 0
   PLAYERS_START_HEALTHY: 100
-  isT: 0
-  gameMode: 0
   roundTime: 90
   startRounds: 12
+  defLookPintCT: 1
+  defLookPintT: 1
 --- !u!114 &2016928304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16656,6 +16638,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b233b39298d764d0c8843801e8a5fcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2016928308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016928300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df4097bc96e4c45f5a5ff6b431ea0985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botListDat: {fileID: 4900000, guid: 97dc110a922ef48e6a34c8ad845df033, type: 3}
 --- !u!1 &2020298226
 GameObject:
   m_ObjectHideFlags: 0
@@ -17182,7 +17177,7 @@ MonoBehaviour:
   isFiring: 0
   pendingDoActions: 0
   thisLokkingPos: 2
-  parrentGroup: {fileID: 1810105029}
+  parrentGroup: {fileID: 92571725}
   minFireTime: 0
   maxFireTime: 2
   hitted:
