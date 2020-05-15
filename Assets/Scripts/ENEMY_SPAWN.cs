@@ -9,13 +9,15 @@ public struct Action
     public long executeTime;
     public GameObject spawnPoint;
     public int healthy;
-    public String name; 
-    public Action(long executeTime, GameObject spawnPoint, int healthy, String name)
+    public String name;
+    public int id;
+    public Action(long executeTime, GameObject spawnPoint, int healthy, String name, int id)
     {
         this.executeTime = executeTime;
         this.spawnPoint = spawnPoint;
         this.healthy = healthy;
         this.name = name;
+        this.id = id;
     }
 
     public void addDelay(float delay)
@@ -75,15 +77,15 @@ public class ENEMY_SPAWN : MonoBehaviour
     {
         for (int i = 0; i < PLAYERS_COUNT; i++)
         {
-            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(firstHealthy, enemysNameList[i], (long)(firstMobWaitTime*1000));
+            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(i, firstHealthy, enemysNameList[i], (long)(firstMobWaitTime*1000));
         }
     }
 
-    public void newAction(GameObject spawnPoint, int healthy, String name, long delay)
+    public void newAction(GameObject spawnPoint, int healthy, String name, long delay, int id)
     {
         long exTime = generateRandomWaitTimeInMillis() + getLastTimeToExecute() + delay;
         lastExecutionTime = exTime;
-        actions.Enqueue(new Action(exTime, spawnPoint, healthy, name));
+        actions.Enqueue(new Action(exTime, spawnPoint, healthy, name, id));
     }
 
     public long getLastTimeToExecute()

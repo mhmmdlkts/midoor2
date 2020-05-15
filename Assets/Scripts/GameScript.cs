@@ -10,7 +10,8 @@ using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
-    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text, ammo;
+    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, 
+        t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text, ammo;
     public GameObject[] T_aimPoints; // B, Mid, Long
     public GameObject[] CT_aimPoints; // Long, Mid, B
     public Sprite ownPP, tPP, ctPP;
@@ -240,6 +241,7 @@ public class GameScript : MonoBehaviour
         
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
         info.GetComponent<deathInfo>().configure(isT, 0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
+        deactivePP(isT, enemy.GetComponent<enemy>().id);
         enemyCount--;
         kills++;
         switch (enemyCount)
@@ -252,6 +254,42 @@ public class GameScript : MonoBehaviour
                 ppSetActive(false);
                 allKilled();
                 break;
+        }
+    }
+
+    private void deactivePP(bool forCT, int id)
+    {
+        if (forCT)
+        {
+            switch (id)
+            {
+                case 0: ct1.SetActive(false);
+                    break;
+                case 1: ct2.SetActive(false);
+                    break;
+                case 2: ct3.SetActive(false);
+                    break;
+                case 3: ct4.SetActive(false);
+                    break;
+                case 4: ct5.SetActive(false);
+                    break;
+            }
+        }
+        else
+        {
+            switch (id)
+            {
+                case 0: t1.SetActive(false);
+                    break;
+                case 1: t2.SetActive(false);
+                    break;
+                case 2: t3.SetActive(false);
+                    break;
+                case 3: t4.SetActive(false);
+                    break;
+                case 4: t5.SetActive(false);
+                    break;
+            }
         }
     }
 

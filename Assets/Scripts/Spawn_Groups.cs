@@ -16,11 +16,11 @@ public class Spawn_Groups : MonoBehaviour
         rnd = new Random();
     }
 
-    public void creatInARandomPointMob(int healthy, String name, long delay)
+    public void creatInARandomPointMob(int id, int healthy, String name, long delay)
     {
         if (rnd.Next() % 2 == 0) 
-            mobGen.GetComponent<ENEMY_SPAWN>().newAction(mainSpawnPoint, healthy, name, delay);
+            mobGen.GetComponent<ENEMY_SPAWN>().newAction(mainSpawnPoint, healthy, name, delay, id);
         else
-            mobGen.GetComponent<ENEMY_SPAWN>().newAction(spawnPoints[rnd.Next(0,spawnPoints.Length)], healthy, name, delay);
+            mobGen.GetComponent<ENEMY_SPAWN>().newAction(spawnPoints[rnd.Next(0,spawnPoints.Length)], healthy, name, delay, id);
     }
 }

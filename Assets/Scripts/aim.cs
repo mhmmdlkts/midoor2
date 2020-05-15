@@ -79,6 +79,8 @@ public class aim : MonoBehaviour
 
     public int aimResistance()
     {
+        if (enemy == null)
+            return 0;
         if (!isOnAim())
             return -1;
         if (LAST_RES_Z_5 < enemy.GetComponent<Transform>().position.z)

@@ -722,7 +722,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84469340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -50.03, z: 0}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1413545066}
@@ -740,11 +740,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f47ecfa865dd4d1898e965f7fc6357c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobGen: {fileID: 1892932575}
+  mobGen: {fileID: 1180569294}
   mainSpawnPoint: {fileID: 1150542293}
   spawnPoints:
-  - {fileID: 1049301163}
-  - {fileID: 658443218}
+  - {fileID: 1794837382}
+  - {fileID: 838160014}
 --- !u!1 &92571725
 GameObject:
   m_ObjectHideFlags: 0
@@ -12179,7 +12179,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1263239114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -6.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 285056814}
@@ -12342,7 +12342,7 @@ GameObject:
   - component: {fileID: 1348499647}
   - component: {fileID: 1348499646}
   m_Layer: 0
-  m_Name: CAR
+  m_Name: CAR_DOWN
   m_TagString: HARD_3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15541,11 +15541,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f47ecfa865dd4d1898e965f7fc6357c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobGen: {fileID: 1892932575}
+  mobGen: {fileID: 1180569294}
   mainSpawnPoint: {fileID: 229535613}
   spawnPoints:
-  - {fileID: 1385763640}
-  - {fileID: 2068827356}
+  - {fileID: 70531813}
+  - {fileID: 1416907299}
 --- !u!4 &1810105031
 Transform:
   m_ObjectHideFlags: 0
@@ -15554,7 +15554,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1810105029}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -50.03, z: 0}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1413545066}

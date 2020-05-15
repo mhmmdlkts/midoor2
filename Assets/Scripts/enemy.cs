@@ -9,6 +9,7 @@ public class enemy : MonoBehaviour
     public int healthy;
     public GameObject fireParticle;
     public bool isFiring;
+    public int id;
 
     private ParticleSystem particleSystem;
     
@@ -19,20 +20,17 @@ public class enemy : MonoBehaviour
         gameObject.GetComponent<Renderer>().sortingLayerName = "Foreground";
     }
 
-    public void setName(String name)
+    public void setEnemy(Action action)
     {
-        this.name = name;
-    }
-
-    public void setHealty(int healthy)
-    {
-        this.healthy = healthy;
+        this.id = action.id;
+        this.name = action.name;
+        this.healthy = action.healthy;
     }
 
     public int giveDamage(int damage)
     {
         GetComponent<ParticleSystem>().Emit(damage*2);
-        setHealty(healthy-damage);
+        healthy -= damage;
         return healthy;
     }
 

@@ -122,8 +122,7 @@ public class mobGoDesPoint : MonoBehaviour
     public void spawnMob(Action action)
     {
         createdMob = Instantiate(mob, gameObject.transform.position, gameObject.transform.rotation);
-        createdMob.GetComponent<enemy>().setHealty(action.healthy);
-        createdMob.GetComponent<enemy>().setName(action.name);
+        createdMob.GetComponent<enemy>().setEnemy(action);
     }
 
     public void goPicking()
@@ -188,9 +187,10 @@ public class mobGoDesPoint : MonoBehaviour
     public void changePoint()
     {
         int healthy = createdMob.GetComponent<enemy>().healthy;
+        int id = createdMob.GetComponent<enemy>().id;
         String name = createdMob.GetComponent<enemy>().name;
         Destroy(createdMob);
-        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(healthy, name, (long)(arriveDelay*1000));   
+        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(id, healthy, name, (long)(arriveDelay*1000));   
     }
 
     public void pick()
