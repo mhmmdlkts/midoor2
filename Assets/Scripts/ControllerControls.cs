@@ -6,7 +6,7 @@ public class ControllerControls : MonoBehaviour
 {
     public GameObject shot_button, zoom_button;
 
-    public static bool isUsingJoystick;
+    public static bool isUsingJoystick, isUsingArrows;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +32,8 @@ public class ControllerControls : MonoBehaviour
         {
             gameObject.GetComponent<ChangeShow>().lookRight();
         }
-        if (isUsingJoystick = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-        {
-        } 
+
+        isUsingJoystick = (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) && !DeveloperHelper.developerMode;
+        isUsingArrows = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow);
     }
 }

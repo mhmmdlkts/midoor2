@@ -55,6 +55,7 @@
           <e p="EndGameShow.cs" t="Include" />
           <e p="EndRoundShow.cs" t="Include" />
           <e p="enemy.cs" t="Include" />
+          <e p="ENEMY_SPAWN.cs" t="Include" />
           <e p="GameScript.cs" t="Include" />
           <e p="GetRandomEnemyName.cs" t="Include" />
           <e p="HomeButton.cs" t="Include" />

@@ -259,7 +259,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: midoor3d.keystore'
+  AndroidKeystoreName: '{dedicated}: Desktop/midoor3d.keystore'
   AndroidKeyaliasName: upload
   AndroidBuildApkPerCpuArchitecture: 1
   AndroidTVCompatibility: 0

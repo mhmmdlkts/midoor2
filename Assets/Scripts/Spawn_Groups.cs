@@ -19,8 +19,8 @@ public class Spawn_Groups : MonoBehaviour
     public void creatInARandomPointMob(int healthy, String name, long delay)
     {
         if (rnd.Next() % 2 == 0) 
-            mobGen.GetComponent<CT_SPAWN>().newAction(mainSpawnPoint, healthy, name, delay);
+            mobGen.GetComponent<ENEMY_SPAWN>().newAction(mainSpawnPoint, healthy, name, delay);
         else
-            mobGen.GetComponent<CT_SPAWN>().newAction(spawnPoints[rnd.Next(0,spawnPoints.Length)], healthy, name, delay);
+            mobGen.GetComponent<ENEMY_SPAWN>().newAction(spawnPoints[rnd.Next(0,spawnPoints.Length)], healthy, name, delay);
     }
 }

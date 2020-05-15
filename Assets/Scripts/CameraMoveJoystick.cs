@@ -25,7 +25,7 @@ public class CameraMoveJoystick : MonoBehaviour
         gameScript = GameObject.Find("MOVABLE").GetComponent<GameScript>();
         whereIsLooking = GameScript.isLokingIn;
         if (JoystickMove.pressed || ControllerControls.isUsingJoystick)
-            moveAim(joystickMove.getHorizontal(), joystickMove.getVertical(), gameScript.aimPoints[whereIsLooking].GetComponent<Transform>().position);
+            moveAim(joystickMove.getHorizontal(), joystickMove.getVertical(), gameScript.getAimPoints(whereIsLooking).GetComponent<Transform>().position);
     }
     
     private void moveAim(float hor, float ver, Vector3 firstPos)

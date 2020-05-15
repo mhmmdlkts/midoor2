@@ -20,7 +20,8 @@ public class JoystickMove : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
     // Update is called once per frame
     void Update()
     {
-      if (ControllerControls.isUsingJoystick)
+      
+      if (ControllerControls.isUsingJoystick && !ControllerControls.isUsingArrows)
       {
         tmpVer = Input.GetAxis("Vertical");
         tmpHor = Input.GetAxis("Horizontal");

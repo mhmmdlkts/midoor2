@@ -10,15 +10,19 @@ using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
-    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, sp0, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text, ammo;
-    public GameObject[] aimPoints; // B, Mid, Long
+    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text, ammo;
+    public GameObject[] T_aimPoints; // B, Mid, Long
+    public GameObject[] CT_aimPoints; // Long, Mid, B
+    public Sprite ownPP, tPP, ctPP;
     public int maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
     public static int isLokingIn;
+    public static bool isT;
+    public static int gameMode; // 0: Ranked
 
     public static String yourName;
-    private int time, ctCount, tScore, ctScore, kills;
+    private int time, enemyCount, tScore, ctScore, kills;
     public int roundTime;
-    public int startRounds;
+    public int startRounds, defLookPintCT = 1, defLookPintT = 1;
     private static readonly int WIN_SCORE = 16;
     public static bool isStoped = true;
 
@@ -27,14 +31,30 @@ public class GameScript : MonoBehaviour
     
     void Start()
     {
+        Application.targetFrameRate = 300;
+        
+        isT = true;
+        gameMode = 0;
+        
         kills = 0;
         ctScore = startRounds;
         tScore = startRounds;
         rank = PlayerPrefs.GetInt("rank",4);
         yourName = PlayerPrefs.GetString("name", "Mali");
-        isLokingIn = 1; // Mid
-        maxLooks = aimPoints.Length;
+        maxLooks = isT ? T_aimPoints.Length : CT_aimPoints.Length;
+        resetLook();
         newRound();
+    }
+
+    public void resetLook()
+    {
+        setLook(isT ? defLookPintT : defLookPintCT);
+    }
+
+    public void switchTeam()
+    {
+        isT = !isT;
+        resetLook();
     }
 
     public void givePlayerDamage(int damage, int weaponCode, bool isHead, GameObject enemy)
@@ -120,17 +140,21 @@ public class GameScript : MonoBehaviour
 
     void newRound()
     {
+        ppReset();
+        //ppSetActive(true);
         ammo.GetComponent<ammoPanel>().resetAmmo();
         isStoped = false;
         setHealthy(PLAYERS_START_HEALTHY);
         killAllMobs();
         setTime(roundTime);
         startCountdown();
-        ctCount = 5;
+        enemyCount = 5;
         updateScore();
-        sp0.GetComponent<CT_SPAWN>().creatFirstStrategy();
-        ppSetActive(true);
-        setLook(isLokingIn = 1);
+        if(isT)
+            mobGenT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
+        else
+            mobGenCT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
+        setLook(1);
     }
 
     void endRound()
@@ -144,11 +168,17 @@ public class GameScript : MonoBehaviour
         }
         if (tScore >= WIN_SCORE)
         {
-            gameWin();
+            if (isT)
+                gameWin();
+            else
+                gameLose();
         } 
         else if (ctScore >= WIN_SCORE)
         {
-            gameLose();
+            if (isT)
+                gameLose();
+            else
+                gameWin();
         }
         else
         {
@@ -163,22 +193,28 @@ public class GameScript : MonoBehaviour
 
     private void roundWin()
     {
-        tScore++;
-        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(true);
+        if (isT)
+            tScore++;
+        else
+            ctScore++;
+        StartCoroutine(showDialgNextFrame(true));
         endRound();
     }
     
     private void roundLose()
     {
-        ctScore++;
-        StartCoroutine(showDialgNextFrame());
+        if (isT)
+            ctScore++;
+        else
+            tScore++;
+        StartCoroutine(showDialgNextFrame(false));
         endRound();
     }
 
-    private IEnumerator showDialgNextFrame()
+    private IEnumerator showDialgNextFrame(bool roundWinn)
     {
         yield return new WaitForEndOfFrame();
-        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(false);
+        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(isT?roundWinn:!roundWinn);
     }
 
     void updateScore()
@@ -203,10 +239,10 @@ public class GameScript : MonoBehaviour
         Destroy(enemy);
         
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
-        info.GetComponent<deathInfo>().configure(true, 0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
-        ctCount--;
+        info.GetComponent<deathInfo>().configure(isT, 0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
+        enemyCount--;
         kills++;
-        switch (ctCount)
+        switch (enemyCount)
         {
             case 4: case 3: case 2: case 1:
                 ppSetActive(false);
@@ -217,6 +253,34 @@ public class GameScript : MonoBehaviour
                 allKilled();
                 break;
         }
+    }
+
+    private void ppReset()
+    {
+        
+        t1.SetActive(true);
+        t2.SetActive(true);
+        t3.SetActive(true);
+        t4.SetActive(true);
+        t5.SetActive(true);
+
+        t1.GetComponent<Image>().sprite = isT? ownPP : tPP;
+        t2.GetComponent<Image>().sprite = tPP;
+        t3.GetComponent<Image>().sprite = tPP;
+        t4.GetComponent<Image>().sprite = tPP;
+        t5.GetComponent<Image>().sprite = tPP;
+        
+        ct1.SetActive(true);
+        ct2.SetActive(true);
+        ct3.SetActive(true);
+        ct4.SetActive(true);
+        ct5.SetActive(true);
+
+        ct1.GetComponent<Image>().sprite = isT? ctPP : ownPP;
+        ct2.GetComponent<Image>().sprite = ctPP;
+        ct3.GetComponent<Image>().sprite = ctPP;
+        ct4.GetComponent<Image>().sprite = ctPP;
+        ct5.GetComponent<Image>().sprite = ctPP;
     }
 
     private bool[] bArr = new bool[5];
@@ -252,12 +316,24 @@ public class GameScript : MonoBehaviour
 
             bArr[rnd] = false;
         }
-        ct1.SetActive(bArr[0]);
-        ct2.SetActive(bArr[1]);
-        ct3.SetActive(bArr[2]);
-        ct4.SetActive(bArr[3]);
-        ct5.SetActive(bArr[4]);
-        
+
+        if (isT)
+        {
+            ct1.SetActive(bArr[0]);
+            ct2.SetActive(bArr[1]);
+            ct3.SetActive(bArr[2]);
+            ct4.SetActive(bArr[3]);
+            ct5.SetActive(bArr[4]);
+        }
+        else
+        {
+            t1.SetActive(bArr[0]);
+            t2.SetActive(bArr[1]);
+            t3.SetActive(bArr[2]);
+            t4.SetActive(bArr[3]);
+            t5.SetActive(bArr[4]);
+        }
+
     }
 
     void killAllMobs()
@@ -271,20 +347,26 @@ public class GameScript : MonoBehaviour
     {
         if (isLokingIn <= 0)
             return;
-        setLook(--isLokingIn);
+        setLook(isLokingIn-1);
     }
 
     public void lookRight()
     {
         if (isLokingIn >= maxLooks-1)
             return;
-        setLook(++isLokingIn);
+        setLook(isLokingIn+1);
     }
 
     void setLook(int lookAt)
     {
-        GameObject looks = aimPoints[lookAt];
+        isLokingIn = lookAt;
+        GameObject looks = getAimPoints(lookAt);
         gameObject.GetComponent<Transform>().position = looks.GetComponent<Transform>().position;
+    }
+
+    public GameObject getAimPoints(int lookAt)
+    {
+        return isT ? T_aimPoints[lookAt] : CT_aimPoints[lookAt];
     }
     
 }

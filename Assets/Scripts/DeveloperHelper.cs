@@ -10,6 +10,7 @@ public class DeveloperHelper : MonoBehaviour
     private GameObject or;
     private GameObject dialog;
     private ParticleSystem partical;
+    public static bool developerMode = true;
     void Start()
     {
         partical = GameObject.Find("partical").GetComponent<ParticleSystem>();
@@ -18,25 +19,25 @@ public class DeveloperHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("h"))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             gameObject.GetComponent<ChangeShow>().lookRight();
         }
-        if (Input.GetKeyDown("f"))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             gameObject.GetComponent<ChangeShow>().lookLeft();
         }
-        if (Input.GetKeyDown("t"))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             zoom_button.GetComponent<ZoomButtonHandler>().zoom();
         }
-        if (Input.GetKeyDown("g"))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             shot_button.GetComponent<ShotButtonHandler>().shot();
         }
-        if (Input.GetKeyDown("v"))
+        if (Input.GetKeyDown("m"))
         {
-            
+            GameObject.Find("MOVABLE").GetComponent<GameScript>().switchTeam();
         }
         if (Input.GetKeyDown("r"))
         {
