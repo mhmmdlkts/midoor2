@@ -88,6 +88,12 @@ public class ENEMY_SPAWN : MonoBehaviour
         actions.Enqueue(new Action(exTime, spawnPoint, healthy, name, id));
     }
 
+    public void resetActions()
+    {
+        actions.Clear();
+        lastExecutionTime = CurrentTimeMillis();
+    }
+
     public long getLastTimeToExecute()
     {
         if (actions.Count == 0)

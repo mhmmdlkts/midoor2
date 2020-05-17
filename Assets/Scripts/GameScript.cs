@@ -132,6 +132,7 @@ public class GameScript : MonoBehaviour
     void endGame(int isWinn)
     {
         canvas.GetComponent<ShowDialogs>().showGameEndDialog(isWinn, kills);
+        
     }
 
     public void quitGame()
@@ -161,6 +162,7 @@ public class GameScript : MonoBehaviour
     void endRound()
     {
         isStoped = true;
+        mobGenT.GetComponent<ENEMY_SPAWN>().resetActions();
         CancelInvoke("countdown");
         updateScore();
         if (tScore == 15 && ctScore == 15)
