@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 42afe87695da54bae895f24024afbaf9
   - enabled: 1
+    path: Assets/Scenes/Online_Ranked.unity
+    guid: 74611da542cc94f84b1f12fac2036650
+  - enabled: 1
     path: Assets/Scenes/Dust2_T_MID.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

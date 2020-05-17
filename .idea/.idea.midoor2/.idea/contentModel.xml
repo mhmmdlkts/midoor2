@@ -62,6 +62,7 @@
           <e p="JoystickMove.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
+          <e p="OnlineRoom.cs" t="Include" />
           <e p="ShotButtonHandler.cs" t="Include" />
           <e p="ShowDialogs.cs" t="Include" />
           <e p="showWin.cs" t="Include" />

@@ -38,6 +38,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Assets/Scenes/Dust2_T_MID.unity", LoadSceneMode.Single);
     }
     
+    public void button_onlineRanked()
+    {
+        SceneManager.LoadScene("Assets/Scenes/Online_Ranked.unity", LoadSceneMode.Single);
+    }
+    
     public void button_set_name()
     {
         inputName.SetActive(true);
