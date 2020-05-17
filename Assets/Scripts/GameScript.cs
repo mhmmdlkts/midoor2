@@ -21,9 +21,9 @@ public class GameScript : MonoBehaviour
     public static int gameMode; // 0: Ranked
 
     public static String yourName;
-    private int time, enemyCount, tScore, ctScore, kills;
+    private int time, enemyCount, tScore, ctScore, kills, round;
     public int roundTime;
-    public int startRounds, defLookPintCT = 1, defLookPintT = 1;
+    public int round_per_half, defLookPintCT = 1, defLookPintT = 1;
     private static readonly int WIN_SCORE = 16;
     public static bool isStoped = true;
 
@@ -33,13 +33,13 @@ public class GameScript : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 300;
-        
-        isT = true;
+        isT = Random.Range(0,2) == 1;
         gameMode = 0;
         
         kills = 0;
-        ctScore = startRounds;
-        tScore = startRounds;
+        round = (WIN_SCORE - round_per_half);
+        ctScore = round / 2;
+        tScore = round - ctScore;
         rank = PlayerPrefs.GetInt("rank",4);
         yourName = PlayerPrefs.GetString("name", "Mali");
         maxLooks = isT ? T_aimPoints.Length : CT_aimPoints.Length;
@@ -55,7 +55,13 @@ public class GameScript : MonoBehaviour
     public void switchTeam()
     {
         isT = !isT;
+        int scoreTmp = tScore;
+        tScore = ctScore + (WIN_SCORE - round_per_half) / 2;
+        ctScore = scoreTmp + (WIN_SCORE - round_per_half) / 2;
+        updateScore();
+        
         resetLook();
+        ppReset();
     }
 
     public void givePlayerDamage(int damage, int weaponCode, bool isHead, GameObject enemy)
@@ -142,6 +148,7 @@ public class GameScript : MonoBehaviour
 
     void newRound()
     {
+        round++;
         ppReset();
         //ppSetActive(true);
         ammo.GetComponent<ammoPanel>().resetAmmo();
@@ -169,7 +176,7 @@ public class GameScript : MonoBehaviour
         {
             gameTied();
         }
-        if (tScore >= WIN_SCORE)
+        else if (tScore >= WIN_SCORE)
         {
             if (isT)
                 gameWin();
@@ -185,6 +192,10 @@ public class GameScript : MonoBehaviour
         }
         else
         {
+            if (round == 15)
+            {
+                switchTeam();
+            }
             Invoke("newRound",EndRoundShow.stayTime);
         }
     }
@@ -249,11 +260,8 @@ public class GameScript : MonoBehaviour
         switch (enemyCount)
         {
             case 4: case 3: case 2: case 1:
-                ppSetActive(false);
-                //sp0.GetComponent<mob>().creatMob();
                 break;
             case 0:
-                ppSetActive(false);
                 allKilled();
                 break;
         }
@@ -324,57 +332,6 @@ public class GameScript : MonoBehaviour
     }
 
     private bool[] bArr = new bool[5];
-
-    void ppSetActive(bool b)
-    {
-        if (b)
-        {
-            for (int i = 0; i < bArr.Length; i++)
-            {
-                bArr[i] = true;
-            }
-        }
-        else
-        {
-            int j = 0;
-            for (int i = 0; i < bArr.Length; i++)
-            {
-                if (bArr[i])
-                {
-                    j++;
-                }
-            }
-            if (j == 0)
-            {
-                return;
-            }
-            int rnd;
-            do
-            {
-                rnd = Random.Range(0, 5);
-            } while (!bArr[rnd]);
-
-            bArr[rnd] = false;
-        }
-
-        if (isT)
-        {
-            ct1.SetActive(bArr[0]);
-            ct2.SetActive(bArr[1]);
-            ct3.SetActive(bArr[2]);
-            ct4.SetActive(bArr[3]);
-            ct5.SetActive(bArr[4]);
-        }
-        else
-        {
-            t1.SetActive(bArr[0]);
-            t2.SetActive(bArr[1]);
-            t3.SetActive(bArr[2]);
-            t4.SetActive(bArr[3]);
-            t5.SetActive(bArr[4]);
-        }
-
-    }
 
     void killAllMobs()
     {
