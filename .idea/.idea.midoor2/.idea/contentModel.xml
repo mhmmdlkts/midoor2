@@ -213,6 +213,7 @@
           <e p="mobGoDesPoint.cs" t="Include" />
           <e p="OnlineMenu.cs" t="Include" />
           <e p="OnlineRoom.cs" t="Include" />
+          <e p="PlayerStatus.cs" t="Include" />
           <e p="ShotButtonHandler.cs" t="Include" />
           <e p="ShowDialogs.cs" t="Include" />
           <e p="showWin.cs" t="Include" />
@@ -228,6 +229,7 @@
               <e p="midRightSpawn.cs" t="Include" />
             </e>
           </e>
+          <e p="TeamEditor.cs" t="Include" />
           <e p="TextLoading.cs" t="Include" />
           <e p="ZoomButtonHandler.cs" t="Include" />
         </e>
