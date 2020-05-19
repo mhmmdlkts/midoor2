@@ -38,6 +38,7 @@ MonoBehaviour:
   - ReceivePP
   - ReceiveRank
   - ReceiveWins
+  - ReceiveTeam
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

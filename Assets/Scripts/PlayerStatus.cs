@@ -8,15 +8,15 @@ public class PlayerStatus : MonoBehaviour
 {
     public GameObject pp, name, money, wins, rank, inputName;
     public Sprite[] rankList;
+    TouchScreenKeyboard keyboard;
     void Start()
     {
         setStatus();
-        
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done)
         {
             finishTyping();
         }
@@ -34,7 +34,7 @@ public class PlayerStatus : MonoBehaviour
     {
         inputName.SetActive(true);
         name.SetActive(false);
-        TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true, true);
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true, true);
         EventSystem.current.SetSelectedGameObject(inputName.gameObject, null);
     }
 

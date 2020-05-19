@@ -3,6 +3,7 @@ using System.Text;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -13,7 +14,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] byte maxPlayersPerRoom;
     [SerializeField] private GameObject progressLabel;
     [SerializeField] private GameObject him;
-    
+    private bool isT;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -80,14 +81,20 @@ public class Launcher : MonoBehaviourPunCallbacks
         setSearching(false);
         sendStatus();
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-        {
-            //PhotonNetwork.LoadLevel("Room for 1");
-        }
+        
 
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+        }
+    }
+
+    public void startGame()
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            isT = Random.Range(0,2) == 1;
+            photonView.RPC("ReceiveTeam", RpcTarget.All, SeializeBool(!isT));
         }
     }
 
@@ -119,6 +126,39 @@ public class Launcher : MonoBehaviourPunCallbacks
         return BitConverter.ToInt32(b,0);
     }
     
+    [Serializable]
+    public class SerializeTexture
+    {
+        [SerializeField]
+        public int x;
+        [SerializeField]
+        public int y;
+        [SerializeField]
+        public byte[] bytes;
+    }
+
+    private byte[] SeializeSprite(Sprite sprite)
+    {
+        return sprite.texture.GetRawTextureData();
+    }
+
+    private Sprite DeseializeSprite(byte[] b)
+    {
+        Texture2D a = null;//Texture2D.LoadImage();
+        Sprite sp = Sprite.Create(a, new Rect(0.0f, 0.0f, 100f, 100f), new Vector2(0.5f, 0.5f), 100.0f);
+        return sp;
+    }
+
+    private byte[] SeializeBool(bool logic)
+    {
+        return BitConverter.GetBytes(logic);
+    }
+
+    private bool DeseializeBool(byte[] b)
+    {
+        return BitConverter.ToBoolean(b,0);
+    }
+    
     [PunRPC]
     void ReceiveName(byte[] b)
     {
@@ -138,9 +178,22 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     
     [PunRPC]
+    void ReceiveTeam(byte[] b)
+    {
+        isT = DeseializeBool(b);
+        onlineMenu.setMyTeam(PhotonNetwork.IsMasterClient? !isT : isT);
+        loadGame();
+    }
+    
+    [PunRPC]
     void ReceivePP(byte[] b)
     {
-        
+        onlineMenu.setHisPP(DeseializeSprite(b));
+    }
+
+    private void loadGame()
+    {
+        PhotonNetwork.LoadLevel("Assets/Scenes/Dust2_T_MID.unity");
     }
     
     public override void OnPlayerLeftRoom(Player other)

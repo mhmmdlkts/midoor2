@@ -29,11 +29,23 @@ public class GameScript : MonoBehaviour
 
     public static int rank;
     public static int tot_rank = 18;
+
+    private OnlineData online_data;
+    private static bool isOnline;
+    private static string[] myTeam;
+    private static string[] otherTeam;
+    private static int otherRank;
+    private Sprite otherPP;
+    
     
     void Start()
     {
+        isOnline = GameObject.Find("Data") != null;
+        if (isOnline) online_data = GameObject.Find("Data").GetComponent<OnlineData>();
+        myTeam = new string[enemyCount];
+        otherTeam = new string[enemyCount];
         Application.targetFrameRate = 300;
-        isT = Random.Range(0,2) == 1;
+        isT = isOnline? online_data.isT_me : Random.Range(0,2) == 1;
         gameMode = 0;
         
         kills = 0;
@@ -150,7 +162,6 @@ public class GameScript : MonoBehaviour
     {
         round++;
         ppReset();
-        //ppSetActive(true);
         ammo.GetComponent<ammoPanel>().resetAmmo();
         isStoped = false;
         setHealthy(PLAYERS_START_HEALTHY);
@@ -159,11 +170,14 @@ public class GameScript : MonoBehaviour
         startCountdown();
         enemyCount = 5;
         updateScore();
-        if(isT)
-            mobGenT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
-        else
-            mobGenCT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
         setLook(1);
+        if (!isOnline)
+        {
+            if (isT)
+                mobGenT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
+            else
+                mobGenCT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
+        }
     }
 
     void endRound()
@@ -312,6 +326,7 @@ public class GameScript : MonoBehaviour
         t4.SetActive(true);
         t5.SetActive(true);
 
+        //t1.GetComponent<Image>().sprite = isT? ownPP : (isOnline? otherPP : ctPP);
         t1.GetComponent<Image>().sprite = isT? ownPP : tPP;
         t2.GetComponent<Image>().sprite = tPP;
         t3.GetComponent<Image>().sprite = tPP;
@@ -324,14 +339,13 @@ public class GameScript : MonoBehaviour
         ct4.SetActive(true);
         ct5.SetActive(true);
 
+        //ct1.GetComponent<Image>().sprite = isT? (isOnline? otherPP : ctPP) : ownPP;
         ct1.GetComponent<Image>().sprite = isT? ctPP : ownPP;
         ct2.GetComponent<Image>().sprite = ctPP;
         ct3.GetComponent<Image>().sprite = ctPP;
         ct4.GetComponent<Image>().sprite = ctPP;
         ct5.GetComponent<Image>().sprite = ctPP;
     }
-
-    private bool[] bArr = new bool[5];
 
     void killAllMobs()
     {

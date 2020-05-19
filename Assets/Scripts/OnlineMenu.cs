@@ -12,7 +12,8 @@ public class OnlineMenu : MonoBehaviour
     public int money, rank, wins;
     public string name;
     public GameObject pp_me, name_me, money_me, wins_me, rank_me;
-    public GameObject _pp_him, name_him, money_him, wins_him, rank_him;
+    public GameObject pp_him, name_him, money_him, wins_him, rank_him;
+    public OnlineData data;
     public Sprite[] rankList;
     void Start()
     {
@@ -40,7 +41,7 @@ public class OnlineMenu : MonoBehaviour
     
     public void button_online_ranked_room()
     {
-        // TODO
+        gameObject.GetComponent<Launcher>().startGame();
     }
     
     public void button_leave_room()
@@ -51,16 +52,30 @@ public class OnlineMenu : MonoBehaviour
 
     public void setHisName(string name)
     {
+        data.name_him = name;
         name_him.GetComponent<Text>().text = name;
     }
 
     public void setHisRank(int rank)
     {
+        data.rank_him = rank;
         rank_him.GetComponent<Image>().sprite = rankList[rank];
     }
 
     public void setHisWins(int wins)
     {
+        data.wins_him = wins;
         wins_him.GetComponent<Text>().text = "$" + wins;
+    }
+
+    public void setHisPP(Sprite sprite)
+    {
+        data.pp_him = sprite;
+        pp_him.GetComponent<Image>().sprite = sprite;
+    }
+
+    public void setMyTeam(bool isT)
+    {
+        data.isT_me = isT;
     }
 }
