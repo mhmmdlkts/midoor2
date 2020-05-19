@@ -203,10 +203,12 @@
           <e p="EndRoundShow.cs" t="Include" />
           <e p="enemy.cs" t="Include" />
           <e p="ENEMY_SPAWN.cs" t="Include" />
+          <e p="GameManager.cs" t="Include" />
           <e p="GameScript.cs" t="Include" />
           <e p="GetRandomEnemyName.cs" t="Include" />
           <e p="HomeButton.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
+          <e p="Launcher.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
           <e p="OnlineMenu.cs" t="Include" />
@@ -225,6 +227,7 @@
               <e p="midRightSpawn.cs" t="Include" />
             </e>
           </e>
+          <e p="TextLoading.cs" t="Include" />
           <e p="ZoomButtonHandler.cs" t="Include" />
         </e>
       </e>
