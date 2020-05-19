@@ -211,7 +211,11 @@
           <e p="Launcher.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
+<<<<<<< HEAD
           <e p="OnlineMenu.cs" t="Include" />
+=======
+          <e p="OnlineRoom.cs" t="Include" />
+>>>>>>> cd553a4a379cce51022b872704fb8cc89c755731
           <e p="ShotButtonHandler.cs" t="Include" />
           <e p="ShowDialogs.cs" t="Include" />
           <e p="showWin.cs" t="Include" />
