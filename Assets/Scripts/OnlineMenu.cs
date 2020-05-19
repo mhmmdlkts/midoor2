@@ -19,11 +19,6 @@ public class OnlineMenu : MonoBehaviour
         setStatus();
     }
 
-    void Update()
-    {
-        
-    }
-
     private void setStatus()
     {
         wins = PlayerPrefs.GetInt("total_wins",0);
@@ -43,20 +38,15 @@ public class OnlineMenu : MonoBehaviour
         rank_him.GetComponent<Image>().sprite = rankList[rank];
     }
     
-    public void button_ranked_room()
+    public void button_online_ranked_room()
     {
-        SceneManager.LoadScene("Assets/Scenes/Online_Ranked.unity", LoadSceneMode.Single);
+        // TODO
     }
     
-    public void button_join_room()
+    public void button_leave_room()
     {
         gameObject.GetComponent<Launcher>().LeaveRoom();
         SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
-    }
-    
-    public void button_create_room()
-    {
-        
     }
 
     public void setHisName(string name)
