@@ -192,6 +192,7 @@
         <e p="Scripts" t="Include">
           <e p="aim.cs" t="Include" />
           <e p="ammoPanel.cs" t="Include" />
+          <e p="are_you_sure.cs" t="Include" />
           <e p="BloodieScreen.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
           <e p="ChangeShow.cs" t="Include" />
@@ -217,6 +218,7 @@
           <e p="OnlineRoom.cs" t="Include" />
           <e p="PlayerStatus.cs" t="Include" />
           <e p="SafeArea.cs" t="Include" />
+          <e p="Set_Team_dialog.cs" t="Include" />
           <e p="ShotButtonHandler.cs" t="Include" />
           <e p="ShowDialogs.cs" t="Include" />
           <e p="showWin.cs" t="Include" />

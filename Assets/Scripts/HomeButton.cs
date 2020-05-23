@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class HomeButton : MonoBehaviour
 {
+    public GameObject dialog;
     public void quitGame()
     {
-        gameObject.GetComponent<GameScript>().quitGame();
+        Instantiate(dialog, dialog.transform.position, dialog.transform.rotation);
     }
 }

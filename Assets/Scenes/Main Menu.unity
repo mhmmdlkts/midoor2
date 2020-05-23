@@ -432,6 +432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9be1f73727641da85bf29b5d44c0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  set_team_dialog: {fileID: 9124826966209643529, guid: fccd0a63b64294f9dad2b38aa3e7b9d5,
+    type: 3}
   myTeam: []
 --- !u!20 &217732066
 Camera:

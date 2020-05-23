@@ -27,7 +27,7 @@ public class PlayerStatus : MonoBehaviour
         wins.GetComponent<Text>().text = PlayerPrefs.GetInt("total_wins",0) + "";
         money.GetComponent<Text>().text = "$" + PlayerPrefs.GetInt("money",0);
         rank.GetComponent<Image>().sprite = rankList[PlayerPrefs.GetInt("rank", 4)];
-        name.GetComponent<Text>().text = PlayerPrefs.GetString("name", "Mali");
+        name.GetComponent<Text>().text = PlayerPrefs.GetString("name", "Set Your Name");
     }
     
     public void button_set_name()
