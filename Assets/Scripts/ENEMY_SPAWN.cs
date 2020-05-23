@@ -44,11 +44,11 @@ public class ENEMY_SPAWN : MonoBehaviour
     public Queue<Action> actions;
     public int actionsSize;
     public GameObject enemy, main;
+    private GameScript game;
     private GameObject[] enemyClone;
     private long lastExecutionTime;
     public GameObject[] spawnPointGroups;
     public static int firstHealthy = 100;
-    private List<String> enemysNameList;
     public float firstMobWaitTime;
 
     Random rnd;
@@ -58,10 +58,10 @@ public class ENEMY_SPAWN : MonoBehaviour
 
     void Start()
     {
+        game = main.GetComponent<GameScript>();
         rnd = new Random();
         actions = new Queue<Action>();
         enemyClone = new GameObject[PLAYERS_COUNT];
-        enemysNameList = new List<String>();
         
     }
 
@@ -80,12 +80,12 @@ public class ENEMY_SPAWN : MonoBehaviour
         {
             main.GetComponent<GetRandomEnemyName>().initNames();
             for (int i = 0; i < count; i++)
-                enemysNameList.Add(main.GetComponent<GetRandomEnemyName>().getRandomName());
+                game.enemysNameList.Add(main.GetComponent<GetRandomEnemyName>().getRandomName());
         }
         else
         {
             for (int i = 0; i < count; i++)
-                enemysNameList.Add(main.GetComponent<GameScript>().online_data.otherTeam[i]);
+                game.enemysNameList.Add(main.GetComponent<GameScript>().online_data.otherTeam[i]);
         }
     }
 
@@ -98,7 +98,8 @@ public class ENEMY_SPAWN : MonoBehaviour
     {
         for (int i = 0; i < PLAYERS_COUNT; i++)
         {
-            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(i, firstHealthy, enemysNameList[i], (long)(firstMobWaitTime*1000),strategy);
+            Debug.Log(spawnPointGroups.Length + " " + game.enemysNameList.Count);
+            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(i, firstHealthy, game.enemysNameList[i], (long)(firstMobWaitTime*1000),strategy);
         }
     }
 

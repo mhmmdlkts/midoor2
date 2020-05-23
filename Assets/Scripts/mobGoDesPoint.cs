@@ -124,6 +124,7 @@ public class mobGoDesPoint : MonoBehaviour
     public void spawnMob(Action action)
     {
         createdMob = Instantiate(mob, gameObject.transform.position, gameObject.transform.rotation);
+        createdMob.transform.localScale = gameObject.transform.localScale;
         createdMob.GetComponent<enemy>().setEnemy(action);
     }
 

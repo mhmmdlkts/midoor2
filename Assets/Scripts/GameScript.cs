@@ -88,6 +88,7 @@ public class GameScript : MonoBehaviour
 
     public TeamFriend[] friends;
     public Online strategy;
+    public List<String> enemysNameList;
     
     
     void Start()
@@ -105,6 +106,7 @@ public class GameScript : MonoBehaviour
         isT = isOnline? online_data.isT_me : Random.Range(0,2) == 1;
         gameMode = 0;
         
+        enemysNameList = new List<String>();
         kills = 0;
         round = (WIN_SCORE - round_per_half);
         ctScore = round / 2;
@@ -256,7 +258,6 @@ public class GameScript : MonoBehaviour
 
     public void CT_win()
     {
-        
         if (isT)
             roundLose();
         else
@@ -377,29 +378,37 @@ public class GameScript : MonoBehaviour
     private void roundWin()
     {
         Debug.Log("RoundWin");
-        if (isT)
-            tScore++;
-        else
-            ctScore++;
-        StartCoroutine(showDialgNextFrame(true));
+        giveScore(true);
+        StartCoroutine(showDialgNextFrame(isT));
         endRound();
     }
     
     private void roundLose()
     {
         Debug.Log("RoundLose");
-        if (isT)
-            ctScore++;
-        else
-            tScore++;
-        StartCoroutine(showDialgNextFrame(false));
+        giveScore(false);
+        StartCoroutine(showDialgNextFrame(!isT));
         endRound();
     }
 
-    private IEnumerator showDialgNextFrame(bool roundWinn)
+    private void giveScore(bool forYou)
+    {
+        if (forYou)
+            if (isT)
+                tScore++;
+            else
+                ctScore++;
+        else
+            if (!isT)
+                tScore++;
+            else
+                ctScore++;
+    }
+
+    private IEnumerator showDialgNextFrame(bool forT)
     {
         yield return new WaitForEndOfFrame();
-        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(isT?roundWinn:!roundWinn);
+        canvas.GetComponent<ShowDialogs>().showRoundEndDialog(forT);
     }
 
     void updateScore()
