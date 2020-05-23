@@ -113,6 +113,7 @@ public class aim : MonoBehaviour
 
     public void shoted()
     {
+        game.GetComponent<GameScriptOnline>().shot_online_player();
         if (isOnAim() && isOnSafeZone())
         {
             hited();
@@ -128,9 +129,8 @@ public class aim : MonoBehaviour
     public void hited()
     {
         int ress = aimResistance();
-        bool isDeath = game.GetComponent<GameScript>().hited(getEnemy(), calculateDamage() - ress, whichBodyPart == 0, ress > 0);
+        game.GetComponent<GameScript>().hited(getEnemy(), calculateDamage() - ress, whichBodyPart == 0, ress > 0);
         
-        // TODO if death
         countOfMobColliders = 0;
         enemy = null;
     }

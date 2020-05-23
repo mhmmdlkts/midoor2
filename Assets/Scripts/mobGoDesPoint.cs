@@ -190,7 +190,7 @@ public class mobGoDesPoint : MonoBehaviour
         int id = createdMob.GetComponent<enemy>().id;
         String name = createdMob.GetComponent<enemy>().name;
         Destroy(createdMob);
-        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(id, healthy, name, (long)(arriveDelay*1000));   
+        parrentGroup.GetComponent<Spawn_Groups>().creatInARandomPointMob(id, healthy, name, (long)(arriveDelay*1000),mainObject.GetComponent<GameScript>().strategy);   
     }
 
     public void pick()

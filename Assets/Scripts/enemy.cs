@@ -10,6 +10,7 @@ public class enemy : MonoBehaviour
     public GameObject fireParticle;
     public bool isFiring;
     public int id;
+    public int weaponCode;
 
     private ParticleSystem particleSystem;
     

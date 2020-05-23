@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 
@@ -14,6 +17,7 @@ public class GameScript : MonoBehaviour
         t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text, ammo;
     public GameObject[] T_aimPoints; // B, Mid, Long
     public GameObject[] CT_aimPoints; // Long, Mid, B
+    public GameScriptOnline online;
     public Sprite ownPP, tPP, ctPP;
     public int maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
     public static int isLokingIn;
@@ -31,17 +35,23 @@ public class GameScript : MonoBehaviour
     public static int tot_rank = 18;
 
     private OnlineData online_data;
-    private static bool isOnline;
+    public bool isOnline;
     private static string[] myTeam;
     private static string[] otherTeam;
     private static int otherRank;
     private Sprite otherPP;
+
+    public Online strategy;
     
     
     void Start()
     {
+        online = gameObject.GetComponent<GameScriptOnline>();
         isOnline = GameObject.Find("Data") != null;
-        if (isOnline) online_data = GameObject.Find("Data").GetComponent<OnlineData>();
+        if (isOnline) {
+            online_data = GameObject.Find("Data").GetComponent<OnlineData>();
+            strategy = Online.WRITE;
+        } else strategy = Online.OFFLINE;
         myTeam = new string[enemyCount];
         otherTeam = new string[enemyCount];
         Application.targetFrameRate = 300;
@@ -59,6 +69,16 @@ public class GameScript : MonoBehaviour
         newRound();
     }
 
+    public void getOnlineShot()
+    {
+        Debug.Log(isT? "CT":"T" + " fires");
+    }
+
+    public void friendGotShot(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
+    {
+        Debug.Log(isT? "CT: ":"T: " + (weaponCode + " " + isWall + " " + isHead + " " + enemyId + " " +damage));
+    }
+
     public void resetLook()
     {
         setLook(isT ? defLookPintT : defLookPintCT);
@@ -66,6 +86,7 @@ public class GameScript : MonoBehaviour
 
     public void switchTeam()
     {
+        changeStrategy();
         isT = !isT;
         int scoreTmp = tScore;
         tScore = ctScore + (WIN_SCORE - round_per_half) / 2;
@@ -74,6 +95,19 @@ public class GameScript : MonoBehaviour
         
         resetLook();
         ppReset();
+    }
+
+    private void changeStrategy()
+    {
+        switch (strategy)
+        {
+            case Online.READ:
+                strategy = Online.WRITE;
+                break;
+            case Online.WRITE:
+                strategy = Online.READ;
+                break;
+        }
     }
 
     public void givePlayerDamage(int damage, int weaponCode, bool isHead, GameObject enemy)
@@ -171,13 +205,10 @@ public class GameScript : MonoBehaviour
         enemyCount = 5;
         updateScore();
         setLook(1);
-        if (!isOnline)
-        {
-            if (isT)
-                mobGenT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
-            else
-                mobGenCT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy();
-        }
+        if (isT)
+            mobGenT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy(strategy);
+        else
+            mobGenCT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy(strategy);
     }
 
     void endRound()
@@ -253,6 +284,8 @@ public class GameScript : MonoBehaviour
 
     public bool hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
     {
+        int weaponCode = 0; //TODO find code
+        online.teamFriendDamage(enemy.GetComponent<enemy>().weaponCode, isWall, isHead, enemy.GetComponent<enemy>().id, damageGiven);
         if (enemy.GetComponent<enemy>().giveDamage(damageGiven) <= 0)
         {
             killed(enemy, isHead, isWall);

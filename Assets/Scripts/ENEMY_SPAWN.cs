@@ -26,6 +26,19 @@ public struct Action
     }
 }
 
+public struct Online_EX
+{
+    public long actionExTime;
+    public Action action;
+    public Online strategy;
+}
+
+public enum Online {
+    READ,
+    WRITE,
+    OFFLINE
+}
+
 public class ENEMY_SPAWN : MonoBehaviour
 {
     public Queue<Action> actions;
@@ -73,19 +86,49 @@ public class ENEMY_SPAWN : MonoBehaviour
         action.spawnPoint.GetComponent<mobGoDesPoint>().newAction(action);
     }
 
-    public void creatFirstStrategy()
+    public void creatFirstStrategy(Online strategy)
     {
         for (int i = 0; i < PLAYERS_COUNT; i++)
         {
-            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(i, firstHealthy, enemysNameList[i], (long)(firstMobWaitTime*1000));
+            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(i, firstHealthy, enemysNameList[i], (long)(firstMobWaitTime*1000),strategy);
+        }
+    }
+
+    public void newAction(GameObject spawnPoint, int healthy, String name, long delay, int id, Online strategy, Online_EX onlineEx)
+    {
+        if (strategy == Online.READ)
+        {
+            Action action = onlineEx.action;
+            addActionQueue(action);
+            Debug.Log("Online.READ");
+        }
+        else
+        {
+            Action action = getNewAction(spawnPoint, healthy, name, delay, id);
+            onlineEx.action = action;
+            addActionQueue(action);
+            Debug.Log("Online.WRITE");
         }
     }
 
     public void newAction(GameObject spawnPoint, int healthy, String name, long delay, int id)
     {
-        long exTime = generateRandomWaitTimeInMillis() + getLastTimeToExecute() + delay;
-        lastExecutionTime = exTime;
-        actions.Enqueue(new Action(exTime, spawnPoint, healthy, name, id));
+        addActionQueue(getNewAction(spawnPoint, healthy, name, delay, id));
+        Debug.Log("Online.OFFLINE");
+    }
+
+    private Action getNewAction(GameObject spawnPoint, int healthy, String name, long delay, int id)
+    {
+        long exTime =  getLastTimeToExecute() + delay + generateRandomWaitTimeInMillis();
+        Action action =  new Action(exTime, spawnPoint, healthy, name, id);
+
+        return action;
+    }
+
+    private void addActionQueue(Action action)
+    {
+        lastExecutionTime = action.executeTime;
+        actions.Enqueue(action);
     }
 
     public void resetActions()

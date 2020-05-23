@@ -205,6 +205,7 @@
           <e p="ENEMY_SPAWN.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="GameScript.cs" t="Include" />
+          <e p="GameScriptOnline.cs" t="Include" />
           <e p="GetRandomEnemyName.cs" t="Include" />
           <e p="HomeButton.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
