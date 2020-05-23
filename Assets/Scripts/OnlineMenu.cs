@@ -15,9 +15,22 @@ public class OnlineMenu : MonoBehaviour
     public GameObject pp_him, name_him, money_him, wins_him, rank_him;
     public OnlineData data;
     public Sprite[] rankList;
+    public string[] myTeam;
+    
     void Start()
     {
         setStatus();
+        initializeMyTeam();
+    }
+    
+    private void initializeMyTeam()
+    {
+        myTeam = new string[GameScript.START_ENEMY_COUNT];
+        myTeam[0] = name;
+        for (int i = 1; i < myTeam.Length; i++)
+        {
+            myTeam[i] = PlayerPrefs.GetString("game_firend_" + i, "Team_" + i + "_name"); // TODO
+        }
     }
 
     private void setStatus()
@@ -77,5 +90,10 @@ public class OnlineMenu : MonoBehaviour
     public void setMyTeam(bool isT)
     {
         data.isT_me = isT;
+    }
+
+    public void setHisTeam(string[] names)
+    {
+        data.otherTeam = names;
     }
 }

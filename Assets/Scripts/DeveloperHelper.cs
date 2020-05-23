@@ -79,5 +79,15 @@ public class DeveloperHelper : MonoBehaviour
             GameObject.Find("bSpawn_behind_box").GetComponent<ctBBoxSpawn>().hide();
             GameObject.Find("bSpawn_behind_wall").GetComponent<bWallSpawn>().hide();
         }
+        if (Input.GetKeyDown("8"))
+        {
+            GameScript.isStoped = !GameScript.isStoped;
+            Debug.Log("is_stoped was: " + !GameScript.isStoped + ", now it is: " + GameScript.isStoped);
+        }
+        if (Input.GetKeyDown("9"))
+        {
+            GameScript.am_i_Death = !GameScript.am_i_Death;
+            Debug.Log("am_i_Death was: " + !GameScript.am_i_Death + ", now it is: " + GameScript.am_i_Death);
+        }
     }
 }

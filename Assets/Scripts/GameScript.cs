@@ -11,12 +11,56 @@ using Debug = UnityEngine.Debug;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 
+public class TeamFriend
+{
+    public int id;
+    public int healty;
+    public GameObject pp;
+    public String name;
+
+    public TeamFriend(int id, String name, GameObject pp)
+    {
+        this.id = id;
+        this.name = name;
+        this.pp = pp;
+    }
+
+    public void setReset()
+    {
+        pp.SetActive(true);
+        setHealthy(ENEMY_SPAWN.firstHealthy);
+    }
+
+    public void setHealthy(int healthy)
+    {
+        this.healty = healthy;
+        // TODO helthybar
+        if (healthy <= 0)
+            kill();
+    }
+
+    public void kill()
+    {
+        this.healty = 0;
+        pp.SetActive(false);
+    }
+
+
+    public bool giveDamage(int damage)
+    {
+        setHealthy(healty - damage);
+        return healty <= 0;
+    }
+}
+
 public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, 
-        t1, t2, t3, t4, t5, ct1, ct2, ct3, ct4, ct5, healthy_panel, healthy_panel_outside, healthy_text, ammo;
+         healthy_panel, healthy_panel_outside, healthy_text, ammo;
     public GameObject[] T_aimPoints; // B, Mid, Long
     public GameObject[] CT_aimPoints; // Long, Mid, B
+    public GameObject[] ctPPholder;
+    public GameObject[] tPPholder;
     public GameScriptOnline online;
     public Sprite ownPP, tPP, ctPP;
     public int maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
@@ -25,36 +69,39 @@ public class GameScript : MonoBehaviour
     public static int gameMode; // 0: Ranked
 
     public static String yourName;
-    private int time, enemyCount, tScore, ctScore, kills, round;
-    public int roundTime;
+    private int time, tScore, ctScore, kills, round;
+    public int roundTime, enemyCount, teamCount;
     public int round_per_half, defLookPintCT = 1, defLookPintT = 1;
     private static readonly int WIN_SCORE = 16;
     public static bool isStoped = true;
+    public static bool am_i_Death;
 
-    public static int rank;
+    public static int rank, START_ENEMY_COUNT = 5;
     public static int tot_rank = 18;
 
-    private OnlineData online_data;
+    public OnlineData online_data;
     public bool isOnline;
-    private static string[] myTeam;
-    private static string[] otherTeam;
+    public string[] myTeam;
+    public string[] otherTeam;
     private static int otherRank;
     private Sprite otherPP;
 
+    public TeamFriend[] friends;
     public Online strategy;
     
     
     void Start()
     {
+        Application.targetFrameRate = 300;
+        
         online = gameObject.GetComponent<GameScriptOnline>();
         isOnline = GameObject.Find("Data") != null;
         if (isOnline) {
             online_data = GameObject.Find("Data").GetComponent<OnlineData>();
+            initializeOtherTeam();
             strategy = Online.WRITE;
         } else strategy = Online.OFFLINE;
-        myTeam = new string[enemyCount];
-        otherTeam = new string[enemyCount];
-        Application.targetFrameRate = 300;
+        initializeMyTeam();
         isT = isOnline? online_data.isT_me : Random.Range(0,2) == 1;
         gameMode = 0;
         
@@ -65,18 +112,57 @@ public class GameScript : MonoBehaviour
         rank = PlayerPrefs.GetInt("rank",4);
         yourName = PlayerPrefs.GetString("name", "Mali");
         maxLooks = isT ? T_aimPoints.Length : CT_aimPoints.Length;
+        getEnemySpawn().initEnemysFirstNameList(START_ENEMY_COUNT, isOnline);
+        newTeam();
         resetLook();
+        
         newRound();
+    }
+
+    private void initializeMyTeam()
+    {
+        myTeam = new string[START_ENEMY_COUNT];
+        myTeam[0] = yourName;
+        for (int i = 1; i < START_ENEMY_COUNT; i++)
+        {
+            myTeam[i] = PlayerPrefs.GetString("game_firend_" + i, "US_" + i + "_name"); // TODO
+        }
+    }
+
+    private void initializeOtherTeam()
+    {
+        otherTeam = new string[START_ENEMY_COUNT];
+        otherTeam[0] = online_data.name_him;
+    }
+
+    private void newTeam()
+    {
+        friends = new TeamFriend[START_ENEMY_COUNT];
+        myTeam[0] = yourName;
+        for (int i = 0; i < friends.Length; i++)
+            friends[i] = new TeamFriend(i, myTeam[i], isT? tPPholder[i]: ctPPholder[i]);
     }
 
     public void getOnlineShot()
     {
-        Debug.Log(isT? "CT":"T" + " fires");
+        
     }
 
     public void friendGotShot(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
     {
-        Debug.Log(isT? "CT: ":"T: " + (weaponCode + " " + isWall + " " + isHead + " " + enemyId + " " +damage));
+        if (friends[enemyId].giveDamage(damage))
+        {
+            showKillInfo(!isT, weaponCode, isHead, isWall, online_data.name_him, myTeam[enemyId]);
+            teamCount--;
+            switch (teamCount)
+            {
+                case 4: case 3: case 2: case 1:
+                    break;
+                case 0:
+                    teamDeath();
+                    break;
+            }
+        }
     }
 
     public void resetLook()
@@ -93,6 +179,7 @@ public class GameScript : MonoBehaviour
         ctScore = scoreTmp + (WIN_SCORE - round_per_half) / 2;
         updateScore();
         
+        newTeam();
         resetLook();
         ppReset();
     }
@@ -156,14 +243,39 @@ public class GameScript : MonoBehaviour
 
     public void timeOut()
     {
-        roundLose();
+        CT_win();
+    }
+
+    public void T_win()
+    {
+        if (isT)
+            roundWin();
+        else
+            roundLose();
+    }
+
+    public void CT_win()
+    {
+        
+        if (isT)
+            roundLose();
+        else
+            roundWin();
     }
 
     public void playerDeath(int weaponCode, bool isHead, GameObject enemy)
     {
-        roundLose();
+        if (!isOnline)
+            roundLose();
+        showKillInfo(false, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
+        am_i_Death = true;
+    }
+    
+
+    public void showKillInfo(bool ctIsDeath, int weaponCode, bool isHead, bool isWall, String killerName,String killedName)
+    {
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
-        info.GetComponent<deathInfo>().configure(false, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
+        info.GetComponent<deathInfo>().configure(ctIsDeath, weaponCode, isHead, isWall, killerName, killedName);
     }
 
     void gameWin()
@@ -194,6 +306,7 @@ public class GameScript : MonoBehaviour
 
     void newRound()
     {
+        am_i_Death = false;
         round++;
         ppReset();
         ammo.GetComponent<ammoPanel>().resetAmmo();
@@ -202,19 +315,25 @@ public class GameScript : MonoBehaviour
         killAllMobs();
         setTime(roundTime);
         startCountdown();
-        enemyCount = 5;
+        enemyCount = START_ENEMY_COUNT;
+        teamCount = START_ENEMY_COUNT;
         updateScore();
         setLook(1);
+        getEnemySpawn().creatFirstStrategy(strategy);
+    }
+
+    private ENEMY_SPAWN getEnemySpawn()
+    {
         if (isT)
-            mobGenT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy(strategy);
+            return mobGenT.GetComponent<ENEMY_SPAWN>();
         else
-            mobGenCT.GetComponent<ENEMY_SPAWN>().creatFirstStrategy(strategy);
+            return mobGenCT.GetComponent<ENEMY_SPAWN>();
     }
 
     void endRound()
     {
         isStoped = true;
-        mobGenT.GetComponent<ENEMY_SPAWN>().resetActions();
+        getEnemySpawn().resetActions();
         CancelInvoke("countdown");
         updateScore();
         if (tScore == 15 && ctScore == 15)
@@ -250,8 +369,14 @@ public class GameScript : MonoBehaviour
         roundWin();
     }
 
+    void teamDeath()
+    {
+        roundLose();
+    }
+
     private void roundWin()
     {
+        Debug.Log("RoundWin");
         if (isT)
             tScore++;
         else
@@ -262,6 +387,7 @@ public class GameScript : MonoBehaviour
     
     private void roundLose()
     {
+        Debug.Log("RoundLose");
         if (isT)
             ctScore++;
         else
@@ -285,7 +411,7 @@ public class GameScript : MonoBehaviour
     public bool hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
     {
         int weaponCode = 0; //TODO find code
-        online.teamFriendDamage(enemy.GetComponent<enemy>().weaponCode, isWall, isHead, enemy.GetComponent<enemy>().id, damageGiven);
+        online.hited(enemy.GetComponent<enemy>().weaponCode, isWall, isHead, enemy.GetComponent<enemy>().id, damageGiven);
         if (enemy.GetComponent<enemy>().giveDamage(damageGiven) <= 0)
         {
             killed(enemy, isHead, isWall);
@@ -299,8 +425,7 @@ public class GameScript : MonoBehaviour
     {
         Destroy(enemy);
         
-        GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
-        info.GetComponent<deathInfo>().configure(isT, 0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
+        showKillInfo(isT, 0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
         deactivePP(isT, enemy.GetComponent<enemy>().id);
         enemyCount--;
         kills++;
@@ -318,66 +443,30 @@ public class GameScript : MonoBehaviour
     {
         if (forCT)
         {
-            switch (id)
-            {
-                case 0: ct1.SetActive(false);
-                    break;
-                case 1: ct2.SetActive(false);
-                    break;
-                case 2: ct3.SetActive(false);
-                    break;
-                case 3: ct4.SetActive(false);
-                    break;
-                case 4: ct5.SetActive(false);
-                    break;
-            }
+            ctPPholder[id].SetActive(false);
         }
         else
         {
-            switch (id)
-            {
-                case 0: t1.SetActive(false);
-                    break;
-                case 1: t2.SetActive(false);
-                    break;
-                case 2: t3.SetActive(false);
-                    break;
-                case 3: t4.SetActive(false);
-                    break;
-                case 4: t5.SetActive(false);
-                    break;
-            }
+            tPPholder[id].SetActive(false);
         }
     }
 
     private void ppReset()
     {
-        
-        t1.SetActive(true);
-        t2.SetActive(true);
-        t3.SetActive(true);
-        t4.SetActive(true);
-        t5.SetActive(true);
+        for (int i = 0; i < START_ENEMY_COUNT; i++)
+        {
+            ctPPholder[i].SetActive(true);
+            tPPholder[i].SetActive(true);
+            tPPholder[i].GetComponent<Image>().sprite = tPP;
+            ctPPholder[i].GetComponent<Image>().sprite = ctPP;
+            friends[i].setReset();
+        }
 
-        //t1.GetComponent<Image>().sprite = isT? ownPP : (isOnline? otherPP : ctPP);
-        t1.GetComponent<Image>().sprite = isT? ownPP : tPP;
-        t2.GetComponent<Image>().sprite = tPP;
-        t3.GetComponent<Image>().sprite = tPP;
-        t4.GetComponent<Image>().sprite = tPP;
-        t5.GetComponent<Image>().sprite = tPP;
-        
-        ct1.SetActive(true);
-        ct2.SetActive(true);
-        ct3.SetActive(true);
-        ct4.SetActive(true);
-        ct5.SetActive(true);
-
-        //ct1.GetComponent<Image>().sprite = isT? (isOnline? otherPP : ctPP) : ownPP;
-        ct1.GetComponent<Image>().sprite = isT? ctPP : ownPP;
-        ct2.GetComponent<Image>().sprite = ctPP;
-        ct3.GetComponent<Image>().sprite = ctPP;
-        ct4.GetComponent<Image>().sprite = ctPP;
-        ct5.GetComponent<Image>().sprite = ctPP;
+        if (isT)
+            tPPholder[0].GetComponent<Image>().sprite = ownPP;
+        else
+            ctPPholder[0].GetComponent<Image>().sprite = ownPP;
+            
     }
 
     void killAllMobs()

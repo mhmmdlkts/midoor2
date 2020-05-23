@@ -745,6 +745,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1794837382}
   - {fileID: 838160014}
+  game: {fileID: 0}
 --- !u!1 &92571725
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,6 +794,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 2068827356}
   - {fileID: 1385763640}
+  game: {fileID: 0}
 --- !u!1 &93989239
 GameObject:
   m_ObjectHideFlags: 0
@@ -11655,7 +11657,6 @@ MonoBehaviour:
   spawnPointGroups:
   - {fileID: 1810105029}
   - {fileID: 84469340}
-  firstHealthy: 100
   firstMobWaitTime: 2
   minWaitTime: 1
   maxWaitTime: 3
@@ -15595,6 +15596,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 70531813}
   - {fileID: 1416907299}
+  game: {fileID: 0}
 --- !u!4 &1810105031
 Transform:
   m_ObjectHideFlags: 0
@@ -16150,7 +16152,6 @@ MonoBehaviour:
   spawnPointGroups:
   - {fileID: 1926326529}
   - {fileID: 92571725}
-  firstHealthy: 100
   firstMobWaitTime: 2
   minWaitTime: 1
   maxWaitTime: 3
@@ -16216,6 +16217,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1049301163}
   - {fileID: 658443218}
+  game: {fileID: 0}
 --- !u!1 &1960619351
 GameObject:
   m_ObjectHideFlags: 0
@@ -16603,16 +16605,6 @@ MonoBehaviour:
     type: 3}
   mobGenT: {fileID: 1180569294}
   mobGenCT: {fileID: 1892932575}
-  t1: {fileID: 57630510}
-  t2: {fileID: 401411079}
-  t3: {fileID: 1531090299}
-  t4: {fileID: 35726916}
-  t5: {fileID: 2020298226}
-  ct1: {fileID: 143405616}
-  ct2: {fileID: 1408058134}
-  ct3: {fileID: 1666135355}
-  ct4: {fileID: 2089698275}
-  ct5: {fileID: 1029189635}
   healthy_panel: {fileID: 1664865934}
   healthy_panel_outside: {fileID: 447375364}
   healthy_text: {fileID: 1546271886}
@@ -16625,6 +16617,18 @@ MonoBehaviour:
   - {fileID: 3839595}
   - {fileID: 395077351}
   - {fileID: 1034778398}
+  ctPPholder:
+  - {fileID: 143405616}
+  - {fileID: 1408058134}
+  - {fileID: 1666135355}
+  - {fileID: 2089698275}
+  - {fileID: 1029189635}
+  tPPholder:
+  - {fileID: 57630510}
+  - {fileID: 401411079}
+  - {fileID: 1531090299}
+  - {fileID: 35726916}
+  - {fileID: 2020298226}
   online: {fileID: 0}
   ownPP: {fileID: 21300000, guid: d2f86406d4fd4dd419da1e1c1347b962, type: 3}
   tPP: {fileID: 21300000, guid: 9a35fef351759074286d11e9c5de9bf5, type: 3}
@@ -16633,10 +16637,15 @@ MonoBehaviour:
   playersHealthy: 0
   PLAYERS_START_HEALTHY: 100
   roundTime: 90
+  enemyCount: 0
   round_per_half: 4
   defLookPintCT: 1
   defLookPintT: 1
+  online_data: {fileID: 0}
   isOnline: 0
+  myTeam: []
+  otherTeam: []
+  strategy: 0
 --- !u!114 &2016928304
 MonoBehaviour:
   m_ObjectHideFlags: 0

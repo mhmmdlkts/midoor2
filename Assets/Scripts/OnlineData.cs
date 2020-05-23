@@ -9,6 +9,7 @@ public class OnlineData : MonoBehaviour
     public string name_him;
     public int wins_him, rank_him;
     public bool isT_me;
+    public string[] otherTeam;
     
     // Start is called before the first frame update
     void Start()

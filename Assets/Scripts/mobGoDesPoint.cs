@@ -66,6 +66,8 @@ public class mobGoDesPoint : MonoBehaviour
 
         if (isFiring)
         {
+            if(mainObject.GetComponent<GameScript>().isOnline)
+                return;
             doFiring();
         }
     }

@@ -47,7 +47,7 @@ public class ENEMY_SPAWN : MonoBehaviour
     private GameObject[] enemyClone;
     private long lastExecutionTime;
     public GameObject[] spawnPointGroups;
-    public int firstHealthy = 100;
+    public static int firstHealthy = 100;
     private List<String> enemysNameList;
     public float firstMobWaitTime;
 
@@ -62,7 +62,7 @@ public class ENEMY_SPAWN : MonoBehaviour
         actions = new Queue<Action>();
         enemyClone = new GameObject[PLAYERS_COUNT];
         enemysNameList = new List<String>();
-        initEnemysFirstNameList(PLAYERS_COUNT);
+        
     }
 
     void Update()
@@ -74,11 +74,19 @@ public class ENEMY_SPAWN : MonoBehaviour
                 doAction(actions.Dequeue());
     }
 
-    void initEnemysFirstNameList(int count)
+    public void initEnemysFirstNameList(int count, bool isOnline)
     {
-        main.GetComponent<GetRandomEnemyName>().initNames();
-        for (int i = 0; i < count; i++)
-            enemysNameList.Add(main.GetComponent<GetRandomEnemyName>().getRandomName());
+        if (!isOnline)
+        {
+            main.GetComponent<GetRandomEnemyName>().initNames();
+            for (int i = 0; i < count; i++)
+                enemysNameList.Add(main.GetComponent<GetRandomEnemyName>().getRandomName());
+        }
+        else
+        {
+            for (int i = 0; i < count; i++)
+                enemysNameList.Add(main.GetComponent<GameScript>().online_data.otherTeam[i]);
+        }
     }
 
     void doAction(Action action)
@@ -100,21 +108,18 @@ public class ENEMY_SPAWN : MonoBehaviour
         {
             Action action = onlineEx.action;
             addActionQueue(action);
-            Debug.Log("Online.READ");
         }
         else
         {
             Action action = getNewAction(spawnPoint, healthy, name, delay, id);
             onlineEx.action = action;
             addActionQueue(action);
-            Debug.Log("Online.WRITE");
         }
     }
 
     public void newAction(GameObject spawnPoint, int healthy, String name, long delay, int id)
     {
         addActionQueue(getNewAction(spawnPoint, healthy, name, delay, id));
-        Debug.Log("Online.OFFLINE");
     }
 
     private Action getNewAction(GameObject spawnPoint, int healthy, String name, long delay, int id)

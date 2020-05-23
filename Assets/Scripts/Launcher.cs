@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Photon.Pun;
 using Photon.Realtime;
@@ -14,6 +15,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] byte maxPlayersPerRoom;
     [SerializeField] private GameObject progressLabel;
     [SerializeField] private GameObject him;
+    private static byte END_OF_TEXT = 3;
     private bool isT;
     void Awake()
     {
@@ -103,6 +105,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         photonView.RPC("ReceiveName", RpcTarget.Others, SeializeString(onlineMenu.name));
         photonView.RPC("ReceiveRank", RpcTarget.Others, SeializeInt(onlineMenu.rank));
         photonView.RPC("ReceiveWins", RpcTarget.Others, SeializeInt(onlineMenu.wins));
+        photonView.RPC("receivePlayerNames", RpcTarget.Others, SerializePlayersName(onlineMenu.myTeam));
         //photonView.RPC("ReceivePP", RpcTarget.Others, SeializeString(onlineMenu.name_me.GetComponent<Text>().text));
     }
 
@@ -212,6 +215,50 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         progressLabel.SetActive(isSearching);
         him.SetActive(!isSearching);
+    }
+
+    [PunRPC]
+    private void receivePlayerNames(byte[] b)
+    {
+        onlineMenu.setHisTeam(DeserializePlayersName(b).ToArray());
+    }
+
+    private byte[] SerializePlayersName(string[] names)
+    { 
+        List<Byte> byteList = new List<Byte>();
+        
+        for (int i = 0; i < names.Length; i++)
+        {
+            addAllToList(byteList, Encoding.ASCII.GetBytes(names[i]));
+        }
+        return byteList.ToArray();
+    }
+
+    private List <String> DeserializePlayersName(byte [] arr)
+    {
+        List<String> nameList = new List<String>();
+        String name = "";
+        for(int i = 0; i < arr.Length; i++)
+        {
+            byte b = arr[i];
+            if (b == END_OF_TEXT)
+            {
+                nameList.Add(name);
+                name = "";
+                continue;
+            }
+
+            name = String.Concat(name, Convert.ToChar(b));
+        }
+        return nameList;
+    }
+
+    private void addAllToList(List<Byte> list, byte[] arr)
+    {
+        for(int i = 0; i < arr.Length; i++) {
+            list.Add(arr[i]);
+        }
+        list.Add(END_OF_TEXT);
     }
 
 }

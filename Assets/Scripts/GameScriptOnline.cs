@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Photon.Pun;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         
     }
 
+    
+    
     public Online_EX getNewOnlineEx()
     {
         Online_EX onlineEx = new Online_EX();
@@ -27,7 +30,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         return onlineEx;
     }
 
-    public void teamFriendDamage(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
+    public void hited(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
     {
         if (!game.isOnline)
             return;
@@ -77,7 +80,6 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         }
         
         return new byte[] {(byte)weaponCode, (isWall ? (byte)1 : (byte)0), (isHead ? (byte)1 : (byte)0), (byte)enemyId, damage_b1, damage_b2, damage_b3};
-        
     }
 
     [PunRPC]
