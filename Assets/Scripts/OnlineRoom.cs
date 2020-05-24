@@ -16,11 +16,6 @@ public class OnlineRoom : MonoBehaviour
     {
         setStatus();
     }
-    
-    void Update()
-    {
-        
-    }
 
     private void setStatus()
     {

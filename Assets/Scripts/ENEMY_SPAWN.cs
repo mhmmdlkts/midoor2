@@ -98,7 +98,6 @@ public class ENEMY_SPAWN : MonoBehaviour
     {
         for (int i = 0; i < PLAYERS_COUNT; i++)
         {
-            Debug.Log(spawnPointGroups.Length + " " + game.enemysNameList.Count);
             spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(i, firstHealthy, game.enemysNameList[i], (long)(firstMobWaitTime*1000),strategy);
         }
     }

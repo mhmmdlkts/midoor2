@@ -212,6 +212,7 @@
           <e p="JoystickMove.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
+          <e p="match_ready_dialog.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
           <e p="OnlineData.cs" t="Include" />
           <e p="OnlineMenu.cs" t="Include" />

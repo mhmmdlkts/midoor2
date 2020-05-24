@@ -11,12 +11,14 @@ public class Launcher : MonoBehaviourPunCallbacks
         
     bool isConnecting;
     string gameVersion = "1";
+    public GameObject accept_match_dialog;
     private OnlineMenu onlineMenu;
     [SerializeField] byte maxPlayersPerRoom;
     [SerializeField] private GameObject progressLabel;
     [SerializeField] private GameObject him;
     private static byte END_OF_TEXT = 3;
     private bool isT;
+    private bool accepted_you, accepted_him;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -28,7 +30,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         setSearching(true);
         Connect();
     }
-    
+
     public void Connect()
     {
         if (PhotonNetwork.IsConnected)
@@ -63,13 +65,17 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+        match_found();
+    }
+
+    public void match_found()
+    {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
-
+            Instantiate(accept_match_dialog);
+            sendStatus();
             setSearching(false);
-            //PhotonNetwork.LoadLevel("Room for 1");
         }
-        sendStatus();
     }
 
     public void LeaveRoom()
@@ -80,8 +86,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     
     public override void OnPlayerEnteredRoom(Player other)
     {
-        setSearching(false);
-        sendStatus();
+        match_found();
         Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
         
 
@@ -97,6 +102,21 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             isT = Random.Range(0,2) == 1;
             photonView.RPC("ReceiveTeam", RpcTarget.All, SeializeBool(!isT));
+        }
+    }
+
+    public void acceptGame()
+    {
+        accepted_you = true;
+        checkIsAccepted();
+        photonView.RPC("ReceiveAccepted", RpcTarget.Others, new byte[]{1});
+    }
+
+    private void checkIsAccepted()
+    {
+        if (accepted_you && accepted_him && !PhotonNetwork.IsMasterClient)
+        {
+            startGame();
         }
     }
 
@@ -192,6 +212,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     void ReceivePP(byte[] b)
     {
         onlineMenu.setHisPP(DeseializeSprite(b));
+    }
+    
+    [PunRPC]
+    void ReceiveAccepted(byte[] b)
+    {
+        accepted_him = b[0] == 1;
+        checkIsAccepted();
     }
 
     private void loadGame()
