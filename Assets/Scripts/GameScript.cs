@@ -174,7 +174,7 @@ public class GameScript : MonoBehaviour
 
     public void switchTeam()
     {
-        changeStrategy();
+        //changeStrategy(); TODO 
         isT = !isT;
         int scoreTmp = tScore;
         tScore = ctScore + (WIN_SCORE - round_per_half) / 2;
@@ -218,6 +218,7 @@ public class GameScript : MonoBehaviour
         float maxLength = healthy_panel_outside.GetComponent<RectTransform>().sizeDelta.x;
         RectTransform rct = healthy_panel.GetComponent<RectTransform>();
         rct.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, maxLength / 100 * playersHealthy);
+        //rct.localScale = new Vector3(playersHealthy / 100f, rct.localScale.y,rct.localScale.z);
     }
 
     public void startCountdown()
