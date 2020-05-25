@@ -15,13 +15,10 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         game = gameObject.GetComponent<GameScript>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        PhotonNetwork.AutomaticallySyncScene = false;
     }
-
-    
     
     public Online_EX getNewOnlineEx()
     {
@@ -91,6 +88,17 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         int enemyId = b[3];
         int damage = b[4] + b[5] + b[6];
         game.friendGotShot(weaponCode, isWall, isHead, enemyId, damage);
+    }
+
+    [PunRPC]
+    private void OtherLeavesGame()
+    {
+        game.gameWin();
+    }
+
+    public void leaveUnexpected()
+    {
+        photonView.RPC("OtherLeavesGame", RpcTarget.Others);
     }
 
     public bool isOnline()

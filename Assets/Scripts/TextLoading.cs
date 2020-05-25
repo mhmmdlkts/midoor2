@@ -8,19 +8,14 @@ public class TextLoading : MonoBehaviour
 {
     public int countOfMaxDots = 3;
     public float waitTime;
-    private Text textLabel;
 
     private float timer;
 
     private int countOfCurrentDots;
 
-    private void Start()
-    {
-        textLabel = gameObject.GetComponent<Text>();
-    }
-
     public void setNewText(string text)
     {
+        Text textLabel = gameObject.GetComponent<Text>();
         countOfCurrentDots = 0;
         textLabel.text = text;
         textLabel.text += getDots_and_Spaces(0);
@@ -39,6 +34,7 @@ public class TextLoading : MonoBehaviour
 
     void nextDot()
     {
+        Text textLabel = gameObject.GetComponent<Text>();
         string text = getText();
         countOfCurrentDots = (countOfCurrentDots+1) % (countOfMaxDots+1);
         textLabel.text= text + getDots_and_Spaces(countOfCurrentDots);
@@ -54,6 +50,7 @@ public class TextLoading : MonoBehaviour
 
     string getText()
     {
+        Text textLabel = gameObject.GetComponent<Text>();
         int countDots = 0;
         string text = textLabel.text;
         for (int i = text.Length - 1; text.Length - 1 - countOfMaxDots < i; i--)

@@ -129,6 +129,6 @@ public class EndGameShow : MonoBehaviour
 
     private void quitGame()
     {
-        GameObject.Find("MOVABLE").GetComponent<GameScript>().quitGame();
+        GameObject.Find("MOVABLE").GetComponent<GameScript>().gameQuit();
     }
 }

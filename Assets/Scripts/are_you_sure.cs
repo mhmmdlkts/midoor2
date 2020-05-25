@@ -16,7 +16,7 @@ public class are_you_sure : MonoBehaviour
 
     public void onPositiveButtonClick()
     {
-        GameObject.Find("MOVABLE").GetComponent<GameScript>().quitGame();
+        GameObject.Find("MOVABLE").GetComponent<GameScript>().gameQuit();
     }
 
     public void onNegativeButtonClick()

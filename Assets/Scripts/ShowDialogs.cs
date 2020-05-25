@@ -20,11 +20,13 @@ public class ShowDialogs : MonoBehaviour
         }
     }
 
-    public void showGameEndDialog(int isWinnn, int kills)
+    public void showGameEndDialog(int isWinn, int kills)
     {
         PlayerPrefs.SetInt("new_kills", kills);
-        PlayerPrefs.SetInt("new_win", isWinnn);
-        Invoke("showNowGameEndDialog", 1);
+        PlayerPrefs.SetInt("new_win", isWinn);
+        if (isWinn == -2)
+            return;
+        Invoke("showNowGameEndDialog", 2f);
     }
 
     public void showNowGameEndDialog()

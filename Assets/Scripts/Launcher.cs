@@ -84,9 +84,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void searchForOtherRooms()
     {
-        Debug.Log("Searching");
-        rejoinAfter();
-        if (PhotonNetwork.CountOfRooms > 1 && PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        if (PhotonNetwork.CountOfRooms > 1 && PhotonNetwork.CurrentRoom.PlayerCount < 2) // TODO hic calismiyor
         {
             Invoke("rejoinAfter", Random.Range(0,10f));
         }
@@ -141,7 +139,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         if (!isRejoining)
-            leftScene();
+        {
+            if (!forceQuit)
+            {
+                leftScene();
+            }
+        }
         else
         {
             PhotonNetwork.JoinRandomRoom();

@@ -67,6 +67,7 @@ public class GameScript : MonoBehaviour
     public static int isLokingIn;
     public static bool isT;
     public static int gameMode; // 0: Ranked
+    public bool isGameFinished; // 0: Ranked
 
     public static String yourName;
     private int time, tScore, ctScore, kills, round;
@@ -280,32 +281,46 @@ public class GameScript : MonoBehaviour
         info.GetComponent<deathInfo>().configure(ctIsDeath, weaponCode, isHead, isWall, killerName, killedName);
     }
 
-    void gameWin()
+    public void gameWin()
     {
         endGame(1);
     }
 
-    void gameTied()
+    public void gameTied()
     {
         endGame(0);
     }
 
-    void gameLose()
+    public void gameLose()
     {
         endGame(-1);
     }
 
-    void endGame(int isWinn)
+    public void gameQuit()
     {
-        canvas.GetComponent<ShowDialogs>().showGameEndDialog(isWinn, kills);
-        
-    }
-
-    public void quitGame()
-    {
+        banControl();
         SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
     }
 
+    void endGame(int isWinn)
+    {
+        isGameFinished = true;
+        canvas.GetComponent<ShowDialogs>().showGameEndDialog(isWinn, kills);
+    }
+
+    public void banControl()
+    {
+        if (!isGameFinished && isOnline)
+        {
+            endGame(-2);
+            online.leaveUnexpected();
+        }
+    }
+
+    private void OnDisable()
+    {
+        banControl();
+    }
     void newRound()
     {
         am_i_Death = false;
