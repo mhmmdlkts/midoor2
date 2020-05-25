@@ -60,7 +60,6 @@ public class OnlineMenu : MonoBehaviour
     public void button_leave_room()
     {
         gameObject.GetComponent<Launcher>().LeaveRoom();
-        SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
     }
 
     public void setHisName(string name)
@@ -78,7 +77,7 @@ public class OnlineMenu : MonoBehaviour
     public void setHisWins(int wins)
     {
         data.wins_him = wins;
-        wins_him.GetComponent<Text>().text = "$" + wins;
+        wins_him.GetComponent<Text>().text = wins + "";
     }
 
     public void setHisPP(Sprite sprite)

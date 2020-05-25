@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Launcher : MonoBehaviourPunCallbacks
@@ -13,12 +16,20 @@ public class Launcher : MonoBehaviourPunCallbacks
     string gameVersion = "1";
     public GameObject accept_match_dialog;
     private OnlineMenu onlineMenu;
+    public float waitTimeForSearchAgain = 3f;
     [SerializeField] byte maxPlayersPerRoom;
     [SerializeField] private GameObject progressLabel;
     [SerializeField] private GameObject him;
     private static byte END_OF_TEXT = 3;
     private bool isT;
     private bool accepted_you, accepted_him;
+    private GameObject created_accept_dialog;
+    public static String connectingLabel = "Connecting";
+    public static String disconnectingLabel = "Disconnecting";
+    public static String searchingLabel = "Waiting for player";
+    private long room_time_stamp;
+    private bool forceQuit = true;
+    private bool isRejoining = false;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -27,7 +38,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Start()
     {
         onlineMenu = gameObject.GetComponent<OnlineMenu>();
-        setSearching(true);
         Connect();
     }
 
@@ -39,7 +49,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
         else
         {
-            isConnecting = PhotonNetwork.ConnectUsingSettings();
+            setIsConnecting(PhotonNetwork.ConnectUsingSettings());
             PhotonNetwork.GameVersion = gameVersion;
         }
     }
@@ -48,42 +58,117 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (isConnecting)
         {
             PhotonNetwork.JoinRandomRoom();
-            isConnecting = false;
+            setIsConnecting(false);
+            setSearching(true);
         }
+    }
+
+    private void setIsConnecting(bool isCon)
+    {
+        setSearchinActive(isCon);
+        isConnecting = isCon;
+        if (isCon)
+            progressLabel.GetComponent<TextLoading>().setNewText(connectingLabel);
     }
     
     public override void OnDisconnected(DisconnectCause cause)
     {
-        setSearching(true);
+        leftScene();
     }
     
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
+        //room_time_stamp = DateTime.Now.ToFileTime();
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+    }
+
+    public void searchForOtherRooms()
+    {
+        Debug.Log("Searching");
+        rejoinAfter();
+        if (PhotonNetwork.CountOfRooms > 1 && PhotonNetwork.CurrentRoom.PlayerCount < 2)
+        {
+            Invoke("rejoinAfter", Random.Range(0,10f));
+        }
+        else
+            Invoke("searchForOtherRooms", waitTimeForSearchAgain);
+
+    }
+
+    void rejoinAfter()
+    {
+        isRejoining = true;
+        PhotonNetwork.LeaveLobby();
+        Debug.Log("rejoin");
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        match_found();
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            match_found();
+        }
     }
 
     public void match_found()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-        {
-            Instantiate(accept_match_dialog);
-            sendStatus();
-            setSearching(false);
-        }
+        stopInvokes();
+        created_accept_dialog = Instantiate(accept_match_dialog);
+        sendStatus();
+        setSearching(false);
     }
 
     public void LeaveRoom()
     {
-        if(PhotonNetwork.IsConnected)
-            PhotonNetwork.LeaveRoom();
+        setSearching(true);
+        progressLabel.GetComponent<TextLoading>().setNewText(disconnectingLabel);
+        forceQuit = false;
+        if (PhotonNetwork.IsConnected)
+            PhotonNetwork.Disconnect();
+    }
+
+    public override void OnLeftLobby()
+    {
+        base.OnLeftLobby();
+        if (isRejoining)
+        {
+            PhotonNetwork.JoinRandomRoom();
+            isRejoining = false;
+        }
+    }
+
+    public override void OnLeftRoom()
+    {
+        if (!isRejoining)
+            leftScene();
+        else
+        {
+            PhotonNetwork.JoinRandomRoom();
+            isRejoining = false;
+        }
     }
     
+    
+
+    public void leftScene()
+    {
+        if (!forceQuit)
+        {
+            stopInvokes();
+            SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+            GameObject createdData = GameObject.Find("Data");
+            if (createdData != null)
+                Destroy(createdData);
+        }
+    }
+
+    private void stopInvokes()
+    {
+        CancelInvoke("searchForOtherRooms");
+        CancelInvoke("rejoinAfter");
+    }
+
     public override void OnPlayerEnteredRoom(Player other)
     {
         match_found();
@@ -223,6 +308,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private void loadGame()
     {
+        stopInvokes();
         PhotonNetwork.LoadLevel("Assets/Scenes/Dust2_T_MID.unity");
     }
     
@@ -231,6 +317,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
         
         setSearching(true);
+        Destroy(created_accept_dialog);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -240,8 +327,18 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void setSearching(bool isSearching)
     {
-        progressLabel.SetActive(isSearching);
-        him.SetActive(!isSearching);
+        setSearchinActive(isSearching);
+        if (isSearching)
+        {
+            progressLabel.GetComponent<TextLoading>().setNewText(searchingLabel);
+            Invoke("searchForOtherRooms",waitTimeForSearchAgain);
+        }
+    }
+
+    public void setSearchinActive(bool active)
+    {
+        progressLabel.SetActive(active);
+        him.SetActive(!active);
     }
 
     [PunRPC]
