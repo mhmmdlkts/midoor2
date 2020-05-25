@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: f9b293bf-f19c-4d1b-8b83-ce8736d92cce
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 0.1
+    AppVersion: 
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -25,24 +25,24 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: eu
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
   - ClickRpc
+  - DeserializeAndExecuteHit
   - DestroyRpc
+  - getOnlineShot
+  - OtherLeavesGame
+  - ReceiveAccepted
   - ReceiveName
+  - receivePlayerNames
   - ReceivePP
   - ReceiveRank
   - ReceiveTeam
   - ReceiveWins
-  - DeserializeAndExecuteHit
-  - getOnlineShot
-  - receivePlayerNames
-  - ReceiveAccepted
-  - OtherLeavesGame
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
-  DevRegionSetOnce: 1
+  ShowSettings: 0
+  DevRegionSetOnce: 0

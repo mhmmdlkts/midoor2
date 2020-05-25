@@ -194,6 +194,8 @@
           <e p="ammoPanel.cs" t="Include" />
           <e p="are_you_sure.cs" t="Include" />
           <e p="BloodieScreen.cs" t="Include" />
+          <e p="Bomb.cs" t="Include" />
+          <e p="bomb_icon.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
           <e p="ChangeShow.cs" t="Include" />
           <e p="ControllerControls.cs" t="Include" />

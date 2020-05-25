@@ -55,8 +55,9 @@ public class TeamFriend
 
 public class GameScript : MonoBehaviour
 {
-    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, 
-         healthy_panel, healthy_panel_outside, healthy_text, ammo;
+    public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
+        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud; 
+    private GameObject created_bomb_icon;
     public GameObject[] T_aimPoints; // B, Mid, Long
     public GameObject[] CT_aimPoints; // Long, Mid, B
     public GameObject[] ctPPholder;
@@ -90,12 +91,13 @@ public class GameScript : MonoBehaviour
     public TeamFriend[] friends;
     public Online strategy;
     public List<String> enemysNameList;
+    public bool bombIsOnScreen, bombHasBeenPlant;
     
     
     void Start()
     {
         Application.targetFrameRate = 300;
-        
+
         online = gameObject.GetComponent<GameScriptOnline>();
         isOnline = GameObject.Find("Data") != null;
         if (isOnline) {
@@ -230,7 +232,7 @@ public class GameScript : MonoBehaviour
     public void countdown()
     {
         setTime(time-1);
-        if(time == 0)
+        if(time <= 0)
         {
             timeOut();
         }
@@ -308,6 +310,20 @@ public class GameScript : MonoBehaviour
         canvas.GetComponent<ShowDialogs>().showGameEndDialog(isWinn, kills);
     }
 
+    public void bombPlant()
+    {
+        if (!bombIsOnScreen && !bombHasBeenPlant && isT)
+        {
+            bombIsOnScreen = true;
+            Instantiate(bomb_prefab);
+        }
+    }
+
+    public void throughFlash()
+    {
+        
+    }
+
     public void banControl()
     {
         if (!isGameFinished && isOnline)
@@ -323,6 +339,8 @@ public class GameScript : MonoBehaviour
     }
     void newRound()
     {
+        Destroy(created_bomb_icon);
+        timeLabel.SetActive(true);
         am_i_Death = false;
         round++;
         ppReset();
@@ -526,5 +544,18 @@ public class GameScript : MonoBehaviour
     {
         return isT ? T_aimPoints[lookAt] : CT_aimPoints[lookAt];
     }
-    
+
+    public void bombPlanted()
+    {
+        bombHasBeenPlant = true;
+        created_bomb_icon = Instantiate(bomb_icon_hud);
+        timeLabel.SetActive(false);
+        CancelInvoke("countdown");
+        CancelInvoke();
+    }
+
+    public void bombExplode()
+    {
+        T_win();
+    }
 }
