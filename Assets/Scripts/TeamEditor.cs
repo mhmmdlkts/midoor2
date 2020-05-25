@@ -48,7 +48,7 @@ public class TeamEditor : MonoBehaviour
         finishTypingWith = 1;
         InputField1.SetActive(true);
         name1.SetActive(false);
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true, true);
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         EventSystem.current.SetSelectedGameObject(InputField1.gameObject, null);
     }
 
@@ -63,7 +63,7 @@ public class TeamEditor : MonoBehaviour
         finishTypingWith = 2;
         InputField2.SetActive(true);
         name2.SetActive(false);
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true, true);
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         EventSystem.current.SetSelectedGameObject(InputField2.gameObject, null);
     }
 
@@ -78,7 +78,7 @@ public class TeamEditor : MonoBehaviour
         finishTypingWith = 3;
         InputField3.SetActive(true);
         name3.SetActive(false);
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true, true);
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         EventSystem.current.SetSelectedGameObject(InputField3.gameObject, null);
     }
 
@@ -93,7 +93,7 @@ public class TeamEditor : MonoBehaviour
         finishTypingWith = 4;
         InputField4.SetActive(true);
         name4.SetActive(false);
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true, true);
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         EventSystem.current.SetSelectedGameObject(InputField4.gameObject, null);
     }
 

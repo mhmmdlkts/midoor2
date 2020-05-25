@@ -34,7 +34,7 @@ public class PlayerStatus : MonoBehaviour
     {
         inputName.SetActive(true);
         name.SetActive(false);
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false, true, true);
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         EventSystem.current.SetSelectedGameObject(inputName.gameObject, null);
     }
 
