@@ -145,4 +145,15 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     {
         photonView.RPC("openedBomb", RpcTarget.Others);
     }
+
+    public void sendFlash()
+    {
+        photonView.RPC("receiveFlash", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void receiveFlash()
+    {
+        game.explodeFlash();
+    }
 }

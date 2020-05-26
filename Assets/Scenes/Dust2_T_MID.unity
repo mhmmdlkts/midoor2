@@ -17392,6 +17392,7 @@ MonoBehaviour:
   roundTime: 90
   enemyCount: 0
   teamCount: 0
+  startFlashCounts: 2
   round_per_half: 4
   defLookPintCT: 1
   defLookPintT: 1
@@ -18336,7 +18337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.30400002, y: 0.21771501}
   m_AnchorMax: {x: 0.6962169, y: 0.753}
-  m_AnchoredPosition: {x: -0.009353638, y: 0.4148674}
+  m_AnchoredPosition: {x: -0.009353638, y: 0.4148636}
   m_SizeDelta: {x: 52.341797, y: 13.170326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2100762504

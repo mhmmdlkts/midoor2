@@ -71,8 +71,8 @@ public class GameScript : MonoBehaviour
     public bool isGameFinished; // 0: Ranked
 
     public static String yourName;
-    private int time, tScore, ctScore, kills, round;
-    public int roundTime, enemyCount, teamCount;
+    private int time, tScore, ctScore, kills, round, countOfFlashs;
+    public int roundTime, enemyCount, teamCount, startFlashCounts;
     public int round_per_half, defLookPintCT = 1, defLookPintT = 1;
     private static readonly int WIN_SCORE = 16;
     public static bool isStoped = true;
@@ -110,7 +110,7 @@ public class GameScript : MonoBehaviour
         else
         {
             strategy = Online.OFFLINE;
-            //hideOnlineObjects(); //TODO
+            //hideOnlineObjects();
         }
         initializeMyTeam();
         isT = isOnline? online_data.isT_me : Random.Range(0,2) == 1;
@@ -348,7 +348,40 @@ public class GameScript : MonoBehaviour
 
     public void throughFlash()
     {
+        if (countOfFlashs <= 0)
+            return;
+        countOfFlashs--;
+        online.sendFlash();
+    }
+
+    public void explodeFlash()
+    {
+        GameObject panel = new GameObject("Flash");
+        panel.AddComponent<CanvasRenderer>();
+        panel.AddComponent<RectTransform>();
+        RectTransform rc = panel.GetComponent<RectTransform>();
+            
+        rc.anchorMin = new Vector2(0, 0);
+        rc.anchorMax = new Vector2(1, 1);
         
+        Image i = panel.AddComponent<Image>();
+        i.color = Color.white;
+        panel.transform.SetParent(canvas.transform, false);
+        
+        StartCoroutine(flashFade(panel, 0.0f, 2.0f, 1.5f));
+    }
+    
+    IEnumerator flashFade(GameObject panel, float aValue, float aTime, float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        float alpha = panel.GetComponent<Image>().color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+            panel.GetComponent<Image>().color = newColor;
+            yield return null;
+        }
+        Destroy(panel);
     }
 
     public void banControl()
@@ -378,6 +411,7 @@ public class GameScript : MonoBehaviour
         killAllMobs();
         setTime(roundTime);
         startCountdown();
+        countOfFlashs = startFlashCounts;
         enemyCount = START_ENEMY_COUNT;
         teamCount = START_ENEMY_COUNT;
         updateScore();
