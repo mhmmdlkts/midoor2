@@ -177,6 +177,7 @@ public class GameScript : MonoBehaviour
                 case 4: case 3: case 2: case 1:
                     break;
                 case 0:
+                    setHealthy(playersHealthy - damage);
                     teamDeath();
                     break;
             }
@@ -416,7 +417,7 @@ public class GameScript : MonoBehaviour
         teamCount = START_ENEMY_COUNT;
         updateScore();
         setLook(1);
-        getEnemySpawn().creatFirstStrategy(strategy);
+        getEnemySpawn().creatFirstStrategy(strategy, isOnline);
     }
 
     private ENEMY_SPAWN getEnemySpawn()
@@ -463,11 +464,15 @@ public class GameScript : MonoBehaviour
 
     void allKilled()
     {
+        if (bombHasBeenPlant && !isT)
+            return;
         roundWin();
     }
 
     void teamDeath()
     {
+        if(bombHasBeenPlant && isT)
+            return;
         roundLose();
     }
 
@@ -536,7 +541,10 @@ public class GameScript : MonoBehaviour
         kills++;
         switch (enemyCount)
         {
-            case 4: case 3: case 2: case 1:
+            case 4: case 3: case 2:
+                break;
+            case 1:
+                if (isOnline) getEnemySpawn().createNew(strategy, isOnline, 0);
                 break;
             case 0:
                 allKilled();

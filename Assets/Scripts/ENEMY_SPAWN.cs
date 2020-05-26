@@ -94,12 +94,17 @@ public class ENEMY_SPAWN : MonoBehaviour
         action.spawnPoint.GetComponent<mobGoDesPoint>().newAction(action);
     }
 
-    public void creatFirstStrategy(Online strategy)
+    public void creatFirstStrategy(Online strategy, bool isOnline)
     {
-        for (int i = 0; i < PLAYERS_COUNT; i++)
+        for (int i = isOnline? 1: 0; i < PLAYERS_COUNT; i++)
         {
-            spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(i, firstHealthy, game.enemysNameList[i], (long)(firstMobWaitTime*1000),strategy);
+            createNew(strategy, isOnline, i);
         }
+    }
+
+    public void createNew(Online strategy, bool isOnline, int id)
+    {
+        spawnPointGroups[0].GetComponent<Spawn_Groups>().creatInARandomPointMob(id, firstHealthy, game.enemysNameList[id], (long)(firstMobWaitTime*1000),strategy);
     }
 
     public void newAction(GameObject spawnPoint, int healthy, String name, long delay, int id, Online strategy, Online_EX onlineEx)
