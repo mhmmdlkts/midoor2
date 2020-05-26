@@ -10284,7 +10284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 3.3241866
+  m_AspectRatio: 2.925181
 --- !u!114 &879591321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12853,7 +12853,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2016928303}
-        m_MethodName: bombPlant
+        m_MethodName: bombButtonListener
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17359,6 +17359,8 @@ MonoBehaviour:
     type: 3}
   bomb_icon_hud: {fileID: 1066914365206084750, guid: 701b9f22740a64b51b95de01dacc32c0,
     type: 3}
+  plant_bomb_button: {fileID: 1273870786}
+  flash_button: {fileID: 306899917}
   T_aimPoints:
   - {fileID: 205901022}
   - {fileID: 152472093}
@@ -17401,6 +17403,7 @@ MonoBehaviour:
   enemysNameList: []
   bombIsOnScreen: 0
   bombHasBeenPlant: 0
+  correctBombPin: 
 --- !u!114 &2016928304
 MonoBehaviour:
   m_ObjectHideFlags: 0

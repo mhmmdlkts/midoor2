@@ -11,6 +11,11 @@ public class Bomb : MonoBehaviour
     public GameObject Pin_text, Led, container, game;
     public float blinkTime;
     public Color32 white, red, green, transparan;
+    public bool isPlanting, buttonsInteractible;
+    private int tryingAt = 0;
+    public float waitTimeForDefWithoutKit;
+    public float waitTimeForDefWithKit;
+    public bool hasCtKit;
 
     public int maxPinLength;
     // Start is called before the first frame update
@@ -19,34 +24,55 @@ public class Bomb : MonoBehaviour
         game = GameObject.Find("MOVABLE");
         container = GameObject.Find("SafeArea");
         gameObject.transform.SetParent (container.transform, false);
-        deletePin();
         blinkOff();
+        deletePin();
+        if (!isPlanting)
+            refreshDefPass();
     }
 
-    void blink()
+    float getDefBlinkWaitTime()
     {
-        Led.GetComponent<Image>().color = transparan;
+        return hasCtKit ? waitTimeForDefWithKit : waitTimeForDefWithoutKit;
+    }
+
+    void blink(Color32 color, float blinkTime)
+    {
+        Led.GetComponent<Image>().color = color;
         Invoke("blinkOff", blinkTime);
+        buttonsInteractible = false;
     }
 
     void blinkOff()
     {
         Led.GetComponent<Image>().color = white;
+        buttonsInteractible = true;
     }
 
     void enter()
     {
-        if (isItCorrect() || enteredPin.Equals("*")) // TODO delete '*'
+        if (isItCorrect())
         {
-            Led.GetComponent<Image>().color = green;
-            Invoke("plantBomb", 1f);
+            blink(green, blinkTime*3);
+            Invoke("plantOk", 1f);
         }
         else
         {
+            Invoke("deletePin", blinkTime*3);
             Led.GetComponent<Image>().color = red;
         }
 
         Invoke("blinkOff", blinkTime*3);
+    }
+
+    public void setCorrectPin(string pin)
+    {
+        correctPin = pin;
+    }
+
+    public void close()
+    {
+        game.GetComponent<GameScript>().bombIsOnScreen = false;
+        Destroy(gameObject);
     }
 
     void deletePin()
@@ -56,88 +82,98 @@ public class Bomb : MonoBehaviour
 
     public bool isItCorrect()
     {
+        if (isPlanting)
+            return true;
         return enteredPin.Equals(correctPin);
     }
 
-    void setPin(String pin)
+    public void addPin(int nummer)
+    {
+        if (!buttonsInteractible)
+            return;
+        if (maxPinLength <= enteredPin.Length)
+            return;
+        if (isPlanting)
+        {
+            blink(green, blinkTime);
+            setPin(enteredPin + nummer);
+        }
+        else
+            tryPin((char)(nummer+'0'));
+    }
+
+    public void setPin(String pin)
     {
         enteredPin = pin;
         Pin_text.GetComponent<Text>().text = enteredPin;
     }
 
-    void addPin(char nummer)
+    void tryPin(char pin)
     {
-        blink();
-        if (maxPinLength <= enteredPin.Length)
-            return;
-        setPin(enteredPin + nummer);
+        string stars = getStars(1);
+        Pin_text.GetComponent<Text>().text = stars + enteredPin + pin;
+        buttonsInteractible = false;
+        if (correctPin[tryingAt] == pin)
+            tryCorrect(pin);
+        else
+        {
+            blink(transparan, getDefBlinkWaitTime());
+            Invoke("refreshDefPass", getDefBlinkWaitTime());
+        }
     }
 
-    public void btn_1()
+    void refreshDefPass()
     {
-        addPin('1');
+        buttonsInteractible = true;
+        string stars = getStars(0);
+        Pin_text.GetComponent<Text>().text = stars + enteredPin;
     }
 
-    public void btn_2()
+    void tryCorrect(char pin)
     {
-        addPin('2');
+        enteredPin += pin;
+        blink(green, getDefBlinkWaitTime());
+        tryingAt++;
+        if (tryingAt >= correctPin.Length)
+            plantOk();
     }
 
-    public void btn_3()
+    public string getStars(int minusStars)
     {
-        addPin('3');
-    }
-
-    public void btn_4()
-    {
-        addPin('4');
-    }
-
-    public void btn_5()
-    {
-        addPin('5');
-    }
-
-    public void btn_6()
-    {
-        addPin('6');
-    }
-
-    public void btn_7()
-    {
-        addPin('7');
-    }
-
-    public void btn_8()
-    {
-        addPin('8');
-    }
-
-    public void btn_9()
-    {
-        addPin('9');
-    }
-
-    public void btn_0()
-    {
-        addPin('0');
+        string stars = "";
+        for (int i = minusStars; i < correctPin.Length - enteredPin.Length; i++)
+            stars += '*';
+        return stars;
     }
 
     public void btn_star()
     {
-        addPin('*');
+        deletePin();
     }
 
     public void btn_hashtag()
     {
         enter();
-        deletePin();
     }
 
-    public void plantBomb()
+    public void plantOk()
     {
         game.GetComponent<GameScript>().bombIsOnScreen = false;
-        game.GetComponent<GameScript>().bombPlanted();
+        if (isPlanting)
+            game.GetComponent<GameScript>().bombPlanted(enteredPin);
+        else
+            game.GetComponent<GameScript>().bombDefused();
         Destroy(gameObject);
+    }
+
+    public void forPlanting()
+    {
+        isPlanting = true;
+    }
+
+    public void forDefusing(String settedPin)
+    {
+        setCorrectPin(settedPin);
+        isPlanting = false;
     }
 }

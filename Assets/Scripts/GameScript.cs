@@ -56,8 +56,8 @@ public class TeamFriend
 public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
-        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud; 
-    private GameObject created_bomb_icon;
+        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button; 
+    private GameObject created_bomb_icon, created_bomb;
     public GameObject[] T_aimPoints; // B, Mid, Long
     public GameObject[] CT_aimPoints; // Long, Mid, B
     public GameObject[] ctPPholder;
@@ -92,6 +92,8 @@ public class GameScript : MonoBehaviour
     public Online strategy;
     public List<String> enemysNameList;
     public bool bombIsOnScreen, bombHasBeenPlant;
+
+    public string correctBombPin;
     
     
     void Start()
@@ -104,7 +106,12 @@ public class GameScript : MonoBehaviour
             online_data = GameObject.Find("Data").GetComponent<OnlineData>();
             initializeOtherTeam();
             strategy = Online.WRITE;
-        } else strategy = Online.OFFLINE;
+        }
+        else
+        {
+            strategy = Online.OFFLINE;
+            //hideOnlineObjects(); //TODO
+        }
         initializeMyTeam();
         isT = isOnline? online_data.isT_me : Random.Range(0,2) == 1;
         gameMode = 0;
@@ -122,6 +129,12 @@ public class GameScript : MonoBehaviour
         resetLook();
         
         newRound();
+    }
+
+    private void hideOnlineObjects()
+    {
+        plant_bomb_button.SetActive(false);
+        flash_button.SetActive(false);
     }
 
     private void initializeMyTeam()
@@ -306,17 +319,31 @@ public class GameScript : MonoBehaviour
 
     void endGame(int isWinn)
     {
+        if(isOnline)
+            online.disconnect();
+        if (isWinn == -2)
+            return;
         isGameFinished = true;
         canvas.GetComponent<ShowDialogs>().showGameEndDialog(isWinn, kills);
     }
 
-    public void bombPlant()
+    public void bombButtonListener()
     {
-        if (!bombIsOnScreen && !bombHasBeenPlant && isT)
+        if (bombIsOnScreen)
+            return;
+        if (isT && !bombHasBeenPlant)
         {
             bombIsOnScreen = true;
-            Instantiate(bomb_prefab);
+            created_bomb = Instantiate(bomb_prefab);
+            created_bomb.GetComponent<Bomb>().forPlanting();
         }
+        else if (!isT && bombHasBeenPlant)
+        {
+            bombIsOnScreen = true;
+            created_bomb = Instantiate(bomb_prefab);
+            created_bomb.GetComponent<Bomb>().forDefusing(correctBombPin);
+        }
+        online.openBomb();
     }
 
     public void throughFlash()
@@ -328,8 +355,8 @@ public class GameScript : MonoBehaviour
     {
         if (!isGameFinished && isOnline)
         {
+            PlayerPrefs.SetInt("loseSerie",-1);
             endGame(-2);
-            online.leaveUnexpected();
         }
     }
 
@@ -340,6 +367,7 @@ public class GameScript : MonoBehaviour
     void newRound()
     {
         Destroy(created_bomb_icon);
+        Destroy(created_bomb);
         timeLabel.SetActive(true);
         am_i_Death = false;
         round++;
@@ -545,8 +573,12 @@ public class GameScript : MonoBehaviour
         return isT ? T_aimPoints[lookAt] : CT_aimPoints[lookAt];
     }
 
-    public void bombPlanted()
+    public void bombPlanted(string pin)
     {
+        if (isT)
+            online.bombPlanted(pin);
+        else
+            correctBombPin = pin;
         bombHasBeenPlant = true;
         created_bomb_icon = Instantiate(bomb_icon_hud);
         timeLabel.SetActive(false);
@@ -554,8 +586,27 @@ public class GameScript : MonoBehaviour
         CancelInvoke();
     }
 
+    public void bombDefused()
+    {
+        bombHasBeenPlant = false;
+        if (!isT)
+            online.bombDefused();
+        CT_win();
+    }
+
     public void bombExplode()
     {
         T_win();
+    }
+
+    public void otherLeavs()
+    {
+        if (!isGameFinished)
+            gameWin();
+    }
+
+    public void bombOpened()
+    {
+        //TODO difus starting sound or planting
     }
 }

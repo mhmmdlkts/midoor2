@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Photon.Pun;
 using UnityEngine;
+using Photon.Realtime;
 
 public class GameScriptOnline : MonoBehaviourPunCallbacks
 {
@@ -90,19 +91,58 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         game.friendGotShot(weaponCode, isWall, isHead, enemyId, damage);
     }
 
-    [PunRPC]
-    private void OtherLeavesGame()
+    public override void OnPlayerLeftRoom(Player other)
     {
-        game.gameWin();
-    }
-
-    public void leaveUnexpected()
-    {
-        photonView.RPC("OtherLeavesGame", RpcTarget.Others);
+        
+        game.otherLeavs();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+        }
     }
 
     public bool isOnline()
     {
         return gameObject.GetComponent<GameScript>().isOnline;
+    }
+
+    public void bombPlanted(string enteredPin)
+    {
+        photonView.RPC("T_plants_bomb", RpcTarget.Others, Encoding.ASCII.GetBytes(enteredPin));
+    }
+    
+
+    [PunRPC]
+    private void T_plants_bomb(byte[] pin)
+    {
+        game.bombPlanted(Encoding.ASCII.GetString(pin));
+    }
+    
+
+    [PunRPC]
+    private void CT_defused_bomb()
+    {
+        game.bombDefused();
+    }
+
+    public void bombDefused()
+    {
+        photonView.RPC("CT_defused_bomb", RpcTarget.Others);
+    }
+
+    public void disconnect()
+    {
+        PhotonNetwork.Disconnect();
+    }
+
+    [PunRPC]
+    public void openedBomb()
+    {
+        game.bombOpened();
+    }
+    
+    public void openBomb()
+    {
+        photonView.RPC("openedBomb", RpcTarget.Others);
     }
 }
