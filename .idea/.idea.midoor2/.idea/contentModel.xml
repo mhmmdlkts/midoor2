@@ -198,6 +198,7 @@
           <e p="bomb_icon.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
           <e p="ChangeShow.cs" t="Include" />
+          <e p="ColorTag.cs" t="Include" />
           <e p="ControllerControls.cs" t="Include" />
           <e p="CT_SPAWN.cs" t="Include" />
           <e p="deathInfo.cs" t="Include" />

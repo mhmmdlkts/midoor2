@@ -471,7 +471,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d2f86406d4fd4dd419da1e1c1347b962, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9a35fef351759074286d11e9c5de9bf5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17361,6 +17361,9 @@ MonoBehaviour:
     type: 3}
   plant_bomb_button: {fileID: 1273870786}
   flash_button: {fileID: 306899917}
+  colorTag_prefab: {fileID: 2394704303300080987, guid: 0d5988eb42aba411db125eec00895ae5,
+    type: 3}
+  createdColorTags: []
   T_aimPoints:
   - {fileID: 205901022}
   - {fileID: 152472093}
@@ -17382,7 +17385,7 @@ MonoBehaviour:
   - {fileID: 35726916}
   - {fileID: 2020298226}
   online: {fileID: 0}
-  ownPP: {fileID: 21300000, guid: d2f86406d4fd4dd419da1e1c1347b962, type: 3}
+  ownPP: {fileID: 21300000, guid: 8c1af99f6492f864195a6210582a383b, type: 3}
   tPP: {fileID: 21300000, guid: 9a35fef351759074286d11e9c5de9bf5, type: 3}
   ctPP: {fileID: 21300000, guid: 94f6770fa0822f548b9be8e362ce3f16, type: 3}
   maxLooks: 0

@@ -56,8 +56,9 @@ public class TeamFriend
 public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
-        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button; 
+        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab; 
     private GameObject created_bomb_icon, created_bomb;
+    public GameObject[] createdColorTags;
     public GameObject[] T_aimPoints; // B, Mid, Long
     public GameObject[] CT_aimPoints; // Long, Mid, B
     public GameObject[] ctPPholder;
@@ -137,6 +138,24 @@ public class GameScript : MonoBehaviour
         flash_button.SetActive(false);
     }
 
+    private void refreshColorTags()
+    {
+        for (int i = 0; i < createdColorTags.Length; i++)
+            Destroy(createdColorTags[i]);
+        createdColorTags = new GameObject[START_ENEMY_COUNT];
+        for (int i = 0; i < createdColorTags.Length; i++)
+        {
+            GameObject container_colorTag = getPPHolder(i);
+            createdColorTags[i] = Instantiate(colorTag_prefab);
+            createdColorTags[i].GetComponent<ColorTag>().configure(i, container_colorTag);
+        }
+    }
+
+    GameObject getPPHolder(int i)
+    {
+        return isT ? tPPholder[i] : ctPPholder[i];
+    }
+
     private void initializeMyTeam()
     {
         myTeam = new string[START_ENEMY_COUNT];
@@ -159,6 +178,7 @@ public class GameScript : MonoBehaviour
         myTeam[0] = yourName;
         for (int i = 0; i < friends.Length; i++)
             friends[i] = new TeamFriend(i, myTeam[i], isT? tPPholder[i]: ctPPholder[i]);
+        refreshColorTags();
     }
 
     public void getOnlineShot()
@@ -359,13 +379,14 @@ public class GameScript : MonoBehaviour
     {
         GameObject panel = new GameObject("Flash");
         panel.AddComponent<CanvasRenderer>();
-        panel.AddComponent<RectTransform>();
-        RectTransform rc = panel.GetComponent<RectTransform>();
+        RectTransform rc = panel.AddComponent<RectTransform>();
+        Image i = panel.AddComponent<Image>();
             
         rc.anchorMin = new Vector2(0, 0);
         rc.anchorMax = new Vector2(1, 1);
-        
-        Image i = panel.AddComponent<Image>();
+        rc.offsetMin = new Vector2(0, 0);
+        rc.offsetMax = new Vector2(0, 0);
+
         i.color = Color.white;
         panel.transform.SetParent(canvas.transform, false);
         
