@@ -143,7 +143,7 @@ public class ENEMY_SPAWN : MonoBehaviour
 
     public void resetActions()
     {
-        actions.Clear();
+        actions.Clear();  // TODO NULL Pointer Exception aldim incelee
         lastExecutionTime = CurrentTimeMillis();
     }
 

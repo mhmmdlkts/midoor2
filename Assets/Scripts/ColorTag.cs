@@ -15,7 +15,6 @@ public class ColorTag : MonoBehaviour
 
     public void configure(int colorId, GameObject container)
     {
-        Debug.Log("color id: " + colorId);
         gameObject.transform.SetParent (container.transform, false);
         switch (colorId)
         {

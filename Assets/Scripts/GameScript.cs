@@ -56,7 +56,8 @@ public class TeamFriend
 public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
-        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab; 
+        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab,
+        knife_button, map_prefab, created_map; 
     private GameObject created_bomb_icon, created_bomb;
     public GameObject[] createdColorTags;
     public GameObject[] T_aimPoints; // B, Mid, Long
@@ -64,7 +65,7 @@ public class GameScript : MonoBehaviour
     public GameObject[] ctPPholder;
     public GameObject[] tPPholder;
     public GameScriptOnline online;
-    public Sprite ownPP, tPP, ctPP;
+    public Sprite ownPP, tPP, ctPP, ctKnifeSprite, tKnifeSprite;
     public int maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
     public static int isLokingIn;
     public static bool isT;
@@ -83,7 +84,7 @@ public class GameScript : MonoBehaviour
     public static int tot_rank = 18;
 
     public OnlineData online_data;
-    public bool isOnline;
+    public bool isOnline, isOtherPlayerSpawned;
     public string[] myTeam;
     public string[] otherTeam;
     private static int otherRank;
@@ -92,7 +93,7 @@ public class GameScript : MonoBehaviour
     public TeamFriend[] friends;
     public Online strategy;
     public List<String> enemysNameList;
-    public bool bombIsOnScreen, bombHasBeenPlant;
+    public int bombIsPlanted, whereIsOther;
 
     public string correctBombPin;
     
@@ -130,6 +131,11 @@ public class GameScript : MonoBehaviour
         resetLook();
         
         newRound();
+    }
+
+    private void refreshKnifeButtonImg()
+    {
+        knife_button.GetComponent<Image>().sprite = isT ? tKnifeSprite : ctKnifeSprite;
     }
 
     private void hideOnlineObjects()
@@ -178,7 +184,9 @@ public class GameScript : MonoBehaviour
         myTeam[0] = yourName;
         for (int i = 0; i < friends.Length; i++)
             friends[i] = new TeamFriend(i, myTeam[i], isT? tPPholder[i]: ctPPholder[i]);
+        knife_button.SetActive(!isT);
         refreshColorTags();
+        refreshKnifeButtonImg();
     }
 
     public void getOnlineShot()
@@ -306,7 +314,7 @@ public class GameScript : MonoBehaviour
     {
         if (!isOnline)
             roundLose();
-        showKillInfo(false, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
+        showKillInfo(!isT, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
         am_i_Death = true;
     }
     
@@ -348,23 +356,46 @@ public class GameScript : MonoBehaviour
         canvas.GetComponent<ShowDialogs>().showGameEndDialog(isWinn, kills);
     }
 
+    public bool bombHasBeenPlant()
+    {
+        return bombIsPlanted != 0;
+    }
+
+    public void knifeButtonListener()
+    {
+        openMap(MapChose.knife);
+    }
+
     public void bombButtonListener()
     {
-        if (bombIsOnScreen)
+        openMap(isT? MapChose.plant : MapChose.defus);
+    }
+
+    public void openMap(MapChose why)
+    {
+        if (created_map != null)
             return;
-        if (isT && !bombHasBeenPlant)
+        created_map = Instantiate(map_prefab);
+        created_map.GetComponent<Map>().mapChose = why;
+    }
+
+    public void openBomb(int side)
+    {
+        if (created_bomb != null)
+            return;
+        if (isT && !bombHasBeenPlant())
         {
-            bombIsOnScreen = true;
             created_bomb = Instantiate(bomb_prefab);
+            created_bomb.GetComponent<Bomb>().plantingSide = side;
             created_bomb.GetComponent<Bomb>().forPlanting();
         }
-        else if (!isT && bombHasBeenPlant)
+        else if (!isT && bombHasBeenPlant())
         {
-            bombIsOnScreen = true;
             created_bomb = Instantiate(bomb_prefab);
+            created_bomb.GetComponent<Bomb>().plantingSide = side;
             created_bomb.GetComponent<Bomb>().forDefusing(correctBombPin);
         }
-        online.openBomb();
+        online.openBomb(side);
     }
 
     public void throughFlash()
@@ -433,11 +464,14 @@ public class GameScript : MonoBehaviour
         killAllMobs();
         setTime(roundTime);
         startCountdown();
+        bombIsPlanted = 0;
+        whereIsOther = 0;
         countOfFlashs = startFlashCounts;
         enemyCount = START_ENEMY_COUNT;
         teamCount = START_ENEMY_COUNT;
         updateScore();
         setLook(1);
+        isOtherPlayerSpawned = false;
         getEnemySpawn().creatFirstStrategy(strategy, isOnline);
     }
 
@@ -485,14 +519,14 @@ public class GameScript : MonoBehaviour
 
     void allKilled()
     {
-        if (bombHasBeenPlant && !isT)
+        if (bombHasBeenPlant() && !isT)
             return;
         roundWin();
     }
 
     void teamDeath()
     {
-        if(bombHasBeenPlant && isT)
+        if(bombHasBeenPlant() && isT)
             return;
         roundLose();
     }
@@ -565,7 +599,12 @@ public class GameScript : MonoBehaviour
             case 4: case 3: case 2:
                 break;
             case 1:
-                if (isOnline) getEnemySpawn().createNew(strategy, isOnline, 0);
+                if (isOnline && !isOtherPlayerSpawned)
+                {
+                    getEnemySpawn().createNew(strategy, isOnline, 0);
+                    isOtherPlayerSpawned = true;
+                }
+
                 break;
             case 0:
                 allKilled();
@@ -636,13 +675,13 @@ public class GameScript : MonoBehaviour
         return isT ? T_aimPoints[lookAt] : CT_aimPoints[lookAt];
     }
 
-    public void bombPlanted(string pin)
+    public void bombPlanted(string pin, int plantSide)
     {
         if (isT)
-            online.bombPlanted(pin);
-        else
-            correctBombPin = pin;
-        bombHasBeenPlant = true;
+            online.bombPlanted(pin, plantSide);
+        correctBombPin = pin;
+        bombIsPlanted = plantSide;
+        whereIsOther = 0;
         created_bomb_icon = Instantiate(bomb_icon_hud);
         timeLabel.SetActive(false);
         CancelInvoke("countdown");
@@ -651,7 +690,6 @@ public class GameScript : MonoBehaviour
 
     public void bombDefused()
     {
-        bombHasBeenPlant = false;
         if (!isT)
             online.bombDefused();
         CT_win();
@@ -668,8 +706,67 @@ public class GameScript : MonoBehaviour
             gameWin();
     }
 
-    public void bombOpened()
+    public void bombOpened(int side)
     {
+        whereIsOther = side;
         //TODO difus starting sound or planting
+    }
+
+    public void mapOK(int side, MapChose mapChose)
+    {
+        switch (mapChose)
+        {
+            case MapChose.plant:
+                openBomb(side);
+                break;
+            case MapChose.defus:
+                if (bombIsPlanted == side)
+                    openBomb(side);
+                else 
+                    Debug.Log("Wrong Side Chosed for defuse");
+                break;
+            case MapChose.knife:
+                Debug.Log("side--:" + side);
+                Debug.Log("bombIsPlanted--:" + bombIsPlanted);
+                if (whereIsOther == side)
+                    knifeOther();
+                else 
+                    Debug.Log("Wrong Side Chosed for Knife");
+                break;
+        }
+    }
+
+    private void knifeOther()
+    {
+        showKillInfo(!isT, 3, false, false, yourName, enemysNameList[0]);
+        //TODO kil other
+        roundWin();
+        online.knifeOther();
+    }
+
+    public void getKnifeTry()
+    {
+        if (created_bomb != null)
+            knifed();
+        else
+            Debug.Log("No one is there");
+    }
+
+    private void knifed()
+    {
+        //TODO me
+        roundLose();
+        isOtherPlayerSpawned = true;
+        showKillInfo(!isT, 3, false, false, enemysNameList[0], yourName);
+    }
+
+    public void closeBomb()
+    {
+        online.closeBomb();
+    }
+
+    public void otherCloseBomb()
+    {
+        whereIsOther = 0;
     }
 }

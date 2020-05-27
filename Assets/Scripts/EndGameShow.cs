@@ -76,7 +76,7 @@ public class EndGameShow : MonoBehaviour
 
     private void rankUp()
     {
-        if(rank < GameScript.tot_rank)
+        if(rank < GameScript.tot_rank-1)
             rank++;
     }
 

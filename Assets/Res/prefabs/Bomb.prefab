@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 0
-  m_AspectRatio: 1.6690869
+  m_AspectRatio: 1.7548739
 --- !u!114 &1697809485633693850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,6 +1428,8 @@ MonoBehaviour:
     rgba: 0
   isPlanting: 0
   buttonsInteractible: 0
+  tryingAt: 0
+  plantingSide: 0
   waitTimeForDefWithoutKit: 0.5
   waitTimeForDefWithKit: 0.25
   hasCtKit: 0

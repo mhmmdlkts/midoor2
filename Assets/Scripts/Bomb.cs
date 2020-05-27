@@ -12,7 +12,7 @@ public class Bomb : MonoBehaviour
     public float blinkTime;
     public Color32 white, red, green, transparan;
     public bool isPlanting, buttonsInteractible;
-    private int tryingAt = 0;
+    public int tryingAt = 0, plantingSide;
     public float waitTimeForDefWithoutKit;
     public float waitTimeForDefWithKit;
     public bool hasCtKit;
@@ -71,7 +71,7 @@ public class Bomb : MonoBehaviour
 
     public void close()
     {
-        game.GetComponent<GameScript>().bombIsOnScreen = false;
+        game.GetComponent<GameScript>().closeBomb();
         Destroy(gameObject);
     }
 
@@ -158,9 +158,8 @@ public class Bomb : MonoBehaviour
 
     public void plantOk()
     {
-        game.GetComponent<GameScript>().bombIsOnScreen = false;
         if (isPlanting)
-            game.GetComponent<GameScript>().bombPlanted(enteredPin);
+            game.GetComponent<GameScript>().bombPlanted(enteredPin, plantingSide);
         else
             game.GetComponent<GameScript>().bombDefused();
         Destroy(gameObject);

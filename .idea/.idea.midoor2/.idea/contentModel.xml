@@ -196,6 +196,7 @@
           <e p="BloodieScreen.cs" t="Include" />
           <e p="Bomb.cs" t="Include" />
           <e p="bomb_icon.cs" t="Include" />
+          <e p="buttonDelay.cs" t="Include" />
           <e p="CameraMoveJoystick.cs" t="Include" />
           <e p="ChangeShow.cs" t="Include" />
           <e p="ColorTag.cs" t="Include" />
@@ -215,6 +216,7 @@
           <e p="JoystickMove.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
+          <e p="Map.cs" t="Include" />
           <e p="match_ready_dialog.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
           <e p="OnlineData.cs" t="Include" />

@@ -106,16 +106,37 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         return gameObject.GetComponent<GameScript>().isOnline;
     }
 
-    public void bombPlanted(string enteredPin)
+    public void bombPlanted(string enteredPin, int side)
     {
-        photonView.RPC("T_plants_bomb", RpcTarget.Others, Encoding.ASCII.GetBytes(enteredPin));
+        byte[] pin = Encoding.ASCII.GetBytes(enteredPin);
+        byte[] b = new byte[pin.Length+1];
+
+        for (int i = 0; i < b.Length - 1; i++)
+        {
+            b[i] = pin[i];
+            Debug.Log(i + "; " + b[i]);
+        }
+
+        b[b.Length - 1] = (byte)side;
+        Debug.Log( "side0: " + b[b.Length - 1]);
+        photonView.RPC("T_plants_bomb", RpcTarget.Others, b);
     }
     
 
     [PunRPC]
-    private void T_plants_bomb(byte[] pin)
+    private void T_plants_bomb(byte[] b)
     {
-        game.bombPlanted(Encoding.ASCII.GetString(pin));
+        byte[] pin = new byte[b.Length-1];
+        for (int i = 0; i < pin.Length; i++)
+        {
+            pin[i] = b[i];
+            Debug.Log(i + ": " + b[i]);
+        }
+
+        int side = b[b.Length - 1];
+        Debug.Log( "side1: " + side);
+        
+        game.bombPlanted(Encoding.ASCII.GetString(pin), side);
     }
     
 
@@ -136,14 +157,14 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void openedBomb()
+    public void openedBomb(byte[] b)
     {
-        game.bombOpened();
+        game.bombOpened(b[0]);
     }
     
-    public void openBomb()
+    public void openBomb(int side)
     {
-        photonView.RPC("openedBomb", RpcTarget.Others);
+        photonView.RPC("openedBomb", RpcTarget.Others, new byte[] {(byte)side});
     }
 
     public void sendFlash()
@@ -155,5 +176,27 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     public void receiveFlash()
     {
         game.explodeFlash();
+    }
+
+    public void knifeOther()
+    {
+        photonView.RPC("receiveKnife", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void receiveKnife()
+    {
+        game.getKnifeTry();
+    }
+
+    public void closeBomb()
+    {
+        photonView.RPC("receiveCloseBomb", RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void receiveCloseBomb()
+    {
+        game.otherCloseBomb();
     }
 }

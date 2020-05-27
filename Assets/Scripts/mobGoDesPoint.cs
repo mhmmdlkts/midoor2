@@ -256,8 +256,12 @@ public class mobGoDesPoint : MonoBehaviour
                 damage = isHead?84:26;
                 weaponCode = 3;
                 break;
+            case 3:
+                damage = 110;
+                weaponCode = 4;
+                break;
         }
-        mainObject.GetComponent<GameScript>().givePlayerDamage(damage,weaponCode, isHead, createdMob);
+        mainObject.GetComponent<GameScript>().givePlayerDamage(damage, weaponCode, isHead, createdMob);
     }
 
     public void stopFiring()
