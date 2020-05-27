@@ -57,7 +57,7 @@ public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
         healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab,
-        knife_button, map_prefab, created_map; 
+        knife_button, map_prefab, created_map;
     private GameObject created_bomb_icon, created_bomb;
     public GameObject[] createdColorTags;
     public GameObject[] T_aimPoints; // B, Mid, Long
@@ -65,6 +65,7 @@ public class GameScript : MonoBehaviour
     public GameObject[] ctPPholder;
     public GameObject[] tPPholder;
     public GameScriptOnline online;
+    public GameMoney gameMoney;
     public Sprite ownPP, tPP, ctPP, ctKnifeSprite, tKnifeSprite;
     public int maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
     public static int isLokingIn;
@@ -180,6 +181,7 @@ public class GameScript : MonoBehaviour
 
     private void newTeam()
     {
+        gameMoney.setMoney(gameMoney.FIRST_MONEY);
         friends = new TeamFriend[START_ENEMY_COUNT];
         myTeam[0] = yourName;
         for (int i = 0; i < friends.Length; i++)
@@ -533,7 +535,7 @@ public class GameScript : MonoBehaviour
 
     private void roundWin()
     {
-        Debug.Log("RoundWin");
+        gameMoney.addMoney(gameMoney.ROUNDWIN_MONEY);
         giveScore(true);
         StartCoroutine(showDialgNextFrame(isT));
         endRound();
@@ -541,7 +543,7 @@ public class GameScript : MonoBehaviour
     
     private void roundLose()
     {
-        Debug.Log("RoundLose");
+        gameMoney.addMoney(gameMoney.ROUNDLOSE_MONEY);
         giveScore(false);
         StartCoroutine(showDialgNextFrame(!isT));
         endRound();
@@ -677,6 +679,7 @@ public class GameScript : MonoBehaviour
 
     public void bombPlanted(string pin, int plantSide)
     {
+        gameMoney.addMoney(gameMoney.BOMBPLANT_MONEY);
         if (isT)
             online.bombPlanted(pin, plantSide);
         correctBombPin = pin;
@@ -690,6 +693,7 @@ public class GameScript : MonoBehaviour
 
     public void bombDefused()
     {
+        gameMoney.addMoney(gameMoney.BOMBDEFUSE_MONEY);
         if (!isT)
             online.bombDefused();
         CT_win();
@@ -738,6 +742,7 @@ public class GameScript : MonoBehaviour
 
     private void knifeOther()
     {
+        gameMoney.addMoney(gameMoney.KNIFE_MONEY);
         showKillInfo(!isT, 3, false, false, yourName, enemysNameList[0]);
         //TODO kil other
         roundWin();
