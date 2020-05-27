@@ -56,7 +56,7 @@ public class TeamFriend
 public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
-        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab,
+        healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab, buy_panel_prefab, created_buy_panel,
         knife_button, map_prefab, created_map;
     private GameObject created_bomb_icon, created_bomb;
     public GameObject[] createdColorTags;
@@ -69,13 +69,13 @@ public class GameScript : MonoBehaviour
     public Sprite ownPP, tPP, ctPP, ctKnifeSprite, tKnifeSprite;
     public int maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
     public static int isLokingIn;
-    public static bool isT;
+    public bool isT;
     public static int gameMode; // 0: Ranked
     public bool isGameFinished; // 0: Ranked
 
     public static String yourName;
-    private int time, tScore, ctScore, kills, round, countOfFlashs;
-    public int roundTime, enemyCount, teamCount, startFlashCounts;
+    private int time, tScore, ctScore, kills, round, buyTime;
+    public int roundTime, enemyCount, teamCount, BUY_TIME;
     public int round_per_half, defLookPintCT = 1, defLookPintT = 1;
     private static readonly int WIN_SCORE = 16;
     public static bool isStoped = true;
@@ -97,8 +97,29 @@ public class GameScript : MonoBehaviour
     public int bombIsPlanted, whereIsOther;
 
     public string correctBombPin;
-    
-    
+    public bool hasCtKit;
+
+    private int countOfFlashs, countOfZeus, countDefuseKit;
+
+    public void boughtFlash()
+    {
+        countOfFlashs++;
+    }
+    public void boughtZeus()
+    {
+        countOfZeus++;
+    }
+    public void boughtDefuseKit()
+    {
+        hasCtKit = true;
+    }
+
+    public void resetItems()
+    {
+        hasCtKit = false;
+        countOfFlashs = 0;
+        countOfZeus = 0;
+    }
     void Start()
     {
         Application.targetFrameRate = 300;
@@ -115,8 +136,8 @@ public class GameScript : MonoBehaviour
             strategy = Online.OFFLINE;
             //hideOnlineObjects();
         }
-        initializeMyTeam();
         isT = isOnline? online_data.isT_me : Random.Range(0,2) == 1;
+        initializeMyTeam();
         gameMode = 0;
         
         enemysNameList = new List<String>();
@@ -130,8 +151,8 @@ public class GameScript : MonoBehaviour
         getEnemySpawn().initEnemysFirstNameList(START_ENEMY_COUNT, isOnline);
         newTeam();
         resetLook();
-        
-        newRound();
+
+        beforeNewRound();
     }
 
     private void refreshKnifeButtonImg()
@@ -181,6 +202,7 @@ public class GameScript : MonoBehaviour
 
     private void newTeam()
     {
+        resetItems();
         gameMoney.setMoney(gameMoney.FIRST_MONEY);
         friends = new TeamFriend[START_ENEMY_COUNT];
         myTeam[0] = yourName;
@@ -268,9 +290,9 @@ public class GameScript : MonoBehaviour
         //rct.localScale = new Vector3(playersHealthy / 100f, rct.localScale.y,rct.localScale.z);
     }
 
-    public void startCountdown()
+    public void startCountdown(string methodName)
     {
-        InvokeRepeating("countdown", 1, 1);
+        InvokeRepeating(methodName, 1, 1);
     }
 
     public void countdown()
@@ -278,13 +300,29 @@ public class GameScript : MonoBehaviour
         setTime(time-1);
         if(time <= 0)
         {
+            CancelInvoke(nameof(timeOut));
             timeOut();
+        }
+    }
+
+    public void countdownForBuyTime()
+    {
+        setTimeLabel(--buyTime);
+        if(buyTime <= 0)
+        {
+            CancelInvoke(nameof(countdownForBuyTime));
+            newRound();
         }
     }
     
     void setTime(int sec)
     {
         time = sec;
+        setTimeLabel(sec);
+    }
+
+    void setTimeLabel(int sec)
+    {
         int min = sec / 60;
         sec %= 60;
         
@@ -454,27 +492,44 @@ public class GameScript : MonoBehaviour
     }
     void newRound()
     {
+        cleanUpForRound();
+        //countOfFlashs = startFlashCounts;
+        isStoped = false;
+        setTime(roundTime);
+        startCountdown(nameof(countdown));
+        getEnemySpawn().creatFirstStrategy(strategy, isOnline);
+    }
+
+    private void cleanUpForRound()
+    {
+        if (created_buy_panel != null)
+            created_buy_panel.GetComponent<BuyPanel>().close();
         Destroy(created_bomb_icon);
         Destroy(created_bomb);
         timeLabel.SetActive(true);
         am_i_Death = false;
-        round++;
         ppReset();
         ammo.GetComponent<ammoPanel>().resetAmmo();
-        isStoped = false;
         setHealthy(PLAYERS_START_HEALTHY);
         killAllMobs();
-        setTime(roundTime);
-        startCountdown();
         bombIsPlanted = 0;
         whereIsOther = 0;
-        countOfFlashs = startFlashCounts;
-        enemyCount = START_ENEMY_COUNT;
-        teamCount = START_ENEMY_COUNT;
-        updateScore();
         setLook(1);
         isOtherPlayerSpawned = false;
-        getEnemySpawn().creatFirstStrategy(strategy, isOnline);
+        enemyCount = START_ENEMY_COUNT;
+        teamCount = START_ENEMY_COUNT;
+    }
+
+    private void beforeNewRound()
+    {
+        cleanUpForRound();
+        isStoped = true;
+        round++;
+        updateScore();
+        buyTime = BUY_TIME;
+        setTimeLabel(buyTime);
+        created_buy_panel = Instantiate(buy_panel_prefab);
+        startCountdown(nameof(countdownForBuyTime));
     }
 
     private ENEMY_SPAWN getEnemySpawn()
@@ -515,7 +570,7 @@ public class GameScript : MonoBehaviour
             {
                 switchTeam();
             }
-            Invoke("newRound",EndRoundShow.stayTime);
+            Invoke("beforeNewRound",EndRoundShow.stayTime);
         }
     }
 
@@ -543,6 +598,7 @@ public class GameScript : MonoBehaviour
     
     private void roundLose()
     {
+        resetItems();
         gameMoney.addMoney(gameMoney.ROUNDLOSE_MONEY);
         giveScore(false);
         StartCoroutine(showDialgNextFrame(!isT));

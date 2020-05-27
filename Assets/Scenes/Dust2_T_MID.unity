@@ -17841,6 +17841,9 @@ MonoBehaviour:
   flash_button: {fileID: 306899917}
   colorTag_prefab: {fileID: 2394704303300080987, guid: 0d5988eb42aba411db125eec00895ae5,
     type: 3}
+  buy_panel_prefab: {fileID: 4876393984318603834, guid: 09e0371ac10dc4db7afeee4869a3da8a,
+    type: 3}
+  created_buy_panel: {fileID: 0}
   knife_button: {fileID: 589147086}
   map_prefab: {fileID: 5421278019769283435, guid: 05832b40f6997409893bf5555cb87e60,
     type: 3}
@@ -17876,11 +17879,12 @@ MonoBehaviour:
   maxLooks: 0
   playersHealthy: 0
   PLAYERS_START_HEALTHY: 100
+  isT: 0
   isGameFinished: 0
   roundTime: 90
   enemyCount: 0
   teamCount: 0
-  startFlashCounts: 2
+  BUY_TIME: 10
   round_per_half: 4
   defLookPintCT: 1
   defLookPintT: 1

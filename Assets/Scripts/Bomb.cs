@@ -15,7 +15,6 @@ public class Bomb : MonoBehaviour
     public int tryingAt = 0, plantingSide;
     public float waitTimeForDefWithoutKit;
     public float waitTimeForDefWithKit;
-    public bool hasCtKit;
 
     public int maxPinLength;
     // Start is called before the first frame update
@@ -32,7 +31,7 @@ public class Bomb : MonoBehaviour
 
     float getDefBlinkWaitTime()
     {
-        return hasCtKit ? waitTimeForDefWithKit : waitTimeForDefWithoutKit;
+        return game.GetComponent<GameScript>().hasCtKit ? waitTimeForDefWithKit : waitTimeForDefWithoutKit;
     }
 
     void blink(Color32 color, float blinkTime)
