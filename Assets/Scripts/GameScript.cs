@@ -57,7 +57,7 @@ public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
         healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab, buy_panel_prefab, created_buy_panel,
-        knife_button, map_prefab, created_map;
+        knife_button, map_prefab, created_map, flashCountContainer, flashCountText;
     private GameObject created_bomb_icon, created_bomb;
     public GameObject[] createdColorTags;
     public GameObject[] T_aimPoints; // B, Mid, Long
@@ -101,9 +101,32 @@ public class GameScript : MonoBehaviour
 
     private int countOfFlashs, countOfZeus, countDefuseKit;
 
+    void takeFlash()
+    {
+        if (countOfFlashs <= 0)
+            return;
+        countOfFlashs--;
+        refreshFlashCount();
+    }
+
+    void refreshFlashCount()
+    {
+        Debug.Log("HM");
+        if (countOfFlashs > 0)
+        {
+            flashCountContainer.SetActive(true);
+            flashCountText.GetComponent<Text>().text = countOfFlashs.ToString();
+        }
+        else
+        {
+            flashCountContainer.SetActive(false);
+        }
+    }
+
     public void boughtFlash()
     {
         countOfFlashs++;
+        refreshFlashCount();
     }
     public void boughtZeus()
     {
@@ -119,6 +142,7 @@ public class GameScript : MonoBehaviour
         hasCtKit = false;
         countOfFlashs = 0;
         countOfZeus = 0;
+        refreshFlashCount();
     }
     void Start()
     {
@@ -442,7 +466,7 @@ public class GameScript : MonoBehaviour
     {
         if (countOfFlashs <= 0)
             return;
-        countOfFlashs--;
+        takeFlash();
         online.sendFlash();
     }
 
@@ -493,7 +517,6 @@ public class GameScript : MonoBehaviour
     void newRound()
     {
         cleanUpForRound();
-        //countOfFlashs = startFlashCounts;
         isStoped = false;
         setTime(roundTime);
         startCountdown(nameof(countdown));

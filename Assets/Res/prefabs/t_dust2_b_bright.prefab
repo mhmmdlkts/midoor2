@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 7318740367719123970}
   - component: {fileID: 2239158255749600470}
   m_Layer: 0
-  m_Name: at_dust2_b_bright
+  m_Name: t_dust2_b_bright
   m_TagString: CT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,6 +161,8 @@ MonoBehaviour:
   healthy: 0
   fireParticle: {fileID: 5962011302743231242}
   isFiring: 0
+  id: 0
+  weaponCode: 1
 --- !u!199 &7318740367719123970
 ParticleSystemRenderer:
   serializedVersion: 6

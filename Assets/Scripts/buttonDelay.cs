@@ -14,12 +14,16 @@ public class buttonDelay : MonoBehaviour
     {
         createdMask = new GameObject("Mask_" + gameObject.name);
         
-        createdMask.transform.SetParent(transform.parent.gameObject.transform, false);
         
-        UnityEditorInternal.ComponentUtility.CopyComponent(gameObject.GetComponent<RectTransform>());
-        UnityEditorInternal.ComponentUtility.PasteComponentAsNew(createdMask);
-        UnityEditorInternal.ComponentUtility.CopyComponent(gameObject.GetComponent<Image>());
-        UnityEditorInternal.ComponentUtility.PasteComponentAsNew(createdMask);
+        createdMask = Instantiate(gameObject);
+        createdMask.transform.SetParent(transform.parent.gameObject.transform, false);
+        Destroy(createdMask.GetComponent<Button>());
+        Destroy(createdMask.GetComponent<AudioSource>());
+        Destroy(createdMask.GetComponent<buttonDelay>());
+        Destroy(createdMask.GetComponent<ZoomButtonHandler>());
+        foreach (Transform child in createdMask.transform) {
+            Destroy(child.gameObject);
+        }
 
         createdMask.transform.parent = transform;
         

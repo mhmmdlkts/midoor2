@@ -4914,6 +4914,9 @@ MonoBehaviour:
   name: 
   healthy: 0
   fireParticle: {fileID: 4812135746461631469}
+  isFiring: 0
+  id: 0
+  weaponCode: 2
 --- !u!199 &8494934385016177893
 ParticleSystemRenderer:
   serializedVersion: 6
