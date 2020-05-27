@@ -66,12 +66,13 @@ public class GameScript : MonoBehaviour
     public GameObject[] tPPholder;
     public GameScriptOnline online;
     public GameMoney gameMoney;
-    public Sprite ownPP, tPP, ctPP, ctKnifeSprite, tKnifeSprite;
+    public Sprite ownPP, tPP, ctPP;
     public int maxLooks, playersHealthy, PLAYERS_START_HEALTHY;
     public static int isLokingIn;
     public bool isT;
     public static int gameMode; // 0: Ranked
     public bool isGameFinished; // 0: Ranked
+    public Inventory inventory;
 
     public static String yourName;
     private int time, tScore, ctScore, kills, round, buyTime;
@@ -90,6 +91,8 @@ public class GameScript : MonoBehaviour
     public string[] otherTeam;
     private static int otherRank;
     private Sprite otherPP;
+    public Sprite[] knifeButtonSprite;
+    public int chosedKnifeId;
 
     public TeamFriend[] friends;
     public Online strategy;
@@ -99,7 +102,7 @@ public class GameScript : MonoBehaviour
     public string correctBombPin;
     public bool hasCtKit;
 
-    private int countOfFlashs, countOfZeus, countDefuseKit;
+    public int countOfFlashs, countOfZeus;
 
     void takeFlash()
     {
@@ -131,19 +134,30 @@ public class GameScript : MonoBehaviour
     public void boughtZeus()
     {
         countOfZeus++;
+        refreshKnife();
     }
     public void boughtDefuseKit()
     {
+        inventory.set(0);
         hasCtKit = true;
     }
 
     public void resetItems()
     {
+        inventory.clear();
         hasCtKit = false;
         countOfFlashs = 0;
         countOfZeus = 0;
+        refreshKnife();
         refreshFlashCount();
     }
+
+    public void changeKnife(int id)
+    {
+        chosedKnifeId = id;
+        knife_button.GetComponent<buttonDelay>().changeSprite(knifeButtonSprite[id]);
+    }
+    
     void Start()
     {
         Application.targetFrameRate = 300;
@@ -177,11 +191,6 @@ public class GameScript : MonoBehaviour
         resetLook();
 
         beforeNewRound();
-    }
-
-    private void refreshKnifeButtonImg()
-    {
-        knife_button.GetComponent<Image>().sprite = isT ? tKnifeSprite : ctKnifeSprite;
     }
 
     private void hideOnlineObjects()
@@ -234,7 +243,6 @@ public class GameScript : MonoBehaviour
             friends[i] = new TeamFriend(i, myTeam[i], isT? tPPholder[i]: ctPPholder[i]);
         knife_button.SetActive(!isT);
         refreshColorTags();
-        refreshKnifeButtonImg();
     }
 
     public void getOnlineShot()
@@ -535,6 +543,8 @@ public class GameScript : MonoBehaviour
         ammo.GetComponent<ammoPanel>().resetAmmo();
         setHealthy(PLAYERS_START_HEALTHY);
         killAllMobs();
+        if (isT)
+            inventory.set(1);
         bombIsPlanted = 0;
         whereIsOther = 0;
         setLook(1);
@@ -760,7 +770,11 @@ public class GameScript : MonoBehaviour
     {
         gameMoney.addMoney(gameMoney.BOMBPLANT_MONEY);
         if (isT)
+        {
             online.bombPlanted(pin, plantSide);
+            inventory.clear();
+        }
+
         correctBombPin = pin;
         bombIsPlanted = plantSide;
         whereIsOther = 0;
@@ -817,31 +831,43 @@ public class GameScript : MonoBehaviour
                     Debug.Log("Wrong Side Chosed for Knife");
                 break;
         }
+        
+        if (chosedKnifeId == 0)
+        {  // zeus
+            countOfZeus = 0;
+            refreshKnife();
+        }
     }
 
     private void knifeOther()
     {
         gameMoney.addMoney(gameMoney.KNIFE_MONEY);
-        showKillInfo(!isT, 3, false, false, yourName, enemysNameList[0]);
+        showKillInfo(!isT, 3 + chosedKnifeId, false, false, yourName, enemysNameList[0]);
+
         //TODO kil other
         roundWin();
-        online.knifeOther();
+        online.knifeOther(chosedKnifeId);
     }
 
-    public void getKnifeTry()
+    private void refreshKnife()
+    {
+        changeKnife(countOfZeus > 0 ? 0:PlayerPrefs.GetInt("knife", isT?1:2));
+    }
+
+    public void getKnifeTry(int knifeId)
     {
         if (created_bomb != null)
-            knifed();
+            knifed(knifeId);
         else
             Debug.Log("No one is there");
     }
 
-    private void knifed()
+    private void knifed(int knifeId)
     {
         //TODO me
         roundLose();
         isOtherPlayerSpawned = true;
-        showKillInfo(!isT, 3, false, false, enemysNameList[0], yourName);
+        showKillInfo(!isT, 3 + knifeId, false, false, enemysNameList[0], yourName);
     }
 
     public void closeBomb()

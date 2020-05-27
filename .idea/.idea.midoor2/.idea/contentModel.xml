@@ -215,6 +215,7 @@
           <e p="GameScriptOnline.cs" t="Include" />
           <e p="GetRandomEnemyName.cs" t="Include" />
           <e p="HomeButton.cs" t="Include" />
+          <e p="Inventory.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />

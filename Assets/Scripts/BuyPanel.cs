@@ -23,6 +23,17 @@ public class BuyPanel : MonoBehaviour
         kitPriceText.text = dollarPrefix + kitPrice;
         if (game.isT)
             kitButton.SetActive(false);
+        checkcanBuyItem();
+    }
+
+    private void checkcanBuyItem()
+    {
+        if (!checkEnoughMoney(0))
+            flashButton.GetComponent<Button>().interactable = false;
+        if (game.countOfZeus > 0 || !checkEnoughMoney(1))
+            zeusButton.GetComponent<Button>().interactable = false;
+        if (game.hasCtKit || !checkEnoughMoney(2))
+            kitButton.GetComponent<Button>().interactable = false;
     }
 
     public void clickBuyItem(int item)
@@ -54,6 +65,8 @@ public class BuyPanel : MonoBehaviour
                 kitButton.GetComponent<Button>().interactable = false;
                 break;
         }
+
+        checkcanBuyItem();
     }
 
     private int getPrice(int item)

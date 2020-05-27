@@ -8,7 +8,6 @@ public class buttonDelay : MonoBehaviour
     public float delay;
     public static float alpha = 0.4f; // 0 -> transparent after click; 1 -> opposite
     private GameObject createdMask;
-    public GameObject siblingButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +35,12 @@ public class buttonDelay : MonoBehaviour
     {
         gameObject.GetComponent<Button>().interactable = false;
         StartCoroutine(fillButton());
+    }
+
+    public void changeSprite(Sprite sprite)
+    {
+        gameObject.GetComponent<Image>().sprite = sprite;
+        createdMask.GetComponent<Image>().sprite = sprite;
     }
     
     IEnumerator fillButton()

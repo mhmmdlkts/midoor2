@@ -178,15 +178,15 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         game.explodeFlash();
     }
 
-    public void knifeOther()
+    public void knifeOther(int chosedKnifeId)
     {
-        photonView.RPC("receiveKnife", RpcTarget.Others);
+        photonView.RPC("receiveKnife", RpcTarget.Others, new byte[] {(byte)chosedKnifeId});
     }
 
     [PunRPC]
-    public void receiveKnife()
+    public void receiveKnife(byte[] b)
     {
-        game.getKnifeTry();
+        game.getKnifeTry(b[0]);
     }
 
     public void closeBomb()
