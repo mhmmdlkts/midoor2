@@ -114,4 +114,10 @@ public class TeamEditor : MonoBehaviour
         name4.GetComponent<Text>().text = PlayerPrefs.GetString("game_firend_4","Set Your Friends Name");
         finishTypingWith = 0;
     }
+
+    public void ButtonClickSound(int soundId)
+    {
+        GameObject soundManeger = GameObject.Find("Sound");
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
+    }
 }

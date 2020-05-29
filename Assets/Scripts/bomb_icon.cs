@@ -9,7 +9,9 @@ public class bomb_icon : MonoBehaviour
 
     private GameObject Container;
 
-    public int explodeTime;
+    public AudioClip bombBeep;
+
+        public int explodeTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,7 @@ public class bomb_icon : MonoBehaviour
 
     void counter()
     {
+        GetComponent<AudioSource>().PlayOneShot(bombBeep);
         if (explodeTime > 0)
         {
             explodeTime--;

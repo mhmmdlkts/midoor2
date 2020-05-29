@@ -221,6 +221,7 @@
           <e p="MainMenu.cs" t="Include" />
           <e p="Map.cs" t="Include" />
           <e p="match_ready_dialog.cs" t="Include" />
+          <e p="MenuSound.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
           <e p="OnlineData.cs" t="Include" />
           <e p="OnlineMenu.cs" t="Include" />

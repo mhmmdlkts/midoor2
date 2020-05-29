@@ -13,7 +13,7 @@ public class deathInfo : MonoBehaviour
 
     private Color32 CT_TEXT_COLOR, T_TEXT_COLOR;
     
-    public Sprite[] weapons; //awp: 0, ak47: 1, m4a4: 2, knife: 3
+    public Sprite[] weapons; //awp: 0, ak47: 1, m4a4: 2, zeus: 3, knifeT: 4, knifeCT: 5,
     
     void Start()
     {

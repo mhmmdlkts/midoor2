@@ -91,6 +91,7 @@ public class GameScript : MonoBehaviour
     public string[] otherTeam;
     private static int otherRank;
     private Sprite otherPP;
+    public Sprite bombPlantButtonSprite, bombDefuseButtonSprite;
     public Sprite[] knifeButtonSprite;
     public int chosedKnifeId;
 
@@ -104,6 +105,14 @@ public class GameScript : MonoBehaviour
 
     public int countOfFlashs, countOfZeus;
 
+    public Color32 lastSecColor, normalSecColor;
+
+    public AudioSource timeAS, bombAS, flashAS, knifeAS, stepAS;
+    public AudioClip bombHasBeenDefusedAC, bombHasBeenPlantedAC, bombPlantStartAC, bombDefusStarAC, bombExplodeAC, lastSecondsAC, goChangeSideStepAC, goBombStepAC;
+    public AudioClip throughFlashAC, farFlashAC, explodeFlashAC, leftGameAC;
+    public AudioClip T_Win_AC, CT_Win_AC;
+    public AudioClip[] getKnifedAC, knifeAirAC, otherShotsAWP;
+
     void takeFlash()
     {
         if (countOfFlashs <= 0)
@@ -114,7 +123,6 @@ public class GameScript : MonoBehaviour
 
     void refreshFlashCount()
     {
-        Debug.Log("HM");
         if (countOfFlashs > 0)
         {
             flashCountContainer.SetActive(true);
@@ -236,6 +244,7 @@ public class GameScript : MonoBehaviour
     private void newTeam()
     {
         resetItems();
+        plant_bomb_button.GetComponent<buttonDelay>().changeSprite(isT? bombPlantButtonSprite : bombDefuseButtonSprite);
         gameMoney.setMoney(gameMoney.FIRST_MONEY);
         friends = new TeamFriend[START_ENEMY_COUNT];
         myTeam[0] = yourName;
@@ -247,7 +256,7 @@ public class GameScript : MonoBehaviour
 
     public void getOnlineShot()
     {
-        
+        GetComponent<AudioSource>().PlayOneShot(otherShotsAWP[Random.Range(0,otherShotsAWP.Length)]);
     }
 
     public void friendGotShot(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
@@ -340,6 +349,13 @@ public class GameScript : MonoBehaviour
     public void countdownForBuyTime()
     {
         setTimeLabel(--buyTime);
+        if (buyTime <= 3)
+        {
+            if (buyTime == 3)
+                timeLabel.GetComponent<Text>().color = lastSecColor;
+            timeAS.PlayOneShot(lastSecondsAC);
+        }
+
         if(buyTime <= 0)
         {
             CancelInvoke(nameof(countdownForBuyTime));
@@ -358,7 +374,7 @@ public class GameScript : MonoBehaviour
         int min = sec / 60;
         sec %= 60;
         
-        timeLabel.GetComponent<UnityEngine.UI.Text>().text = min + ":" + ((sec < 10)?"0":"") + sec;
+        timeLabel.GetComponent<Text>().text = min + ":" + ((sec < 10)?"0":"") + sec;
     }
 
     public void timeOut()
@@ -376,6 +392,7 @@ public class GameScript : MonoBehaviour
 
     public void CT_win()
     {
+        
         if (isT)
             roundLose();
         else
@@ -415,6 +432,7 @@ public class GameScript : MonoBehaviour
     public void gameQuit()
     {
         banControl();
+        ButtonClickSound(4);
         SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
     }
 
@@ -447,6 +465,10 @@ public class GameScript : MonoBehaviour
     {
         if (created_map != null)
             return;
+        if (why == MapChose.plant && bombHasBeenPlant())
+            return;
+        if (why == MapChose.defus && !bombHasBeenPlant())
+            return;
         created_map = Instantiate(map_prefab);
         created_map.GetComponent<Map>().mapChose = why;
     }
@@ -458,16 +480,18 @@ public class GameScript : MonoBehaviour
         if (isT && !bombHasBeenPlant())
         {
             created_bomb = Instantiate(bomb_prefab);
+            bombAS.PlayOneShot(bombPlantStartAC);
             created_bomb.GetComponent<Bomb>().plantingSide = side;
             created_bomb.GetComponent<Bomb>().forPlanting();
         }
         else if (!isT && bombHasBeenPlant())
         {
             created_bomb = Instantiate(bomb_prefab);
+            bombAS.PlayOneShot(bombDefusStarAC);
             created_bomb.GetComponent<Bomb>().plantingSide = side;
             created_bomb.GetComponent<Bomb>().forDefusing(correctBombPin);
         }
-        online.openBomb(side);
+        online.openBomb(side, isT);
     }
 
     public void throughFlash()
@@ -475,11 +499,19 @@ public class GameScript : MonoBehaviour
         if (countOfFlashs <= 0)
             return;
         takeFlash();
+        flashAS.PlayOneShot(throughFlashAC);
+        Invoke(nameof(explodeFarFlash),2f);
+    }
+
+    public void explodeFarFlash()
+    {
+        flashAS.PlayOneShot(farFlashAC);
         online.sendFlash();
     }
 
     public void explodeFlash()
     {
+        flashAS.PlayOneShot(explodeFlashAC);
         GameObject panel = new GameObject("Flash");
         panel.AddComponent<CanvasRenderer>();
         RectTransform rc = panel.AddComponent<RectTransform>();
@@ -527,6 +559,7 @@ public class GameScript : MonoBehaviour
         cleanUpForRound();
         isStoped = false;
         setTime(roundTime);
+        timeLabel.GetComponent<Text>().color = normalSecColor;
         startCountdown(nameof(countdown));
         getEnemySpawn().creatFirstStrategy(strategy, isOnline);
     }
@@ -562,6 +595,7 @@ public class GameScript : MonoBehaviour
         buyTime = BUY_TIME;
         setTimeLabel(buyTime);
         created_buy_panel = Instantiate(buy_panel_prefab);
+        timeLabel.GetComponent<Text>().color = normalSecColor;
         startCountdown(nameof(countdownForBuyTime));
     }
 
@@ -575,9 +609,10 @@ public class GameScript : MonoBehaviour
 
     void endRound()
     {
+        if (!bombHasBeenPlant() && time > 0)
         isStoped = true;
         getEnemySpawn().resetActions();
-        CancelInvoke("countdown");
+        CancelInvoke(nameof(countdown));
         updateScore();
         if (tScore == 15 && ctScore == 15)
         {
@@ -626,6 +661,8 @@ public class GameScript : MonoBehaviour
         gameMoney.addMoney(gameMoney.ROUNDWIN_MONEY);
         giveScore(true);
         StartCoroutine(showDialgNextFrame(isT));
+        if (isT) GetComponent<AudioSource>().PlayOneShot(T_Win_AC);
+        else GetComponent<AudioSource>().PlayOneShot(CT_Win_AC);
         endRound();
     }
     
@@ -635,6 +672,8 @@ public class GameScript : MonoBehaviour
         gameMoney.addMoney(gameMoney.ROUNDLOSE_MONEY);
         giveScore(false);
         StartCoroutine(showDialgNextFrame(!isT));
+        if (isT) GetComponent<AudioSource>().PlayOneShot(CT_Win_AC);
+        else GetComponent<AudioSource>().PlayOneShot(T_Win_AC);
         endRound();
     }
 
@@ -768,6 +807,7 @@ public class GameScript : MonoBehaviour
 
     public void bombPlanted(string pin, int plantSide)
     {
+        bombAS.PlayOneShot(bombHasBeenPlantedAC);
         gameMoney.addMoney(gameMoney.BOMBPLANT_MONEY);
         if (isT)
         {
@@ -780,7 +820,7 @@ public class GameScript : MonoBehaviour
         whereIsOther = 0;
         created_bomb_icon = Instantiate(bomb_icon_hud);
         timeLabel.SetActive(false);
-        CancelInvoke("countdown");
+        CancelInvoke(nameof(countdown));
         CancelInvoke();
     }
 
@@ -789,11 +829,13 @@ public class GameScript : MonoBehaviour
         gameMoney.addMoney(gameMoney.BOMBDEFUSE_MONEY);
         if (!isT)
             online.bombDefused();
+        bombAS.PlayOneShot(bombHasBeenDefusedAC);
         CT_win();
     }
 
     public void bombExplode()
     {
+        bombAS.PlayOneShot(bombExplodeAC);
         T_win();
     }
 
@@ -803,10 +845,13 @@ public class GameScript : MonoBehaviour
             gameWin();
     }
 
-    public void bombOpened(int side)
+    public void bombOpened(int side, bool openedT)
     {
         whereIsOther = side;
-        //TODO difus starting sound or planting
+        if (openedT)
+            bombAS.PlayOneShot(bombPlantStartAC);
+        else
+            bombAS.PlayOneShot(bombDefusStarAC);
     }
 
     public void mapOK(int side, MapChose mapChose)
@@ -823,12 +868,15 @@ public class GameScript : MonoBehaviour
                     Debug.Log("Wrong Side Chosed for defuse");
                 break;
             case MapChose.knife:
-                Debug.Log("side--:" + side);
-                Debug.Log("bombIsPlanted--:" + bombIsPlanted);
                 if (whereIsOther == side)
+                {
                     knifeOther();
-                else 
-                    Debug.Log("Wrong Side Chosed for Knife");
+                }
+                else
+                {
+                    knifeAS.PlayOneShot(knifeAirAC[chosedKnifeId]);
+                }
+
                 break;
         }
         
@@ -841,10 +889,10 @@ public class GameScript : MonoBehaviour
 
     private void knifeOther()
     {
+        knifeAS.PlayOneShot(getKnifedAC[chosedKnifeId]);
         gameMoney.addMoney(gameMoney.KNIFE_MONEY);
-        showKillInfo(!isT, 3 + chosedKnifeId, false, false, yourName, enemysNameList[0]);
+        showKillInfo(!isT, chosedKnifeId+3, false, false, yourName, enemysNameList[0]);
 
-        //TODO kil other
         roundWin();
         online.knifeOther(chosedKnifeId);
     }
@@ -859,15 +907,15 @@ public class GameScript : MonoBehaviour
         if (created_bomb != null)
             knifed(knifeId);
         else
-            Debug.Log("No one is there");
+            knifeAS.PlayOneShot(knifeAirAC[knifeId]);
     }
 
     private void knifed(int knifeId)
     {
-        //TODO me
+        knifeAS.PlayOneShot(getKnifedAC[knifeId]);
         roundLose();
         isOtherPlayerSpawned = true;
-        showKillInfo(!isT, 3 + knifeId, false, false, enemysNameList[0], yourName);
+        showKillInfo(!isT, knifeId + 3, false, false, enemysNameList[0], yourName);
     }
 
     public void closeBomb()
@@ -878,5 +926,11 @@ public class GameScript : MonoBehaviour
     public void otherCloseBomb()
     {
         whereIsOther = 0;
+    }
+
+    public void ButtonClickSound(int soundId)
+    {
+        GameObject soundManeger = GameObject.Find("Sound");
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
     }
 }

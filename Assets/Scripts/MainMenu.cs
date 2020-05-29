@@ -11,8 +11,18 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject set_team_dialog;
     public string[] myTeam;
+
+    public AudioClip[] menuSounds;
     void Start()
     {
+        if (GameObject.Find("Sound") == null)
+        {
+            GameObject sound = new GameObject("Sound");
+            sound.AddComponent<AudioSource>().playOnAwake = false;
+            sound.AddComponent<MenuSound>().menuSounds = menuSounds;
+            Instantiate(sound);
+            DontDestroyOnLoad(sound);
+        }
     }
 
     public void button_ranked()
@@ -50,4 +60,11 @@ public class MainMenu : MonoBehaviour
 
         return false;
     }
+
+    public void ButtonClickSound(int soundId)
+    {
+        GameObject soundManeger = GameObject.Find("Sound");
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
+    }
+    
 }

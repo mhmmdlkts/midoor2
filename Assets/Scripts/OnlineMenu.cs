@@ -95,4 +95,10 @@ public class OnlineMenu : MonoBehaviour
     {
         data.otherTeam = names;
     }
+
+    public void ButtonClickSound(int soundId)
+    {
+        GameObject soundManeger = GameObject.Find("Sound");
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
+    }
 }

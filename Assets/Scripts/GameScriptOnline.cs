@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using Photon.Pun;
 using UnityEngine;
@@ -159,12 +160,12 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     [PunRPC]
     public void openedBomb(byte[] b)
     {
-        game.bombOpened(b[0]);
+        game.bombOpened(b[0], Convert.ToBoolean(b[1]));
     }
     
-    public void openBomb(int side)
+    public void openBomb(int side, bool openedT)
     {
-        photonView.RPC("openedBomb", RpcTarget.Others, new byte[] {(byte)side});
+        photonView.RPC("openedBomb", RpcTarget.Others, new byte[] {(byte)side, Convert.ToByte(openedT)});
     }
 
     public void sendFlash()

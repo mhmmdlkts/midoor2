@@ -10,11 +10,13 @@ public class match_ready_dialog : MonoBehaviour
     public int wait_sec;
     private GameObject parent;
     private GameObject canvas;
+    public AudioClip acceptedBeepAC, notAcceptedBeepAC, matchFoundAC;
 
     public bool accepted;
     // Start is called before the first frame update
     void Start()
     {
+        GetComponent<AudioSource>().PlayOneShot(matchFoundAC);
         parent = GameObject.Find("Main Camera");
         canvas = GameObject.Find("Canvas");
         gameObject.transform.SetParent (canvas.transform, false);
@@ -29,6 +31,10 @@ public class match_ready_dialog : MonoBehaviour
 
     private void decSec()
     {
+        if (accepted)
+            GetComponent<AudioSource>().PlayOneShot(acceptedBeepAC);
+        else
+            GetComponent<AudioSource>().PlayOneShot(notAcceptedBeepAC);
         setTime();
         if (wait_sec <= 0)
             reject();
@@ -50,5 +56,11 @@ public class match_ready_dialog : MonoBehaviour
         accept_text.GetComponent<Text>().text = "ACCEPTED";
         accept_text.GetComponent<Text>().color = new Color32(37,227,0,255);
         accepted = true;
+    }
+
+    public void ButtonClickSound(int soundId)
+    {
+        GameObject soundManeger = GameObject.Find("Sound");
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
     }
 }

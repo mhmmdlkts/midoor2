@@ -26,6 +26,8 @@ public class aim : MonoBehaviour
 
     private bool isOnAim()
     {
+        if (enemy == null)
+            countOfMobColliders = 0;
         return countOfMobColliders > 0;
     }
 

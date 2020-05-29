@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Bomb : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Bomb : MonoBehaviour
     public int tryingAt = 0, plantingSide;
     public float waitTimeForDefWithoutKit;
     public float waitTimeForDefWithKit;
+    private AudioSource audioSource;
+    public AudioClip[] clickSounds;
 
     public int maxPinLength;
     // Start is called before the first frame update
@@ -22,6 +25,7 @@ public class Bomb : MonoBehaviour
     {
         game = GameObject.Find("MOVABLE");
         container = GameObject.Find("SafeArea");
+        audioSource = GetComponent<AudioSource>();
         gameObject.transform.SetParent (container.transform, false);
         blinkOff();
         deletePin();
@@ -88,6 +92,7 @@ public class Bomb : MonoBehaviour
 
     public void addPin(int nummer)
     {
+        audioSource.PlayOneShot(clickSounds[Random.Range(0,clickSounds.Length)]);
         if (!buttonsInteractible)
             return;
         if (maxPinLength <= enteredPin.Length)
@@ -147,11 +152,13 @@ public class Bomb : MonoBehaviour
 
     public void btn_star()
     {
+        audioSource.PlayOneShot(clickSounds[Random.Range(0,clickSounds.Length)]);
         deletePin();
     }
 
     public void btn_hashtag()
     {
+        audioSource.PlayOneShot(clickSounds[Random.Range(0,clickSounds.Length)]);
         enter();
     }
 
