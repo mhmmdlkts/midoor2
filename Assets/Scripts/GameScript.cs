@@ -57,7 +57,7 @@ public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
         healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab, buy_panel_prefab, created_buy_panel,
-        knife_button, map_prefab, created_map, flashCountContainer, flashCountText;
+        knife_button, rightButton, leftButton, shotButton, zoomButton, map_prefab, created_map, flashCountContainer, flashCountText;
     private GameObject created_bomb_icon, created_bomb;
     public GameObject[] createdColorTags;
     public GameObject[] T_aimPoints; // B, Mid, Long
@@ -81,6 +81,7 @@ public class GameScript : MonoBehaviour
     private static readonly int WIN_SCORE = 16;
     public static bool isStoped = true;
     public static bool am_i_Death;
+    private bool roundEnd;
 
     public static int rank, START_ENEMY_COUNT = 5;
     public static int tot_rank = 18;
@@ -91,6 +92,8 @@ public class GameScript : MonoBehaviour
     public string[] otherTeam;
     private static int otherRank;
     private Sprite otherPP;
+    public Sprite a_side_sprite, b_side_sprite;
+    public GameObject bgSideImg;
     public Sprite bombPlantButtonSprite, bombDefuseButtonSprite;
     public Sprite[] knifeButtonSprite;
     public int chosedKnifeId;
@@ -250,7 +253,7 @@ public class GameScript : MonoBehaviour
         myTeam[0] = yourName;
         for (int i = 0; i < friends.Length; i++)
             friends[i] = new TeamFriend(i, myTeam[i], isT? tPPholder[i]: ctPPholder[i]);
-        knife_button.SetActive(!isT);
+        //knife_button.SetActive(!isT);
         refreshColorTags();
     }
 
@@ -453,11 +456,15 @@ public class GameScript : MonoBehaviour
 
     public void knifeButtonListener()
     {
+        if(isStoped)
+            return;
         openMap(MapChose.knife);
     }
 
     public void bombButtonListener()
     {
+        if(isStoped)
+            return;
         openMap(isT? MapChose.plant : MapChose.defus);
     }
 
@@ -473,7 +480,7 @@ public class GameScript : MonoBehaviour
         created_map.GetComponent<Map>().mapChose = why;
     }
 
-    public void openBomb(int side)
+    public void openBomb()
     {
         if (created_bomb != null)
             return;
@@ -481,17 +488,17 @@ public class GameScript : MonoBehaviour
         {
             created_bomb = Instantiate(bomb_prefab);
             bombAS.PlayOneShot(bombPlantStartAC);
-            created_bomb.GetComponent<Bomb>().plantingSide = side;
+            created_bomb.GetComponent<Bomb>().plantingSide = localInvokeChosedSide;
             created_bomb.GetComponent<Bomb>().forPlanting();
         }
         else if (!isT && bombHasBeenPlant())
         {
             created_bomb = Instantiate(bomb_prefab);
             bombAS.PlayOneShot(bombDefusStarAC);
-            created_bomb.GetComponent<Bomb>().plantingSide = side;
+            created_bomb.GetComponent<Bomb>().plantingSide = localInvokeChosedSide;
             created_bomb.GetComponent<Bomb>().forDefusing(correctBombPin);
         }
-        online.openBomb(side, isT);
+        online.openBomb(localInvokeChosedSide, isT);
     }
 
     public void throughFlash()
@@ -525,20 +532,43 @@ public class GameScript : MonoBehaviour
         i.color = Color.white;
         panel.transform.SetParent(canvas.transform, false);
         
-        StartCoroutine(flashFade(panel, 0.0f, 2.0f, 1.5f));
+        StartCoroutine(flashFade(panel, 0.0f, i.color, 2.0f, 1.5f, null));
+    }
+
+    public void walk(bool longWalk, string methodeName)
+    {
+        AudioClip walkSound = longWalk ? goBombStepAC : goChangeSideStepAC;
+        float alphaTime = 0.3f;
+        GetComponent<AudioSource>().PlayOneShot(walkSound);
+        GameObject walk = new GameObject("walk");
+        walk.AddComponent<CanvasRenderer>();
+        RectTransform rc = walk.AddComponent<RectTransform>();
+        Image i = walk.AddComponent<Image>();
+            
+        rc.anchorMin = new Vector2(0, 0);
+        rc.anchorMax = new Vector2(1, 1);
+        rc.offsetMin = new Vector2(0, 0);
+        rc.offsetMax = new Vector2(0, 0);
+
+        i.color = Color.black;
+        walk.transform.SetParent(canvas.transform, false);
+        
+        StartCoroutine(flashFade(walk, 0.0f, i.color, alphaTime, walkSound.length-alphaTime, longWalk? methodeName:null));
     }
     
-    IEnumerator flashFade(GameObject panel, float aValue, float aTime, float delayTime)
+    IEnumerator flashFade(GameObject panel, float aValue, Color32 c, float aTime, float delayTime, string methodName)
     {
         yield return new WaitForSeconds(delayTime);
         float alpha = panel.GetComponent<Image>().color.a;
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
         {
-            Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+            Color newColor = new Color(c.r, c.g, c.b, Mathf.Lerp(alpha,aValue,t));
             panel.GetComponent<Image>().color = newColor;
             yield return null;
         }
         Destroy(panel);
+        if (methodName != null)
+            Invoke(methodName,0);
     }
 
     public void banControl()
@@ -562,6 +592,20 @@ public class GameScript : MonoBehaviour
         timeLabel.GetComponent<Text>().color = normalSecColor;
         startCountdown(nameof(countdown));
         getEnemySpawn().creatFirstStrategy(strategy, isOnline);
+        setButtonsActive(true);
+    }
+
+    void setBGside(int i)
+    {
+        if (i == 0)
+        {
+            bgSideImg.GetComponent<Image>().sprite = null;
+            bgSideImg.SetActive(false);
+            return;
+        }
+        
+        bgSideImg.SetActive(true);
+        bgSideImg.GetComponent<Image>().sprite = i == 1 ? a_side_sprite : b_side_sprite;
     }
 
     private void cleanUpForRound()
@@ -588,6 +632,8 @@ public class GameScript : MonoBehaviour
 
     private void beforeNewRound()
     {
+        setButtonsActive(false);
+        setBGside(0);
         cleanUpForRound();
         isStoped = true;
         round++;
@@ -609,7 +655,9 @@ public class GameScript : MonoBehaviour
 
     void endRound()
     {
-        if (!bombHasBeenPlant() && time > 0)
+        setButtonsActive(false);
+        destroyPrefabs();
+        //if (!bombHasBeenPlant() && time > 0)
         isStoped = true;
         getEnemySpawn().resetActions();
         CancelInvoke(nameof(countdown));
@@ -638,8 +686,22 @@ public class GameScript : MonoBehaviour
             {
                 switchTeam();
             }
-            Invoke("beforeNewRound",EndRoundShow.stayTime);
+            Invoke(nameof(beforeNewRound),EndRoundShow.stayTime);
         }
+    }
+
+    private void destroyPrefabs()
+    {
+        closePrefab(created_bomb);
+        closePrefab(created_map);
+        closePrefab(created_buy_panel);
+        closePrefab(created_bomb_icon);
+    }
+
+    private void closePrefab(GameObject obj)
+    {
+        if (obj != null)
+            Destroy(obj);
     }
 
     void allKilled()
@@ -795,6 +857,8 @@ public class GameScript : MonoBehaviour
 
     void setLook(int lookAt)
     {
+        if (!isStoped)
+            walk(false, null);
         isLokingIn = lookAt;
         GameObject looks = getAimPoints(lookAt);
         gameObject.GetComponent<Transform>().position = looks.GetComponent<Transform>().position;
@@ -807,6 +871,7 @@ public class GameScript : MonoBehaviour
 
     public void bombPlanted(string pin, int plantSide)
     {
+        setBGside(0);
         bombAS.PlayOneShot(bombHasBeenPlantedAC);
         gameMoney.addMoney(gameMoney.BOMBPLANT_MONEY);
         if (isT)
@@ -854,29 +919,49 @@ public class GameScript : MonoBehaviour
             bombAS.PlayOneShot(bombDefusStarAC);
     }
 
+    public void setButtonsActive(bool active)
+    {
+        flash_button.SetActive(active);
+        knife_button.SetActive(active);
+        plant_bomb_button.SetActive(active);
+        rightButton.SetActive(active);
+        leftButton.SetActive(active);
+        zoomButton.SetActive(active);
+        shotButton.SetActive(active);
+    }
+
+    private int localInvokeChosedSide;
+    
     public void mapOK(int side, MapChose mapChose)
     {
+        localInvokeChosedSide = side;
+        string methodName = null;
         switch (mapChose)
         {
             case MapChose.plant:
-                openBomb(side);
+                methodName = nameof(openBomb);
+                setBGside(localInvokeChosedSide);
+                //openBomb(side);
                 break;
             case MapChose.defus:
                 if (bombIsPlanted == side)
-                    openBomb(side);
+                {
+                    methodName = nameof(openBomb);
+                    setBGside(localInvokeChosedSide);
+                    //openBomb(side);
+                }
                 else 
                     Debug.Log("Wrong Side Chosed for defuse");
                 break;
             case MapChose.knife:
                 if (whereIsOther == side)
                 {
-                    knifeOther();
+                    methodName = nameof(knifeOther);
                 }
                 else
                 {
-                    knifeAS.PlayOneShot(knifeAirAC[chosedKnifeId]);
+                    methodName = nameof(playKnifeAir);
                 }
-
                 break;
         }
         
@@ -885,6 +970,13 @@ public class GameScript : MonoBehaviour
             countOfZeus = 0;
             refreshKnife();
         }
+        
+        walk(true, methodName);
+    }
+
+    void playKnifeAir()
+    {
+        knifeAS.PlayOneShot(knifeAirAC[chosedKnifeId]);
     }
 
     private void knifeOther()
@@ -920,6 +1012,7 @@ public class GameScript : MonoBehaviour
 
     public void closeBomb()
     {
+        setBGside(0);
         online.closeBomb();
     }
 

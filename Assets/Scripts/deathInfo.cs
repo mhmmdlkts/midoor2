@@ -26,8 +26,8 @@ public class deathInfo : MonoBehaviour
 
     public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)
     {
-        killerNameLabel.GetComponent<Text>().text = killerName;
-        killedNameLabel.GetComponent<Text>().text = killedName;
+        killerNameLabel.GetComponent<Text>().text = killerName + "  ";
+        killedNameLabel.GetComponent<Text>().text = "  " + killedName;
         headImg.SetActive(isHeadShot);
         wallImg.SetActive(isWall);
         weopenImg.GetComponent<Image>().sprite = weapons[weaponCode];
