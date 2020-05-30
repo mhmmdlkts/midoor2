@@ -11814,6 +11814,37 @@ Transform:
   m_Father: {fileID: 1811802522}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1104793391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1104793392}
+  m_Layer: 0
+  m_Name: AudioSorces
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1104793392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104793391}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.059999466, y: 34.810623, z: 0.29999924}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1490786996}
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1105807555
 GameObject:
   m_ObjectHideFlags: 0
@@ -14989,6 +15020,133 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 23.13364, y: 20.660536, z: 1}
   m_Center: {x: -6.79196, y: 1.6617002, z: 0}
+--- !u!1 &1490786995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490786996}
+  - component: {fileID: 1490786997}
+  m_Layer: 0
+  m_Name: KnifeSounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1490786996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490786995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1104793392}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1490786997
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490786995}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1491787331
 GameObject:
   m_ObjectHideFlags: 0
@@ -18345,13 +18503,14 @@ MonoBehaviour:
     type: 3}
   knifeButtonSprite:
   - {fileID: 21300000, guid: 6c31964701c064527b406278cfc5a56a, type: 3}
-  - {fileID: 21300000, guid: 0fcc2dc010c1547dcaf2330fe55b1cb6, type: 3}
   - {fileID: 21300000, guid: b9528485d1ad143778063fd715b59e0a, type: 3}
+  - {fileID: 21300000, guid: 0fcc2dc010c1547dcaf2330fe55b1cb6, type: 3}
   chosedKnifeId: 0
   strategy: 0
   enemysNameList: []
   bombIsPlanted: 0
   whereIsOther: 0
+  myWeapon: 0
   correctBombPin: 
   hasCtKit: 0
   countOfFlashs: 0
@@ -18365,8 +18524,7 @@ MonoBehaviour:
   timeAS: {fileID: 1093713039}
   bombAS: {fileID: 1273870788}
   flashAS: {fileID: 306899919}
-  knifeAS: {fileID: 589147088}
-  stepAS: {fileID: 2016928312}
+  knifeAS: {fileID: 1490786997}
   bombHasBeenDefusedAC: {fileID: 8300000, guid: eb6f35d29714b4ab5b2f4cc3293005ce,
     type: 3}
   bombHasBeenPlantedAC: {fileID: 8300000, guid: 438fcedc78f4f4329ae23972e27b8c31,
@@ -18380,7 +18538,6 @@ MonoBehaviour:
   throughFlashAC: {fileID: 8300000, guid: 63a8bef1a70654fe5a57d54b8e0685ee, type: 3}
   farFlashAC: {fileID: 8300000, guid: 10f2579ec68f1456ea97d1b86db99c51, type: 3}
   explodeFlashAC: {fileID: 8300000, guid: a7a3622b5d388455bb3491858d050e5e, type: 3}
-  leftGameAC: {fileID: 8300000, guid: 17b7a0dbef13d43faa7a30a0a500c47b, type: 3}
   T_Win_AC: {fileID: 8300000, guid: 66218ce9c595d497290fd619e16ca127, type: 3}
   CT_Win_AC: {fileID: 8300000, guid: bcd255b6e3dc34455b4ebd0af6cad0cd, type: 3}
   getKnifedAC:

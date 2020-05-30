@@ -30,7 +30,7 @@ public class EndGameShow : MonoBehaviour
         rank = PlayerPrefs.GetInt("rank",4);
         newWin = PlayerPrefs.GetInt("new_win",0);
         kills = PlayerPrefs.GetInt("new_kills",0);
-        name = PlayerPrefs.GetString("name", "Mali");
+        name = PlayerPrefs.GetString("name", "Name");
         winSerie = PlayerPrefs.GetInt("winSerie",0);
         loseSerie = PlayerPrefs.GetInt("loseSerie",0);
         a = nameLabel.GetComponent<UnityEngine.UI.Text>();

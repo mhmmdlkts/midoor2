@@ -33,7 +33,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     {
         if (!game.isOnline)
             return;
-        photonView.RPC("DeserializeAndExecuteHit", RpcTarget.Others, SerializeHit(weaponCode,isWall,isHead,enemyId,damage));
+        photonView.RPC(nameof(DeserializeAndExecuteHit), RpcTarget.Others, SerializeHit(weaponCode,isWall,isHead,enemyId,damage));
         
     }
 
@@ -41,7 +41,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     {
         if (!game.isOnline)
             return;
-        photonView.RPC("getOnlineShot", RpcTarget.Others);
+        photonView.RPC(nameof(getOnlineShot), RpcTarget.Others);
     }
     
     [PunRPC]
@@ -120,7 +120,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
 
         b[b.Length - 1] = (byte)side;
         Debug.Log( "side0: " + b[b.Length - 1]);
-        photonView.RPC("T_plants_bomb", RpcTarget.Others, b);
+        photonView.RPC(nameof(T_plants_bomb), RpcTarget.Others, b);
     }
     
 
@@ -149,7 +149,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
 
     public void bombDefused()
     {
-        photonView.RPC("CT_defused_bomb", RpcTarget.Others);
+        photonView.RPC(nameof(CT_defused_bomb), RpcTarget.Others);
     }
 
     public void disconnect()
@@ -165,12 +165,12 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     
     public void openBomb(int side, bool openedT)
     {
-        photonView.RPC("openedBomb", RpcTarget.Others, new byte[] {(byte)side, Convert.ToByte(openedT)});
+        photonView.RPC(nameof(openedBomb), RpcTarget.Others, new byte[] {(byte)side, Convert.ToByte(openedT)});
     }
 
     public void sendFlash()
     {
-        photonView.RPC("receiveFlash", RpcTarget.Others);
+        photonView.RPC(nameof(receiveFlash), RpcTarget.Others);
     }
 
     [PunRPC]
@@ -181,7 +181,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
 
     public void knifeOther(int chosedKnifeId)
     {
-        photonView.RPC("receiveKnife", RpcTarget.Others, new byte[] {(byte)chosedKnifeId});
+        photonView.RPC(nameof(receiveKnife), RpcTarget.Others, new byte[] {(byte)chosedKnifeId});
     }
 
     [PunRPC]
@@ -192,7 +192,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
 
     public void closeBomb()
     {
-        photonView.RPC("receiveCloseBomb", RpcTarget.Others);
+        photonView.RPC(nameof(receiveCloseBomb), RpcTarget.Others);
     }
 
     [PunRPC]

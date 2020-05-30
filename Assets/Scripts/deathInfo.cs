@@ -26,7 +26,7 @@ public class deathInfo : MonoBehaviour
 
     public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)
     {
-        Debug.Log("wpCODE:" + weaponCode);
+        Debug.Log("wpCODE:" + weaponCode + " killerName: " + killerName + " killedName: " + killedName);
         killerNameLabel.GetComponent<Text>().text = killerName + "  ";
         killedNameLabel.GetComponent<Text>().text = "  " + killedName;
         headImg.SetActive(isHeadShot);
@@ -43,6 +43,7 @@ public class deathInfo : MonoBehaviour
     
     private IEnumerator AdjustTransInTheEndOfFrame(bool ctIsDeath) 
     {
+        yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         
         killerNameLabel.GetComponent<Text>().color = (ctIsDeath ? T_TEXT_COLOR : CT_TEXT_COLOR);

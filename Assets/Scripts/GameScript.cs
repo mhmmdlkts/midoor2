@@ -102,6 +102,7 @@ public class GameScript : MonoBehaviour
     public Online strategy;
     public List<String> enemysNameList;
     public int bombIsPlanted, whereIsOther;
+    public int myWeapon = 0;
 
     public string correctBombPin;
     public bool hasCtKit;
@@ -110,9 +111,9 @@ public class GameScript : MonoBehaviour
 
     public Color32 lastSecColor, normalSecColor;
 
-    public AudioSource timeAS, bombAS, flashAS, knifeAS, stepAS;
+    public AudioSource timeAS, bombAS, flashAS, knifeAS;
     public AudioClip bombHasBeenDefusedAC, bombHasBeenPlantedAC, bombPlantStartAC, bombDefusStarAC, bombExplodeAC, lastSecondsAC, goChangeSideStepAC, goBombStepAC;
-    public AudioClip throughFlashAC, farFlashAC, explodeFlashAC, leftGameAC;
+    public AudioClip throughFlashAC, farFlashAC, explodeFlashAC;
     public AudioClip T_Win_AC, CT_Win_AC;
     public AudioClip[] getKnifedAC, knifeAirAC, otherShotsAWP;
 
@@ -171,6 +172,12 @@ public class GameScript : MonoBehaviour
     
     void Start()
     {
+        if (GameObject.Find("Sound") == null)
+        {
+            SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+            return;
+        }
+
         Application.targetFrameRate = 300;
 
         online = gameObject.GetComponent<GameScriptOnline>();
@@ -179,23 +186,23 @@ public class GameScript : MonoBehaviour
             online_data = GameObject.Find("Data").GetComponent<OnlineData>();
             initializeOtherTeam();
             strategy = Online.WRITE;
+            rank = (PlayerPrefs.GetInt("rank",4) + online_data.rank_him)/2;
         }
         else
         {
+            rank = PlayerPrefs.GetInt("rank",4);
             strategy = Online.OFFLINE;
             //hideOnlineObjects();
         }
         isT = isOnline? online_data.getTeam() : Random.Range(0,2) == 1;
         initializeMyTeam();
         gameMode = 0;
-        
         enemysNameList = new List<String>();
         kills = 0;
         round = (WIN_SCORE - round_per_half);
         ctScore = round / 2;
         tScore = round - ctScore;
-        rank = PlayerPrefs.GetInt("rank",4);
-        yourName = PlayerPrefs.GetString("name", "Mali");
+        yourName = PlayerPrefs.GetString("name", "Name");
         maxLooks = isT ? T_aimPoints.Length : CT_aimPoints.Length;
         getEnemySpawn().initEnemysFirstNameList(START_ENEMY_COUNT, isOnline);
         newTeam();
@@ -569,7 +576,7 @@ public class GameScript : MonoBehaviour
         }
         Destroy(panel);
         if (methodName != null)
-            Invoke(methodName,0);
+            StartCoroutine(methodName);
     }
 
     public void banControl()
@@ -728,6 +735,12 @@ public class GameScript : MonoBehaviour
         else GetComponent<AudioSource>().PlayOneShot(CT_Win_AC);
         endRound();
     }
+
+    void executeAfterSound(AudioSource audioSource, AudioClip ac, string methodName)
+    {
+        Invoke(methodName, ac.length);
+        audioSource.PlayOneShot(ac);
+    }
     
     private void roundLose()
     {
@@ -768,8 +781,7 @@ public class GameScript : MonoBehaviour
 
     public bool hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
     {
-        int weaponCode = 0; //TODO find code
-        online.hited(enemy.GetComponent<enemy>().weaponCode, isWall, isHead, enemy.GetComponent<enemy>().id, damageGiven);
+        online.hited(myWeapon, isWall, isHead, enemy.GetComponent<enemy>().id, damageGiven);
         if (enemy.GetComponent<enemy>().giveDamage(damageGiven) <= 0)
         {
             killed(enemy, isHead, isWall);
@@ -999,13 +1011,12 @@ public class GameScript : MonoBehaviour
 
     private void knifeOther()
     {
-        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
-        knifeAS.PlayOneShot(getKnifedAC[localInvokeChosedKnife]);
-        gameMoney.addMoney(gameMoney.KNIFE_MONEY);
-        showKillInfo(!isT, localInvokeChosedKnife+3, false, false, yourName, enemysNameList[0]);
-
-        roundWin();
         online.knifeOther(localInvokeChosedKnife);
+        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
+        gameMoney.addMoney(gameMoney.KNIFE_MONEY);
+        showKillInfo(isT, localInvokeChosedKnife+3, false, false, yourName, enemysNameList[0]);
+
+        executeAfterSound(knifeAS, getKnifedAC[localInvokeChosedKnife], nameof(roundWin));
     }
 
     private void refreshKnife()
@@ -1024,8 +1035,8 @@ public class GameScript : MonoBehaviour
 
     private void knifed(int knifeId)
     {
-        knifeAS.PlayOneShot(getKnifedAC[knifeId]);
-        roundLose();
+        setHealthy(0);
+        executeAfterSound(knifeAS, getKnifedAC[knifeId], nameof(roundLose));
         isOtherPlayerSpawned = true;
         showKillInfo(!isT, knifeId + 3, false, false, enemysNameList[0], yourName);
     }

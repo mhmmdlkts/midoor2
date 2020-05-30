@@ -38,7 +38,7 @@ public class OnlineMenu : MonoBehaviour
         wins = PlayerPrefs.GetInt("total_wins",0);
         money = PlayerPrefs.GetInt("money",0);
         rank = PlayerPrefs.GetInt("rank", 4);
-        name = PlayerPrefs.GetString("name", "Mali");
+        name = PlayerPrefs.GetString("name", "Name");
         
         wins_me.GetComponent<Text>().text = "" + wins;
         money_me.GetComponent<Text>().text = "$" + money;
