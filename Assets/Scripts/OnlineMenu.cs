@@ -52,20 +52,9 @@ public class OnlineMenu : MonoBehaviour
         rank_him.GetComponent<Image>().sprite = rankList[rank];
     }
     
-    public void button_online_ranked_room()
-    {
-        gameObject.GetComponent<Launcher>().startGame();
-    }
-    
     public void button_leave_room()
     {
         gameObject.GetComponent<Launcher>().LeaveRoom();
-    }
-
-    public void setHisName(string name)
-    {
-        data.name_him = name;
-        name_him.GetComponent<Text>().text = name;
     }
 
     public void setHisRank(int rank)
@@ -88,12 +77,13 @@ public class OnlineMenu : MonoBehaviour
 
     public void setMyTeam(bool isT)
     {
-        data.isT_me = isT;
+        data.setTeam(isT);
     }
 
     public void setHisTeam(string[] names)
     {
         data.otherTeam = names;
+        name_him.GetComponent<Text>().text = names[0];
     }
 
     public void ButtonClickSound(int soundId)

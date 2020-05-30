@@ -185,7 +185,7 @@ public class GameScript : MonoBehaviour
             strategy = Online.OFFLINE;
             //hideOnlineObjects();
         }
-        isT = isOnline? online_data.isT_me : Random.Range(0,2) == 1;
+        isT = isOnline? online_data.getTeam() : Random.Range(0,2) == 1;
         initializeMyTeam();
         gameMode = 0;
         
@@ -199,6 +199,7 @@ public class GameScript : MonoBehaviour
         maxLooks = isT ? T_aimPoints.Length : CT_aimPoints.Length;
         getEnemySpawn().initEnemysFirstNameList(START_ENEMY_COUNT, isOnline);
         newTeam();
+        Debug.Log("isStoped:" + isStoped);
         resetLook();
 
         beforeNewRound();
@@ -241,7 +242,7 @@ public class GameScript : MonoBehaviour
     private void initializeOtherTeam()
     {
         otherTeam = new string[START_ENEMY_COUNT];
-        otherTeam[0] = online_data.name_him;
+        otherTeam = online_data.otherTeam;
     }
 
     private void newTeam()
@@ -266,7 +267,7 @@ public class GameScript : MonoBehaviour
     {
         if (friends[enemyId].giveDamage(damage))
         {
-            showKillInfo(!isT, weaponCode, isHead, isWall, online_data.name_him, myTeam[enemyId]);
+            showKillInfo(!isT, weaponCode, isHead, isWall, online_data.otherTeam[0], myTeam[enemyId]);
             teamCount--;
             switch (teamCount)
             {
@@ -796,7 +797,6 @@ public class GameScript : MonoBehaviour
                     getEnemySpawn().createNew(strategy, isOnline, 0);
                     isOtherPlayerSpawned = true;
                 }
-
                 break;
             case 0:
                 allKilled();
@@ -921,6 +921,14 @@ public class GameScript : MonoBehaviour
 
     public void setButtonsActive(bool active)
     {
+        flash_button.GetComponent<buttonDelay>().fillButtonFull();
+        knife_button.GetComponent<buttonDelay>().fillButtonFull();
+        plant_bomb_button.GetComponent<buttonDelay>().fillButtonFull();
+        rightButton.GetComponent<buttonDelay>().fillButtonFull();
+        leftButton.GetComponent<buttonDelay>().fillButtonFull();
+        zoomButton.GetComponent<buttonDelay>().fillButtonFull();
+        shotButton.GetComponent<buttonDelay>().fillButtonFull();
+
         flash_button.SetActive(active);
         knife_button.SetActive(active);
         plant_bomb_button.SetActive(active);
@@ -931,10 +939,12 @@ public class GameScript : MonoBehaviour
     }
 
     private int localInvokeChosedSide;
+    private int localInvokeChosedKnife;
     
     public void mapOK(int side, MapChose mapChose)
     {
         localInvokeChosedSide = side;
+        localInvokeChosedKnife = chosedKnifeId;
         string methodName = null;
         switch (mapChose)
         {
@@ -964,29 +974,38 @@ public class GameScript : MonoBehaviour
                 }
                 break;
         }
+        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
         
         if (chosedKnifeId == 0)
         {  // zeus
             countOfZeus = 0;
             refreshKnife();
         }
-        
+
+        if (methodName == null)
+        {
+            Debug.LogError("Method ismi yok");
+            return;
+        }
+
+        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
         walk(true, methodName);
     }
 
     void playKnifeAir()
     {
-        knifeAS.PlayOneShot(knifeAirAC[chosedKnifeId]);
+        knifeAS.PlayOneShot(knifeAirAC[localInvokeChosedKnife]);
     }
 
     private void knifeOther()
     {
-        knifeAS.PlayOneShot(getKnifedAC[chosedKnifeId]);
+        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
+        knifeAS.PlayOneShot(getKnifedAC[localInvokeChosedKnife]);
         gameMoney.addMoney(gameMoney.KNIFE_MONEY);
-        showKillInfo(!isT, chosedKnifeId+3, false, false, yourName, enemysNameList[0]);
+        showKillInfo(!isT, localInvokeChosedKnife+3, false, false, yourName, enemysNameList[0]);
 
         roundWin();
-        online.knifeOther(chosedKnifeId);
+        online.knifeOther(localInvokeChosedKnife);
     }
 
     private void refreshKnife()
@@ -996,6 +1015,7 @@ public class GameScript : MonoBehaviour
 
     public void getKnifeTry(int knifeId)
     {
+        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife + " knifeId: " + knifeId);
         if (created_bomb != null)
             knifed(knifeId);
         else

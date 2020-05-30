@@ -26,6 +26,7 @@ public class deathInfo : MonoBehaviour
 
     public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)
     {
+        Debug.Log("wpCODE:" + weaponCode);
         killerNameLabel.GetComponent<Text>().text = killerName + "  ";
         killedNameLabel.GetComponent<Text>().text = "  " + killedName;
         headImg.SetActive(isHeadShot);

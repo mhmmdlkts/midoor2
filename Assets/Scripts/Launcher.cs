@@ -33,12 +33,20 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+        accepted_you = false;
+        accepted_him = false;
     }
     
     void Start()
     {
         onlineMenu = gameObject.GetComponent<OnlineMenu>();
         Connect();
+    }
+
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+        isT = generateTeamSide();
     }
 
     public void Connect()
@@ -86,10 +94,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CountOfRooms > 1 && PhotonNetwork.CurrentRoom.PlayerCount < 2) // TODO hic calismiyor
         {
-            Invoke("rejoinAfter", Random.Range(0,10f));
+            Invoke(nameof(rejoinAfter), Random.Range(0,10f));
         }
         else
-            Invoke("searchForOtherRooms", waitTimeForSearchAgain);
+            Invoke(nameof(searchForOtherRooms), waitTimeForSearchAgain);
 
     }
 
@@ -97,7 +105,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         isRejoining = true;
         PhotonNetwork.LeaveLobby();
-        Debug.Log("rejoin");
     }
 
     public override void OnJoinedRoom()
@@ -138,6 +145,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        accepted_you = false;
+        accepted_him = false;
         if (!isRejoining)
         {
             if (!forceQuit)
@@ -168,8 +177,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private void stopInvokes()
     {
-        CancelInvoke("searchForOtherRooms");
-        CancelInvoke("rejoinAfter");
+        CancelInvoke(nameof(searchForOtherRooms));
+        CancelInvoke(nameof(rejoinAfter));
     }
 
     public override void OnPlayerEnteredRoom(Player other)
@@ -184,59 +193,55 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
     }
 
+    public void acceptGame()
+    {
+        accepted_you = true;
+        if (checkIsAccepted())
+            return;
+        photonView.RPC(nameof(ReceiveAccepted), RpcTarget.Others);
+    }
+
+    private bool checkIsAccepted()
+    {
+        if (accepted_you && accepted_him)
+        {
+            if (PhotonNetwork.IsMasterClient)
+                startGame();
+            else
+            {
+                photonView.RPC(nameof(startGame), RpcTarget.Others);
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    [PunRPC]
     public void startGame()
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
-            isT = Random.Range(0,2) == 1;
-            photonView.RPC("ReceiveTeam", RpcTarget.All, SeializeBool(!isT));
-        }
-    }
-
-    public void acceptGame()
-    {
-        accepted_you = true;
-        checkIsAccepted();
-        photonView.RPC("ReceiveAccepted", RpcTarget.Others, new byte[]{1});
-    }
-
-    private void checkIsAccepted()
-    {
-        if (accepted_you && accepted_him && !PhotonNetwork.IsMasterClient)
-        {
-            startGame();
+            loadGame();
         }
     }
 
     void sendStatus()
     {
-        photonView.RPC("ReceiveName", RpcTarget.Others, SeializeString(onlineMenu.name));
-        photonView.RPC("ReceiveRank", RpcTarget.Others, SeializeInt(onlineMenu.rank));
-        photonView.RPC("ReceiveWins", RpcTarget.Others, SeializeInt(onlineMenu.wins));
-        photonView.RPC("receivePlayerNames", RpcTarget.Others, SerializePlayersName(onlineMenu.myTeam));
-        //photonView.RPC("ReceivePP", RpcTarget.Others, SeializeString(onlineMenu.name_me.GetComponent<Text>().text));
+        isT = generateTeamSide();
+        onlineMenu.setMyTeam(isT);
+        photonView.RPC(nameof(receiveStatus), RpcTarget.Others, SerializeStatus(onlineMenu.myTeam,onlineMenu.rank,onlineMenu.wins,isT));
+        //photonView.RPC(nameof(ReceivePP), RpcTarget.Others, SeializeString(onlineMenu.name_me.GetComponent<Text>().text));
     }
 
-    private byte[] SeializeString(string s)
+    private bool generateTeamSide()
     {
-        return Encoding.ASCII.GetBytes(s);
+        int range = 100_000_000;
+        bool generetedTeamSide = Random.Range(-range, range) <= 0;
+        if (PhotonNetwork.IsMasterClient)
+            onlineMenu.setMyTeam(generetedTeamSide);
+        return generetedTeamSide;
     }
-
-    private string DeseializeString(byte[] b)
-    {
-        return Encoding.ASCII.GetString(b);
-    }
-
-    private byte[] SeializeInt(int i)
-    {
-        return BitConverter.GetBytes(i);
-    }
-
-    private int DeseializeInt(byte[] b)
-    {
-        return BitConverter.ToInt32(b,0);
-    }
-    
     [Serializable]
     public class SerializeTexture
     {
@@ -259,42 +264,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         Sprite sp = Sprite.Create(a, new Rect(0.0f, 0.0f, 100f, 100f), new Vector2(0.5f, 0.5f), 100.0f);
         return sp;
     }
-
-    private byte[] SeializeBool(bool logic)
-    {
-        return BitConverter.GetBytes(logic);
-    }
-
-    private bool DeseializeBool(byte[] b)
-    {
-        return BitConverter.ToBoolean(b,0);
-    }
-    
-    [PunRPC]
-    void ReceiveName(byte[] b)
-    {
-        onlineMenu.setHisName(DeseializeString(b));
-    }
-    
-    [PunRPC]
-    void ReceiveRank(byte[] b)
-    {
-        onlineMenu.setHisRank(DeseializeInt(b));
-    }
-    
-    [PunRPC]
-    void ReceiveWins(byte[] b)
-    {
-        onlineMenu.setHisWins(DeseializeInt(b));
-    }
-    
-    [PunRPC]
-    void ReceiveTeam(byte[] b)
-    {
-        isT = DeseializeBool(b);
-        onlineMenu.setMyTeam(PhotonNetwork.IsMasterClient? !isT : isT);
-        loadGame();
-    }
     
     [PunRPC]
     void ReceivePP(byte[] b)
@@ -303,9 +272,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     
     [PunRPC]
-    void ReceiveAccepted(byte[] b)
+    void ReceiveAccepted()
     {
-        accepted_him = b[0] == 1;
+        accepted_him = true;
         checkIsAccepted();
     }
 
@@ -334,7 +303,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (isSearching)
         {
             progressLabel.GetComponent<TextLoading>().setNewText(searchingLabel);
-            Invoke("searchForOtherRooms",waitTimeForSearchAgain);
+            Invoke(nameof(searchForOtherRooms),waitTimeForSearchAgain);
         }
     }
 
@@ -345,19 +314,34 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void receivePlayerNames(byte[] b)
+    private void receiveStatus(byte[] b)
     {
         onlineMenu.setHisTeam(DeserializePlayersName(b).ToArray());
+        onlineMenu.setHisRank(b[b.Length-3]);
+        onlineMenu.setHisWins(b[b.Length-2]);
+        bool receivedTeam = b[b.Length - 1] == 1;
+        
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            onlineMenu.setMyTeam(!receivedTeam);
+        }
     }
 
-    private byte[] SerializePlayersName(string[] names)
+    private byte[] SerializeStatus(string[] names, int rank, int wins, bool isT)
     { 
         List<Byte> byteList = new List<Byte>();
-        
+        byte byteRank = (byte)rank;
+        byte byteWins = (byte)wins; // TODO for more wins < 255
+        byte byteisT =(byte) (isT?1:0);
+
         for (int i = 0; i < names.Length; i++)
         {
             addAllToList(byteList, Encoding.ASCII.GetBytes(names[i]));
         }
+        
+        byteList.Add(byteRank);
+        byteList.Add(byteWins);
+        byteList.Add(byteisT);
         return byteList.ToArray();
     }
 
@@ -365,7 +349,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         List<String> nameList = new List<String>();
         String name = "";
-        for(int i = 0; i < arr.Length; i++)
+        for(int i = 0; i < arr.Length-3; i++)
         {
             byte b = arr[i];
             if (b == END_OF_TEXT)

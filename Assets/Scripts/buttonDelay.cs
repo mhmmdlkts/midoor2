@@ -54,4 +54,11 @@ public class buttonDelay : MonoBehaviour
         }
         gameObject.GetComponent<Button>().interactable = true;
     }
+
+    public void fillButtonFull()
+    {
+        StopCoroutine(fillButton());
+        gameObject.GetComponent<Image>().fillAmount = 1.0f;
+        gameObject.GetComponent<Button>().interactable = true;
+    }
 }
