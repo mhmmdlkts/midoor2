@@ -232,8 +232,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         isT = generateTeamSide();
         onlineMenu.setMyTeam(isT);
-        photonView.RPC(nameof(receiveStatus), RpcTarget.Others, SerializeStatus(onlineMenu.myTeam,onlineMenu.rank,onlineMenu.wins,isT));
-        //photonView.RPC(nameof(ReceivePP), RpcTarget.Others, SeializeString(onlineMenu.name_me.GetComponent<Text>().text));
+        photonView.RPC(nameof(receiveStatus), RpcTarget.Others, SerializeStatus(onlineMenu.myTeam,onlineMenu.rank,onlineMenu.wins,onlineMenu.ppId,isT));
     }
 
     private bool generateTeamSide()
@@ -253,24 +252,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         public int y;
         [SerializeField]
         public byte[] bytes;
-    }
-
-    private byte[] SeializeSprite(Sprite sprite)
-    {
-        return sprite.texture.GetRawTextureData();
-    }
-
-    private Sprite DeseializeSprite(byte[] b)
-    {
-        Texture2D a = null;//Texture2D.LoadImage();
-        Sprite sp = Sprite.Create(a, new Rect(0.0f, 0.0f, 100f, 100f), new Vector2(0.5f, 0.5f), 100.0f);
-        return sp;
-    }
-    
-    [PunRPC]
-    void ReceivePP(byte[] b)
-    {
-        onlineMenu.setHisPP(DeseializeSprite(b));
     }
     
     [PunRPC]
@@ -319,8 +300,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     private void receiveStatus(byte[] b)
     {
         onlineMenu.setHisTeam(DeserializePlayersName(b).ToArray());
-        onlineMenu.setHisRank(b[b.Length-3]);
-        onlineMenu.setHisWins(b[b.Length-2]);
+        onlineMenu.setHisRank(b[b.Length-4]);
+        onlineMenu.setHisWins(b[b.Length-3]);
+        onlineMenu.setHisPP  (b[b.Length-2]);
         bool receivedTeam = b[b.Length - 1] == 1;
         
         if (!PhotonNetwork.IsMasterClient)
@@ -329,11 +311,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
     }
 
-    private byte[] SerializeStatus(string[] names, int rank, int wins, bool isT)
+    private byte[] SerializeStatus(string[] names, int rank, int wins, int pp, bool isT)
     { 
         List<Byte> byteList = new List<Byte>();
         byte byteRank = (byte)rank;
         byte byteWins = (byte)wins; // TODO for more wins < 255
+        byte bytePP = (byte)pp;
         byte byteisT =(byte) (isT?1:0);
 
         for (int i = 0; i < names.Length; i++)
@@ -343,6 +326,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         
         byteList.Add(byteRank);
         byteList.Add(byteWins);
+        byteList.Add(bytePP);
         byteList.Add(byteisT);
         return byteList.ToArray();
     }

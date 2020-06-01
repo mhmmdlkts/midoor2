@@ -287,6 +287,7 @@
           <e p="aim.cs" t="Include" />
           <e p="ammoPanel.cs" t="Include" />
           <e p="are_you_sure.cs" t="Include" />
+          <e p="ArraysData.cs" t="Include" />
           <e p="BloodieScreen.cs" t="Include" />
           <e p="Bomb.cs" t="Include" />
           <e p="bomb_icon.cs" t="Include" />
@@ -315,12 +316,13 @@
           <e p="MainMenu.cs" t="Include" />
           <e p="Map.cs" t="Include" />
           <e p="match_ready_dialog.cs" t="Include" />
-          <e p="MenuSound.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
           <e p="OnlineData.cs" t="Include" />
           <e p="OnlineMenu.cs" t="Include" />
           <e p="OnlineRoom.cs" t="Include" />
           <e p="PlayerStatus.cs" t="Include" />
+          <e p="PP_Beavior.cs" t="Include" />
+          <e p="Pp_choser_buttons.cs" t="Include" />
           <e p="SafeArea.cs" t="Include" />
           <e p="Set_Team_dialog.cs" t="Include" />
           <e p="ShotButtonHandler.cs" t="Include" />

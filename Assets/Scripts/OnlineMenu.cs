@@ -9,16 +9,26 @@ using UnityEngine.UI;
 
 public class OnlineMenu : MonoBehaviour
 {
-    public int money, rank, wins;
+    public int money, rank, wins, ppId;
     public string name;
     public GameObject pp_me, name_me, money_me, wins_me, rank_me;
     public GameObject pp_him, name_him, money_him, wins_him, rank_him;
     public OnlineData data;
+    public ArraysData arraysData;
     public Sprite[] rankList;
     public string[] myTeam;
     
     void Start()
     {
+        
+        if (GameObject.Find(MainMenu.ArraysDataName) == null)
+        {
+            SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+            return;
+        }
+
+        arraysData = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>();
+        
         setStatus();
         initializeMyTeam();
     }
@@ -39,11 +49,13 @@ public class OnlineMenu : MonoBehaviour
         money = PlayerPrefs.GetInt("money",0);
         rank = PlayerPrefs.GetInt("rank", 4);
         name = PlayerPrefs.GetString("name", "Name");
+        ppId = PlayerPrefs.GetInt("pp", 2);
         
         wins_me.GetComponent<Text>().text = "" + wins;
         money_me.GetComponent<Text>().text = "$" + money;
         rank_me.GetComponent<Image>().sprite = rankList[rank];
         name_me.GetComponent<Text>().text = name;
+        pp_me.GetComponent<Image>().sprite = arraysData.ppList[ppId];
     }
 
     public void setEnemyStatus(String name, int rank)
@@ -69,10 +81,10 @@ public class OnlineMenu : MonoBehaviour
         wins_him.GetComponent<Text>().text = wins + "";
     }
 
-    public void setHisPP(Sprite sprite)
+    public void setHisPP(int ppId)
     {
-        data.pp_him = sprite;
-        pp_him.GetComponent<Image>().sprite = sprite;
+        data.pp_him = ppId;
+        pp_him.GetComponent<Image>().sprite = arraysData.ppList[ppId];
     }
 
     public void setMyTeam(bool isT)
@@ -88,7 +100,7 @@ public class OnlineMenu : MonoBehaviour
 
     public void ButtonClickSound(int soundId)
     {
-        GameObject soundManeger = GameObject.Find("Sound");
-        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
+        GameObject soundManeger = GameObject.Find(MainMenu.ArraysDataName);
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<ArraysData>().menuSounds[soundId]);
     }
 }

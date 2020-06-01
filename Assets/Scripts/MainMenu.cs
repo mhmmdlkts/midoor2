@@ -13,13 +13,17 @@ public class MainMenu : MonoBehaviour
     public string[] myTeam;
 
     public AudioClip[] menuSounds;
+    public Sprite[] ppList;
+    public static string ArraysDataName = "Arrays";
     void Start()
     {
-        if (GameObject.Find("Sound") == null)
+        if (GameObject.Find(ArraysDataName) == null)
         {
-            GameObject sound = new GameObject("Sound");
+            GameObject sound = new GameObject(ArraysDataName);
             sound.AddComponent<AudioSource>().playOnAwake = false;
-            sound.AddComponent<MenuSound>().menuSounds = menuSounds;
+            ArraysData arraysData = sound.AddComponent<ArraysData>();
+            arraysData.menuSounds = menuSounds;
+            arraysData.ppList = ppList;
             Instantiate(sound);
             DontDestroyOnLoad(sound);
         }
@@ -63,8 +67,8 @@ public class MainMenu : MonoBehaviour
 
     public void ButtonClickSound(int soundId)
     {
-        GameObject soundManeger = GameObject.Find("Sound");
-        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
+        GameObject soundManeger = GameObject.Find(MainMenu.ArraysDataName);
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<ArraysData>().menuSounds[soundId]);
     }
     
 }

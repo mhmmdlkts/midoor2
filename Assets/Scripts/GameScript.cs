@@ -59,6 +59,7 @@ public class GameScript : MonoBehaviour
         healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab, buy_panel_prefab, created_buy_panel,
         knife_button, rightButton, leftButton, shotButton, zoomButton, map_prefab, created_map, flashCountContainer, flashCountText;
     private GameObject created_bomb_icon, created_bomb;
+    private ArraysData arraysData;
     public GameObject[] createdColorTags;
     public GameObject[] T_aimPoints; // B, Mid, Long
     public GameObject[] CT_aimPoints; // Long, Mid, B
@@ -172,11 +173,13 @@ public class GameScript : MonoBehaviour
     
     void Start()
     {
-        if (GameObject.Find("Sound") == null)
+        if (GameObject.Find(MainMenu.ArraysDataName) == null)
         {
             SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
             return;
         }
+
+        arraysData = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>();
 
         Application.targetFrameRate = 300;
 
@@ -840,10 +843,16 @@ public class GameScript : MonoBehaviour
         }
 
         if (isT)
-            tPPholder[0].GetComponent<Image>().sprite = ownPP;
+        {
+            tPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[PlayerPrefs.GetInt("pp", 2)];
+            ctPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[online_data.pp_him];
+        }
         else
-            ctPPholder[0].GetComponent<Image>().sprite = ownPP;
-            
+        {
+            ctPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[PlayerPrefs.GetInt("pp", 2)];
+            tPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[online_data.pp_him];
+        }
+
     }
 
     void killAllMobs()
@@ -1054,7 +1063,7 @@ public class GameScript : MonoBehaviour
 
     public void ButtonClickSound(int soundId)
     {
-        GameObject soundManeger = GameObject.Find("Sound");
-        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
+        GameObject soundManeger = GameObject.Find(MainMenu.ArraysDataName);
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(arraysData.menuSounds[soundId]);
     }
 }

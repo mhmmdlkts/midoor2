@@ -60,7 +60,7 @@ public class match_ready_dialog : MonoBehaviour
 
     public void ButtonClickSound(int soundId)
     {
-        GameObject soundManeger = GameObject.Find("Sound");
-        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<MenuSound>().menuSounds[soundId]);
+        GameObject soundManeger = GameObject.Find(MainMenu.ArraysDataName);
+        soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<ArraysData>().menuSounds[soundId]);
     }
 }

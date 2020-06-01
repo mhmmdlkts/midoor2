@@ -5,7 +5,7 @@ using UnityEngine;
 public class OnlineData : MonoBehaviour
 {
 
-    public Sprite pp_him;
+    public int pp_him;
     public int wins_him, rank_him;
     private bool isT_me;
     public string[] otherTeam;
