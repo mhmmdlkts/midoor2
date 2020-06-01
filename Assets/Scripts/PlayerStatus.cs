@@ -8,18 +8,9 @@ public class PlayerStatus : MonoBehaviour
 {
     public GameObject pp, name, money, wins, rank, inputName;
     public Sprite[] rankList;
-    TouchScreenKeyboard keyboard;
     void Start()
     {
         setStatus();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return) || keyboard != null && keyboard.status == TouchScreenKeyboard.Status.Done)
-        {
-            finishTyping();
-        }
     }
 
     private void setStatus()
@@ -33,14 +24,17 @@ public class PlayerStatus : MonoBehaviour
     public void button_set_name()
     {
         inputName.SetActive(true);
+        inputName.GetComponent<InputField>().text = name.GetComponent<Text>().text;
         name.SetActive(false);
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
         EventSystem.current.SetSelectedGameObject(inputName.gameObject, null);
     }
 
-    private void finishTyping()
+    public void finishTyping()
     {
-        PlayerPrefs.SetString("name",inputName.GetComponent<InputField>().text);
+        string input = inputName.GetComponent<InputField>().text;
+        if (!TeamEditor.checkIsInputOk(input))
+            return;
+        PlayerPrefs.SetString("name", input);
         inputName.SetActive(false);
         name.SetActive(true);
         setStatus();

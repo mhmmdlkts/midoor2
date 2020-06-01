@@ -277,20 +277,6 @@
         </e>
         <e p="Res" t="Include">
           <e p="BotNames.txt" t="Include" />
-          <e p="Yeni" t="Include">
-            <e p="SuperBlur" t="Include">
-              <e p="Core" t="Include">
-                <e p="SuperBlurBase.cs" t="Include" />
-              </e>
-              <e p="Shader" t="Include">
-                <e p="SuperBlurPostEffect.shader" t="Include" />
-                <e p="SuperBlurUI.shader" t="Include" />
-              </e>
-              <e p="SuperBlur.cs" t="Include" />
-              <e p="SuperBlurFast.cs" t="Include" />
-            </e>
-            <e p="test2.shader" t="Include" />
-          </e>
         </e>
         <e p="Scripts" t="Include">
           <e p="Ad" t="Include">
