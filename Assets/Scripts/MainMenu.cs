@@ -51,7 +51,7 @@ public class MainMenu : MonoBehaviour
         String name = PlayerPrefs.GetString("name", null);
         if (name == null || name.Equals(""))
             return true;
-        for (int i = 1; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
             name = PlayerPrefs.GetString("game_firend_" + i, null);
             if (name == null || name.Equals(""))

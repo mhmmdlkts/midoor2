@@ -14,7 +14,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         
     bool isConnecting;
     string gameVersion = "1";
-    public GameObject accept_match_dialog;
+    public GameObject accept_match_dialog, leave_room_button;
     private OnlineMenu onlineMenu;
     public float waitTimeForSearchAgain = 3f;
     [SerializeField] byte maxPlayersPerRoom;
@@ -118,6 +118,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void match_found()
     {
+        leave_room_button.SetActive(false);
         stopInvokes();
         created_accept_dialog = Instantiate(accept_match_dialog);
         sendStatus();
@@ -126,6 +127,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
+        leave_room_button.SetActive(true);
         setSearching(true);
         progressLabel.GetComponent<TextLoading>().setNewText(disconnectingLabel);
         forceQuit = false;

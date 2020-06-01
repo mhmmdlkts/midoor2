@@ -240,9 +240,9 @@ public class GameScript : MonoBehaviour
     {
         myTeam = new string[START_ENEMY_COUNT];
         myTeam[0] = yourName;
-        for (int i = 1; i < START_ENEMY_COUNT; i++)
+        for (int i = 0; i < START_ENEMY_COUNT-1; i++)
         {
-            myTeam[i] = PlayerPrefs.GetString("game_firend_" + i, "US_" + i + "_name"); // TODO
+            myTeam[i+1] = PlayerPrefs.GetString("game_firend_" + i, "US_" + i + "_name");
         }
     }
 

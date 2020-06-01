@@ -27,9 +27,9 @@ public class OnlineMenu : MonoBehaviour
     {
         myTeam = new string[GameScript.START_ENEMY_COUNT];
         myTeam[0] = name;
-        for (int i = 1; i < myTeam.Length; i++)
+        for (int i = 0; i < myTeam.Length-1; i++)
         {
-            myTeam[i] = PlayerPrefs.GetString("game_firend_" + i, "Team_" + i + "_name"); // TODO
+            myTeam[i+1] = PlayerPrefs.GetString("game_firend_" + i, "Team_" + i + "_name");
         }
     }
 
