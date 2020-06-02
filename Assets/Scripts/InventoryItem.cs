@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,15 +41,31 @@ public class InventoryItem : Subject, InventoryInterface
         {
             case 'T':
                 equipedT.SetActive(true);
+                setPrefabEquip(true);
                 break;
             case 'C':
                 equipedCt.SetActive(true);
+                setPrefabEquip(false);
                 break;
             case 'B':
                 equipedCt.SetActive(true);
                 equipedT.SetActive(true);
+                setPrefabEquip(true);
+                setPrefabEquip(false);
                 break;
         }
+    }
+
+    private void setPrefabEquip(bool forT)
+    {
+        string code = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[weaponCode], MainMenu.playerPrafsWeaponDef[weaponCode]);
+        string weapons = code.Split('-')[0];
+        string eqT = code.Split('-')[1].Split('=')[0];
+        string eqCT = code.Split('-')[1].Split('=')[1];
+        Debug.Log("1?" + code);
+        code = weapons + '-' + (forT ? Convert.ToString(style) : eqT) + '=' + (forT ? eqCT : Convert.ToString(style));
+        Debug.Log("2?" + code);
+        PlayerPrefs.SetString(MainMenu.playerPrafsWeaponKey[weaponCode], code);
     }
 
     public void buttonListener()

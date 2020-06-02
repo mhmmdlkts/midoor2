@@ -572,8 +572,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.080078125, y: 0}
-  m_SizeDelta: {x: -0.15856934, y: 0}
+  m_AnchoredPosition: {x: -7.442993, y: 0}
+  m_SizeDelta: {x: -15.114075, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &138406668
 MonoBehaviour:
@@ -777,25 +777,36 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a0c9b98d1b1244215b19bc8a35eaccff, type: 3}
   - {fileID: 21300000, guid: a55fc08f356354d0a82aaeb97fa977b6, type: 3}
   - {fileID: 21300000, guid: 8013af57b878d4e8b91947d74e7807d8, type: 3}
+  - {fileID: 21300000, guid: aa5d72dc4b31f4b63af5e6a00b17ddb7, type: 3}
+  - {fileID: 21300000, guid: ac4f16f945a6744b3b7234895b5f92ed, type: 3}
+  - {fileID: 21300000, guid: 34b01b16236464ed3aa498cd59f55dec, type: 3}
+  - {fileID: 21300000, guid: 44d9a35bc786b4a938baa29b8d244df4, type: 3}
+  - {fileID: 21300000, guid: 5d1b968eeef5345c28801347b649ad41, type: 3}
+  - {fileID: 21300000, guid: 138a354258c604dc9b55d6c764820f95, type: 3}
+  - {fileID: 21300000, guid: 2ca44f3ad79d94f48a8f4fb9bbbcce7f, type: 3}
+  - {fileID: 21300000, guid: 8c8e2d170f8944d609301d9b0358b579, type: 3}
+  - {fileID: 21300000, guid: 86a10de8ef6cf4d728a52a830524056b, type: 3}
   knifesSprite:
-  - {fileID: 21300000, guid: 0738f4e3e2c9b4e4889a1b28d4d6bb7e, type: 3}
-  - {fileID: 21300000, guid: 3810c2655f8244b86853040ff97f6d1e, type: 3}
+  - {fileID: 21300000, guid: 7988bc87e9b554b90aa7b4815ae9e381, type: 3}
+  - {fileID: 21300000, guid: 75ab1908a7daa4e1ea16e1fd0274ccba, type: 3}
   - {fileID: 21300000, guid: 6dec5ebd0c081405c8e47eb52eb779fb, type: 3}
   - {fileID: 21300000, guid: c5a18e30994a34341aee816b370b3eb7, type: 3}
   awpsSprite:
-  - {fileID: 21300000, guid: aaa6aea996e594f9aae63364f650f2ac, type: 3}
+  - {fileID: 21300000, guid: bcbf361e86ef24bab9edb1082fd221a6, type: 3}
   - {fileID: 21300000, guid: 422bb3cf077484f59bf8a52b6773d6fb, type: 3}
   qualityColors:
   - serializedVersion: 2
     rgba: 4278190280
   - serializedVersion: 2
-    rgba: 4278190280
+    rgba: 4293274835
   - serializedVersion: 2
-    rgba: 4278190280
+    rgba: 4294920072
   - serializedVersion: 2
-    rgba: 4278190280
+    rgba: 4294928715
   - serializedVersion: 2
-    rgba: 4278190280
+    rgba: 4292461488
+  - serializedVersion: 2
+    rgba: 4283851114
 --- !u!20 &217732066
 Camera:
   m_ObjectHideFlags: 0
@@ -1139,7 +1150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 293.41602, y: -61.5}
+  m_AnchoredPosition: {x: 292.77518, y: -61.5}
   m_SizeDelta: {x: 585.54944, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &297083718

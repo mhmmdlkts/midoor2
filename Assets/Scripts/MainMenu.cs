@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
     public Sprite[] awpsSprite;
     public Color32[] qualityColors;
     public static string ArraysDataName = "Arrays";
-    public static string[] playerPrafsWeaponKey = {"AWP_inventory2", "Knive_inventory2"}; // TODO
+    public static string[] playerPrafsWeaponKey = {"AWP_inventory5", "Knive_inventory5"}; // TODO
     public static string[] playerPrafsWeaponDef = {"0-0=0", "0,1-0=1"};
     void Start()
     {
