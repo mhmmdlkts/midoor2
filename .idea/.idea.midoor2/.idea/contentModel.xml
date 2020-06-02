@@ -277,6 +277,7 @@
         </e>
         <e p="Res" t="Include">
           <e p="BotNames.txt" t="Include" />
+          <e p="StoreItems.txt" t="Include" />
         </e>
         <e p="Scripts" t="Include">
           <e p="Ad" t="Include">
@@ -304,6 +305,7 @@
           <e p="EndRoundShow.cs" t="Include" />
           <e p="enemy.cs" t="Include" />
           <e p="ENEMY_SPAWN.cs" t="Include" />
+          <e p="EquipMenu.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="GameMoney.cs" t="Include" />
           <e p="GameScript.cs" t="Include" />
@@ -311,12 +313,16 @@
           <e p="GetRandomEnemyName.cs" t="Include" />
           <e p="HomeButton.cs" t="Include" />
           <e p="Inventory.cs" t="Include" />
+          <e p="InventoryInterface.cs" t="Include" />
+          <e p="InventoryItem.cs" t="Include" />
+          <e p="InventoryMenu.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
           <e p="Map.cs" t="Include" />
           <e p="match_ready_dialog.cs" t="Include" />
           <e p="mobGoDesPoint.cs" t="Include" />
+          <e p="myInventroy.cs" t="Include" />
           <e p="OnlineData.cs" t="Include" />
           <e p="OnlineMenu.cs" t="Include" />
           <e p="OnlineRoom.cs" t="Include" />
@@ -340,6 +346,8 @@
               <e p="midRightSpawn.cs" t="Include" />
             </e>
           </e>
+          <e p="StoreItem.cs" t="Include" />
+          <e p="StoreMenu.cs" t="Include" />
           <e p="TeamEditor.cs" t="Include" />
           <e p="TextLoading.cs" t="Include" />
           <e p="ZoomButtonHandler.cs" t="Include" />

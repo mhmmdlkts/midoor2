@@ -26,7 +26,7 @@ public class PlayerStatus : MonoBehaviour
         setStatus();
     }
 
-    private void setStatus()
+    public void setStatus()
     {
         wins.GetComponent<Text>().text = PlayerPrefs.GetInt("total_wins",0) + "";
         money.GetComponent<Text>().text = "$" + PlayerPrefs.GetInt("money",0);

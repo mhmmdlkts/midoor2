@@ -5,5 +5,6 @@ using UnityEngine;
 public class ArraysData : MonoBehaviour
 {
     public AudioClip[] menuSounds;
-    public Sprite[] ppList;
+    public Sprite[] ppList, awpImgs, knifeImgs;
+    public Color32[] qualityColors;
 }

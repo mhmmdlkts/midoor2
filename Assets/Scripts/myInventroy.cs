@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class myInventroy : MonoBehaviour
+{
+    public GameObject inventoryItemPrefab, container;
+    public InventoryMenu inventoryMenu;
+    private string inventoryKnifeCode, inventoryAwpCode;
+    private string[] inventoryKnifes, inventoryAwps;
+    private int inventoryEquipedKnifeIdT, inventoryEquipedAwpIdT;
+    private int inventoryEquipedKnifeIdCT, inventoryEquipedAwpIdCT;
+    public bool isChoseMenuOpen;
+    private List<GameObject> itemsList;
+    // {"0-0=0", "0,1-0=1"}
+    void Start()
+    {
+        init();
+    }
+
+    private void desrtoyAll()
+    {
+        if (itemsList == null)
+            return;
+        foreach (var item in itemsList)
+        {
+            Destroy(item);
+        }
+    }
+
+    public IEnumerator reload()
+    {
+        yield return new WaitForEndOfFrame();
+        desrtoyAll();
+        init();
+    }
+
+    private void init()
+    {
+        itemsList = new List<GameObject>();
+        initPlayerPrefabs();
+        initAwpItems();
+        initKnifeItems();
+        registerAll();
+        float containerHeight = inventoryItemPrefab.GetComponent<RectTransform>().rect.height * (inventoryKnifes.Length+inventoryAwps.Length); // Todo yatay kareler
+        RectTransform rc = container.GetComponent<RectTransform>();
+        rc.sizeDelta = new Vector2(0, containerHeight + 10);
+    }
+
+    private void initPlayerPrefabs()
+    {
+        inventoryAwpCode = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[0], MainMenu.playerPrafsWeaponDef[0]);
+        inventoryKnifeCode = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[1], MainMenu.playerPrafsWeaponDef[1]);
+        inventoryKnifes = inventoryKnifeCode.Split('-')[0].Split(',');
+        inventoryAwps = inventoryAwpCode.Split('-')[0].Split(',');
+        inventoryEquipedKnifeIdT = Convert.ToInt32(inventoryKnifeCode.Split('-')[1].Split('=')[0]);
+        inventoryEquipedKnifeIdCT = Convert.ToInt32(inventoryKnifeCode.Split('-')[1].Split('=')[1]);
+        inventoryEquipedAwpIdT = Convert.ToInt32(inventoryAwpCode.Split('-')[1].Split('=')[0]);
+        inventoryEquipedAwpIdCT = Convert.ToInt32(inventoryAwpCode.Split('-')[1].Split('=')[1]);
+    }
+//int weaponCode, int style, int quality, string name, bool equCT, bool equT)
+    private void initAwpItems()
+    {
+        for (int i = 0; i < inventoryAwps.Length; i++)
+        {
+            GameObject o = Instantiate(inventoryItemPrefab, container.transform, false);
+            int style = Convert.ToInt32(inventoryAwps[i]);
+            bool eqT = inventoryEquipedAwpIdT == style;
+            bool eqCT = inventoryEquipedAwpIdCT == style;
+            o.GetComponent<InventoryItem>().configure(inventoryMenu.getStruct(0, style),getTeam(eqT,eqCT));
+            itemsList.Add(o);
+        }
+    }
+
+    private void initKnifeItems()
+    {
+        for (int i = 0; i < inventoryKnifes.Length; i++)
+        {
+            GameObject o = Instantiate(inventoryItemPrefab, container.transform, false);
+            int style = Convert.ToInt32(inventoryKnifes[i]);
+            bool eqT = inventoryEquipedKnifeIdT == style;
+            bool eqCT = inventoryEquipedKnifeIdCT == style;
+            o.GetComponent<InventoryItem>().configure(inventoryMenu.getStruct(1, style),getTeam(eqT,eqCT));
+            itemsList.Add(o);
+        }
+    }
+
+    private char getTeam(bool eqT, bool eqCT)
+    {
+        if (eqT && eqCT)
+            return 'B';
+        if (eqT)
+            return 'T';
+        if (eqCT)
+            return 'C';
+        return '-';
+    }
+
+    private void registerAll()
+    {
+        foreach (var o in itemsList)
+        {
+            o.GetComponent<InventoryItem>().registerObserver();
+        }
+    }
+}

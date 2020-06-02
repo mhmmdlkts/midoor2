@@ -14,7 +14,12 @@ public class MainMenu : MonoBehaviour
 
     public AudioClip[] menuSounds;
     public Sprite[] ppList;
+    public Sprite[] knifesSprite;
+    public Sprite[] awpsSprite;
+    public Color32[] qualityColors;
     public static string ArraysDataName = "Arrays";
+    public static string[] playerPrafsWeaponKey = {"AWP_inventory2", "Knive_inventory2"}; // TODO
+    public static string[] playerPrafsWeaponDef = {"0-0=0", "0,1-0=1"};
     void Start()
     {
         if (GameObject.Find(ArraysDataName) == null)
@@ -24,6 +29,9 @@ public class MainMenu : MonoBehaviour
             ArraysData arraysData = sound.AddComponent<ArraysData>();
             arraysData.menuSounds = menuSounds;
             arraysData.ppList = ppList;
+            arraysData.awpImgs = awpsSprite;
+            arraysData.knifeImgs = knifesSprite;
+            arraysData.qualityColors = qualityColors;
             Instantiate(sound);
             DontDestroyOnLoad(sound);
         }
@@ -47,6 +55,21 @@ public class MainMenu : MonoBehaviour
     public void button_edit_team()
     {
         SceneManager.LoadScene("Assets/Scenes/Team Editor.unity", LoadSceneMode.Single);
+    }
+    
+    public void button_restore_purchase()
+    {
+        
+    }
+    
+    public void button_remove_ads()
+    {
+        
+    }
+    
+    public void button_inventory()
+    {
+        SceneManager.LoadScene("Assets/Scenes/Inventory.unity", LoadSceneMode.Single);
     }
 
     private bool not_inited_team()
