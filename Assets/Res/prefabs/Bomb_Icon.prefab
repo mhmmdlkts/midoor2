@@ -103,7 +103,6 @@ MonoBehaviour:
   white:
     serializedVersion: 2
     rgba: 0
-  audioSource: {fileID: 0}
   bombBeep: {fileID: 8300000, guid: 3f07fc0bc2ab64f2fbfaa09c9bbb0fae, type: 3}
   explodeTime: 40
 --- !u!82 &7853820609530347891

@@ -62,9 +62,7 @@ public class InventoryItem : Subject, InventoryInterface
         string weapons = code.Split('-')[0];
         string eqT = code.Split('-')[1].Split('=')[0];
         string eqCT = code.Split('-')[1].Split('=')[1];
-        Debug.Log("1?" + code);
         code = weapons + '-' + (forT ? Convert.ToString(style) : eqT) + '=' + (forT ? eqCT : Convert.ToString(style));
-        Debug.Log("2?" + code);
         PlayerPrefs.SetString(MainMenu.playerPrafsWeaponKey[weaponCode], code);
     }
 
@@ -73,7 +71,6 @@ public class InventoryItem : Subject, InventoryInterface
         if (myInventroy.isChoseMenuOpen)
             return;
         Instantiate(equipMenuPrefab, GameObject.Find("Canvas").transform, false).GetComponent<EquipMenu>().open(this, weaponCode, style, team);
-        //equipWeapon('B');
     }
 
     public void OnEquipOther(int weaponCode, char team)
@@ -118,6 +115,8 @@ public class InventoryItem : Subject, InventoryInterface
                 return arraysData.awpImgs[style];
             case 1:
                 return arraysData.knifeImgs[style];
+            case 2:
+                return arraysData.zeusImgs[style];
         }
 
         return null;

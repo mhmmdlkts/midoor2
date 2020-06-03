@@ -85,7 +85,7 @@ public class ENEMY_SPAWN : MonoBehaviour
         else
         {
             for (int i = 0; i < count; i++)
-                game.enemysNameList.Add(main.GetComponent<GameScript>().online_data.otherTeam[i]);
+                game.enemysNameList.Add(main.GetComponent<GameScript>().online_data.otherTeam[i]); // IndexOutOfRangeException: Index was outside the bounds of the array. online oyun basinda hemen
         }
     }
 

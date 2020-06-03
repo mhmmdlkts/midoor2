@@ -29,7 +29,7 @@ public class ShotButtonHandler : MonoBehaviour
         shotSound.Play();
         aim.GetComponent<aim>().shoted();
         setShotable(false);
-        StartCoroutine("refreshAmmo");
+        try  { StartCoroutine(nameof(refreshAmmo)); } catch (Exception e) { }
     }
 
     IEnumerator refreshAmmo()

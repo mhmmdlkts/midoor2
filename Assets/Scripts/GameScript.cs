@@ -98,6 +98,7 @@ public class GameScript : MonoBehaviour
     public Sprite bombPlantButtonSprite, bombDefuseButtonSprite;
     public Sprite[] knifeButtonSprite;
     public int chosedKnifeId;
+    public TextAsset weaponList;
 
     public TeamFriend[] friends;
     public Online strategy;
@@ -116,7 +117,8 @@ public class GameScript : MonoBehaviour
     public AudioClip bombHasBeenDefusedAC, bombHasBeenPlantedAC, bombPlantStartAC, bombDefusStarAC, bombExplodeAC, lastSecondsAC, goChangeSideStepAC, goBombStepAC;
     public AudioClip throughFlashAC, farFlashAC, explodeFlashAC;
     public AudioClip T_Win_AC, CT_Win_AC;
-    public AudioClip[] getKnifedAC, knifeAirAC, otherShotsAWP;
+    public AudioClip getKnifedAC, knifeAirAC, getZeusedAC, zeusAirAC;
+    public AudioClip[] otherShotsAWP;
 
     void takeFlash()
     {
@@ -195,7 +197,7 @@ public class GameScript : MonoBehaviour
         {
             rank = PlayerPrefs.GetInt("rank",4);
             strategy = Online.OFFLINE;
-            //hideOnlineObjects();
+            hideOnlineObjects();
         }
         isT = isOnline? online_data.getTeam() : Random.Range(0,2) == 1;
         initializeMyTeam();
@@ -209,7 +211,6 @@ public class GameScript : MonoBehaviour
         maxLooks = isT ? T_aimPoints.Length : CT_aimPoints.Length;
         getEnemySpawn().initEnemysFirstNameList(START_ENEMY_COUNT, isOnline);
         newTeam();
-        Debug.Log("isStoped:" + isStoped);
         resetLook();
 
         beforeNewRound();
@@ -228,15 +229,22 @@ public class GameScript : MonoBehaviour
         createdColorTags = new GameObject[START_ENEMY_COUNT];
         for (int i = 0; i < createdColorTags.Length; i++)
         {
-            GameObject container_colorTag = getPPHolder(i);
+            GameObject container_colorTag = getPPHolder(isT, i);
+            createdColorTags[i] = Instantiate(colorTag_prefab);
+            createdColorTags[i].GetComponent<ColorTag>().configure(i, container_colorTag);
+        }
+        
+        for (int i = 0; i < createdColorTags.Length; i++)
+        {
+            GameObject container_colorTag = getPPHolder(!isT, i);
             createdColorTags[i] = Instantiate(colorTag_prefab);
             createdColorTags[i].GetComponent<ColorTag>().configure(i, container_colorTag);
         }
     }
 
-    GameObject getPPHolder(int i)
+    GameObject getPPHolder(bool forT, int i)
     {
-        return isT ? tPPholder[i] : ctPPholder[i];
+        return forT ? tPPholder[i] : ctPPholder[i];
     }
 
     private void initializeMyTeam()
@@ -273,7 +281,7 @@ public class GameScript : MonoBehaviour
         GetComponent<AudioSource>().PlayOneShot(otherShotsAWP[Random.Range(0,otherShotsAWP.Length)]);
     }
 
-    public void friendGotShot(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
+    public void friendGotShot(int weaponCode, bool isWall, bool isHead, int enemyId, int damage, int style)
     {
         if (friends[enemyId].giveDamage(damage))
         {
@@ -285,7 +293,7 @@ public class GameScript : MonoBehaviour
                     break;
                 case 0:
                     setHealthy(playersHealthy - damage);
-                    teamDeath();
+                    teamDeath(style);
                     break;
             }
         }
@@ -416,16 +424,18 @@ public class GameScript : MonoBehaviour
     public void playerDeath(int weaponCode, bool isHead, GameObject enemy)
     {
         if (!isOnline)
-            roundLose();
+            roundLose(); 
+        else
+            ;// TODOBURAYA
         showKillInfo(!isT, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
         am_i_Death = true;
     }
     
 
-    public void showKillInfo(bool ctIsDeath, int weaponCode, bool isHead, bool isWall, String killerName,String killedName)
+    public void showKillInfo(bool ctIsDeath, int style, bool isHead, bool isWall, String killerName,String killedName)
     {
         GameObject info = Instantiate(kill_info_dialog, kill_info_dialog.transform.position, kill_info_dialog.transform.rotation);
-        info.GetComponent<deathInfo>().configure(ctIsDeath, weaponCode, isHead, isWall, killerName, killedName);
+        info.GetComponent<deathInfo>().configure(ctIsDeath, style, isHead, isWall, killerName, killedName);
     }
 
     public void gameWin()
@@ -469,7 +479,10 @@ public class GameScript : MonoBehaviour
     {
         if(isStoped)
             return;
-        openMap(MapChose.knife);
+        if (countOfZeus > 0)
+            openMap(MapChose.zeus);
+        else
+            openMap(MapChose.knife);
     }
 
     public void bombButtonListener()
@@ -546,7 +559,7 @@ public class GameScript : MonoBehaviour
         StartCoroutine(flashFade(panel, 0.0f, i.color, 2.0f, 1.5f, null));
     }
 
-    public void walk(bool longWalk, string methodeName)
+    public void walk(bool longWalk, string methodName)
     {
         AudioClip walkSound = longWalk ? goBombStepAC : goChangeSideStepAC;
         float alphaTime = 0.3f;
@@ -564,7 +577,7 @@ public class GameScript : MonoBehaviour
         i.color = Color.black;
         walk.transform.SetParent(canvas.transform, false);
         
-        StartCoroutine(flashFade(walk, 0.0f, i.color, alphaTime, walkSound.length-alphaTime, longWalk? methodeName:null));
+        StartCoroutine(flashFade(walk, 0.0f, i.color, alphaTime, walkSound.length-alphaTime, methodName));
     }
     
     IEnumerator flashFade(GameObject panel, float aValue, Color32 c, float aTime, float delayTime, string methodName)
@@ -595,6 +608,7 @@ public class GameScript : MonoBehaviour
     {
         banControl();
     }
+    
     void newRound()
     {
         cleanUpForRound();
@@ -722,27 +736,22 @@ public class GameScript : MonoBehaviour
         roundWin();
     }
 
-    void teamDeath()
+    void teamDeath(int style)
     {
         if(bombHasBeenPlant() && isT)
             return;
         roundLose();
+        StartCoroutine(showDeathWeapon(0.2f,0,style));
     }
 
     private void roundWin()
     {
         gameMoney.addMoney(gameMoney.ROUNDWIN_MONEY);
         giveScore(true);
-        StartCoroutine(showDialgNextFrame(isT));
+        StartCoroutine(showDialogNextFrame(isT));
         if (isT) GetComponent<AudioSource>().PlayOneShot(T_Win_AC);
         else GetComponent<AudioSource>().PlayOneShot(CT_Win_AC);
         endRound();
-    }
-
-    void executeAfterSound(AudioSource audioSource, AudioClip ac, string methodName)
-    {
-        Invoke(methodName, ac.length);
-        audioSource.PlayOneShot(ac);
     }
     
     private void roundLose()
@@ -750,7 +759,7 @@ public class GameScript : MonoBehaviour
         resetItems();
         gameMoney.addMoney(gameMoney.ROUNDLOSE_MONEY);
         giveScore(false);
-        StartCoroutine(showDialgNextFrame(!isT));
+        StartCoroutine(showDialogNextFrame(!isT));
         if (isT) GetComponent<AudioSource>().PlayOneShot(CT_Win_AC);
         else GetComponent<AudioSource>().PlayOneShot(T_Win_AC);
         endRound();
@@ -770,10 +779,34 @@ public class GameScript : MonoBehaviour
                 ctScore++;
     }
 
-    private IEnumerator showDialgNextFrame(bool forT)
+    private IEnumerator showDialogNextFrame(bool forT)
     {
         yield return new WaitForEndOfFrame();
         canvas.GetComponent<ShowDialogs>().showRoundEndDialog(forT);
+    }
+
+    private IEnumerator showDeathZeus()
+    {
+        if (!isOnline)
+            yield return null;
+        yield return new WaitForEndOfFrame();
+        canvas.GetComponent<ShowDialogs>().showDeathWeapon(0, 0, online_data.otherTeam[0]);
+    }
+
+    private IEnumerator showDeathWeapon(float wait, int weaponCode, int style)
+    {
+        if (!isOnline)
+            yield return null;
+        yield return new WaitForSecondsRealtime(wait);
+        yield return new WaitForEndOfFrame();
+        
+        roundLose();
+        canvas.GetComponent<ShowDialogs>().showDeathWeapon(weaponCode, style, online_data.otherTeam[0]);
+    }
+
+    private void startCaroutineDeathZeus()
+    {
+        StartCoroutine(nameof(showDeathZeus));
     }
 
     void updateScore()
@@ -784,7 +817,7 @@ public class GameScript : MonoBehaviour
 
     public bool hited(GameObject enemy, int damageGiven, bool isHead, bool isWall)
     {
-        online.hited(myWeapon, isWall, isHead, enemy.GetComponent<enemy>().id, damageGiven);
+        online.hited(myWeapon, getMyWeaponStyle(myWeapon), isWall, isHead, enemy.GetComponent<enemy>().id, damageGiven);
         if (enemy.GetComponent<enemy>().giveDamage(damageGiven) <= 0)
         {
             killed(enemy, isHead, isWall);
@@ -794,11 +827,18 @@ public class GameScript : MonoBehaviour
         return false;
     }
 
+    private int getMyWeaponStyle(int weaponCode)
+    {
+        string allInfo = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[weaponCode], MainMenu.playerPrafsWeaponDef[weaponCode]);
+        string[] equStyle = allInfo.Split('-')[1].Split('=');
+        return Convert.ToInt32(equStyle[isT ? 0 : 1]);
+    }
+
     public void killed(GameObject enemy, bool isHead, bool isWall)
     {
         Destroy(enemy);
         
-        showKillInfo(isT, 0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
+        showKillInfo(isT,0, isHead, isWall, yourName, enemy.GetComponent<enemy>().name);
         deactivePP(isT, enemy.GetComponent<enemy>().id);
         enemyCount--;
         kills++;
@@ -845,12 +885,14 @@ public class GameScript : MonoBehaviour
         if (isT)
         {
             tPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[PlayerPrefs.GetInt("pp", 2)];
-            ctPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[online_data.pp_him];
+            if (isOnline)
+                ctPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[online_data.pp_him];
         }
         else
         {
             ctPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[PlayerPrefs.GetInt("pp", 2)];
-            tPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[online_data.pp_him];
+            if (isOnline)
+                tPPholder[0].GetComponent<Image>().sprite = arraysData.ppList[online_data.pp_him];
         }
 
     }
@@ -986,69 +1028,97 @@ public class GameScript : MonoBehaviour
                 break;
             case MapChose.knife:
                 if (whereIsOther == side)
-                {
                     methodName = nameof(knifeOther);
-                }
                 else
-                {
                     methodName = nameof(playKnifeAir);
-                }
+                break;
+            case MapChose.zeus:
+                if (whereIsOther == side)
+                    methodName = nameof(zeusOther);
+                else
+                    methodName = nameof(playZeusAir);
+                countOfZeus = 0;
+                refreshKnife();
                 break;
         }
-        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
-        
-        if (chosedKnifeId == 0)
-        {  // zeus
-            countOfZeus = 0;
-            refreshKnife();
-        }
-
-        if (methodName == null)
-        {
-            Debug.LogError("Method ismi yok");
-            return;
-        }
-
-        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
         walk(true, methodName);
     }
 
     void playKnifeAir()
     {
-        knifeAS.PlayOneShot(knifeAirAC[localInvokeChosedKnife]);
+        knifeAS.PlayOneShot(knifeAirAC);
     }
 
-    private void knifeOther()
+    void playZeusAir()
     {
-        online.knifeOther(localInvokeChosedKnife);
-        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife);
-        gameMoney.addMoney(gameMoney.KNIFE_MONEY);
-        showKillInfo(isT, localInvokeChosedKnife+3, false, false, yourName, enemysNameList[0]);
+        knifeAS.PlayOneShot(zeusAirAC);
+    }
 
-        executeAfterSound(knifeAS, getKnifedAC[localInvokeChosedKnife], nameof(roundWin));
+    public void zeusOther()
+    {
+        
+        online.zeusOther();
+    }
+
+    public void knifeOther()
+    {
+        gameMoney.addMoney(gameMoney.KNIFE_MONEY);
+        knifeAS.PlayOneShot(getKnifedAC);
+        int knifeId = getKnifePlayerPrefs();
+        online.knifeOther(knifeId);
+        roundWin();
+        showKillInfo(isT, deathInfo.getKnifesGlobalCode(knifeId), false, false, yourName, enemysNameList[0]);
+    }
+    
+    private void knifed(int knifeId)
+    {
+        setHealthy(0);
+        knifeAS.PlayOneShot(getKnifedAC);
+        StartCoroutine(showDeathWeapon(getKnifedAC.length*2/3, 1, knifeId));
+        isOtherPlayerSpawned = true;
+        showKillInfo(!isT, deathInfo.getKnifesGlobalCode(knifeId), false, false, enemysNameList[0], yourName);
     }
 
     private void refreshKnife()
     {
-        changeKnife(countOfZeus > 0 ? 0:PlayerPrefs.GetInt("knife", isT?1:2));
+        if (countOfZeus > 0)
+        {
+            changeKnife(0);
+            return;
+        }
+
+        StoreItemStruct knifeStruct = InventoryMenu.getStruct(weaponList, 1, getKnifePlayerPrefs());
+        changeKnife(knifeStruct.iconId);
     }
 
+    private int getKnifePlayerPrefs()
+    {
+        string knifeCode = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[1], MainMenu.playerPrafsWeaponDef[1]);
+        knifeCode = knifeCode.Split('-')[1].Split('=')[isT ? 0 : 1];
+        return Convert.ToInt32(knifeCode);
+    }
+    
     public void getKnifeTry(int knifeId)
     {
-        Debug.Log("chosedKnifeId: " + chosedKnifeId + " localInvokeChosedKnife: " + localInvokeChosedKnife + " knifeId: " + knifeId);
         if (created_bomb != null)
             knifed(knifeId);
         else
-            knifeAS.PlayOneShot(knifeAirAC[knifeId]);
+            knifeAS.PlayOneShot(knifeAirAC);
     }
 
-    private void knifed(int knifeId)
+    //private int localKnifeStyle;
+    
+    /*private void knifed(int weaponCode, int knifeId)
     {
         setHealthy(0);
-        executeAfterSound(knifeAS, getKnifedAC[knifeId], nameof(roundLose));
+        localKnifeStyle = knifeId-1;
+        int weaponId = knifeId == -1 ? 2 : 1;
+        string methodName = weaponId == 2 ? nameof(startCaroutineDeathZeus) : nameof(startCaroutineDeathKnife);
+        executeAfterSound(knifeAS, getKnifedAC[knifeId], new string[] {nameof(roundWin), methodName});
+        StartCoroutine(WaitForSound(knifeAS, getKnifedAC[knifeId]));
         isOtherPlayerSpawned = true;
-        showKillInfo(!isT, knifeId + 3, false, false, enemysNameList[0], yourName);
-    }
+        showKillInfo(!isT, weaponCode, knifeId, false, false, enemysNameList[0], yourName);
+    }*/
 
     public void closeBomb()
     {
@@ -1065,5 +1135,15 @@ public class GameScript : MonoBehaviour
     {
         GameObject soundManeger = GameObject.Find(MainMenu.ArraysDataName);
         soundManeger.GetComponent<AudioSource>().PlayOneShot(arraysData.menuSounds[soundId]);
+    }
+
+    public void getZeusTry()
+    {
+        
+    }
+
+    public void zeused()
+    {
+        
     }
 }

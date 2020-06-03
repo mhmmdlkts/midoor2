@@ -8,18 +8,35 @@ public class StoreItem : MonoBehaviour
 {
     public Image image, bg, frame;
     public Text weaponName, buyButtonText, priceText;
-    public GameObject buyButton, myInventory;
+    public GameObject buyButton;
+    private GameObject container;
     public int weaponCode, style, price, quality;
     public string name, playerPrefabKey, playerPrefabDef, inventoryCode;
-    private Sprite[] awpImgs, knifeImgs;
+    private Sprite[] awpImgs, knifeImgs, zeusImgs;
     private ArraysData arraysData;
+    private RectTransform _rectTransform, _containerRectTransform;
 
     private void init()
     {
+        initWidth();
         arraysData = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>();
         awpImgs = arraysData.awpImgs;
         knifeImgs = arraysData.knifeImgs;
-        myInventory = GameObject.Find("ContainerInventoryStore");
+        zeusImgs = arraysData.zeusImgs;
+    }
+
+    private void initWidth()
+    {
+        container = GameObject.Find("StorePanel");
+        _rectTransform = GetComponent<RectTransform>();
+        _containerRectTransform = container.GetComponent<RectTransform>();
+        UpdateWidth();
+    }
+    
+    
+    private void UpdateWidth()
+    {
+        _rectTransform.sizeDelta = new Vector2(_containerRectTransform.rect.size.x, _rectTransform.sizeDelta.y);
     }
 
     private void disableButton()
@@ -78,6 +95,8 @@ public class StoreItem : MonoBehaviour
                 return awpImgs[style];
             case 1:
                 return knifeImgs[style];
+            case 2:
+                return zeusImgs[style];
         }
 
         return null;

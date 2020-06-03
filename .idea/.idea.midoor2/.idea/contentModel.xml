@@ -350,6 +350,7 @@
           <e p="StoreMenu.cs" t="Include" />
           <e p="TeamEditor.cs" t="Include" />
           <e p="TextLoading.cs" t="Include" />
+          <e p="youKilledWithWeaponImg.cs" t="Include" />
           <e p="ZoomButtonHandler.cs" t="Include" />
         </e>
       </e>

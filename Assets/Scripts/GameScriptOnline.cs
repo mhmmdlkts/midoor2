@@ -29,11 +29,11 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         return onlineEx;
     }
 
-    public void hited(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
+    public void hited(int weaponCode, int weaponStyle, bool isWall, bool isHead, int enemyId, int damage)
     {
         if (!game.isOnline)
             return;
-        photonView.RPC(nameof(DeserializeAndExecuteHit), RpcTarget.Others, SerializeHit(weaponCode,isWall,isHead,enemyId,damage));
+        photonView.RPC(nameof(DeserializeAndExecuteHit), RpcTarget.Others, SerializeHit(weaponCode, weaponStyle, isWall, isHead, enemyId, damage));
         
     }
 
@@ -50,7 +50,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         game.getOnlineShot();
     }
     
-    private byte[] SerializeHit(int weaponCode, bool isWall, bool isHead, int enemyId, int damage)
+    private byte[] SerializeHit(int weaponCode, int weaponStyle, bool isWall, bool isHead, int enemyId, int damage)
     {
         byte max_byte = Byte.MaxValue;
 
@@ -78,18 +78,19 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
             damage_b3 = (byte)damage;
         }
         
-        return new byte[] {(byte)weaponCode, (isWall ? (byte)1 : (byte)0), (isHead ? (byte)1 : (byte)0), (byte)enemyId, damage_b1, damage_b2, damage_b3};
+        return new byte[] {(byte)weaponCode, (byte)weaponStyle, (isWall ? (byte)1 : (byte)0), (isHead ? (byte)1 : (byte)0), (byte)enemyId, damage_b1, damage_b2, damage_b3};
     }
 
     [PunRPC]
     private void DeserializeAndExecuteHit(byte[] b)
     {
         int weaponCode = b[0];
-        bool isWall = b[1] == 1;
-        bool isHead = b[2] == 1; 
-        int enemyId = b[3];
-        int damage = b[4] + b[5] + b[6];
-        game.friendGotShot(weaponCode, isWall, isHead, enemyId, damage);
+        int weaponStyle = b[1];
+        bool isWall = b[2] == 1;
+        bool isHead = b[3] == 1; 
+        int enemyId = b[4];
+        int damage = b[5] + b[6] + b[7];
+        game.friendGotShot(weaponCode, isWall, isHead, enemyId, damage, weaponStyle);
     }
 
     public override void OnPlayerLeftRoom(Player other)
@@ -179,9 +180,9 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         game.explodeFlash();
     }
 
-    public void knifeOther(int chosedKnifeId)
+    public void knifeOther(int weaponId)
     {
-        photonView.RPC(nameof(receiveKnife), RpcTarget.Others, new byte[] {(byte)chosedKnifeId});
+        photonView.RPC(nameof(receiveKnife), RpcTarget.Others, new byte[] {(byte)weaponId});
     }
 
     [PunRPC]
@@ -199,5 +200,16 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     public void receiveCloseBomb()
     {
         game.otherCloseBomb();
+    }
+
+    public void zeusOther()
+    {
+        photonView.RPC(nameof(receiveZeus), RpcTarget.Others);
+    }
+
+    [PunRPC]
+    public void receiveZeus()
+    {
+        game.getZeusTry();
     }
 }

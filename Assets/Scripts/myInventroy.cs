@@ -8,10 +8,10 @@ public class myInventroy : MonoBehaviour
 {
     public GameObject inventoryItemPrefab, container;
     public InventoryMenu inventoryMenu;
-    private string inventoryKnifeCode, inventoryAwpCode;
-    private string[] inventoryKnifes, inventoryAwps;
-    private int inventoryEquipedKnifeIdT, inventoryEquipedAwpIdT;
-    private int inventoryEquipedKnifeIdCT, inventoryEquipedAwpIdCT;
+    private string inventoryKnifeCode, inventoryAwpCode, inventoryZeusCode;
+    private string[] inventoryKnifes, inventoryAwps, inventoryZeus;
+    private int inventoryEquipedKnifeIdT, inventoryEquipedAwpIdT, inventoryEquipedZeusIdT;
+    private int inventoryEquipedKnifeIdCT, inventoryEquipedAwpIdCT, inventoryEquipedZeusIdCT;
     public bool isChoseMenuOpen;
     private List<GameObject> itemsList;
     // {"0-0=0", "0,1-0=1"}
@@ -43,6 +43,7 @@ public class myInventroy : MonoBehaviour
         initPlayerPrefabs();
         initAwpItems();
         initKnifeItems();
+        initZeusItems();
         registerAll();
         float containerHeight = inventoryItemPrefab.GetComponent<RectTransform>().rect.height * (inventoryKnifes.Length+inventoryAwps.Length); // Todo yatay kareler
         RectTransform rc = container.GetComponent<RectTransform>();
@@ -53,14 +54,17 @@ public class myInventroy : MonoBehaviour
     {
         inventoryAwpCode = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[0], MainMenu.playerPrafsWeaponDef[0]);
         inventoryKnifeCode = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[1], MainMenu.playerPrafsWeaponDef[1]);
+        inventoryZeusCode = PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[2], MainMenu.playerPrafsWeaponDef[2]);
         inventoryKnifes = inventoryKnifeCode.Split('-')[0].Split(',');
         inventoryAwps = inventoryAwpCode.Split('-')[0].Split(',');
+        inventoryZeus = inventoryZeusCode.Split('-')[0].Split(',');
         inventoryEquipedKnifeIdT = Convert.ToInt32(inventoryKnifeCode.Split('-')[1].Split('=')[0]);
-        inventoryEquipedKnifeIdCT = Convert.ToInt32(inventoryKnifeCode.Split('-')[1].Split('=')[1]);
         inventoryEquipedAwpIdT = Convert.ToInt32(inventoryAwpCode.Split('-')[1].Split('=')[0]);
+        inventoryEquipedZeusIdT = Convert.ToInt32(inventoryZeusCode.Split('-')[1].Split('=')[0]);
+        inventoryEquipedKnifeIdCT = Convert.ToInt32(inventoryKnifeCode.Split('-')[1].Split('=')[1]);
         inventoryEquipedAwpIdCT = Convert.ToInt32(inventoryAwpCode.Split('-')[1].Split('=')[1]);
+        inventoryEquipedZeusIdCT = Convert.ToInt32(inventoryZeusCode.Split('-')[1].Split('=')[1]);
     }
-//int weaponCode, int style, int quality, string name, bool equCT, bool equT)
     private void initAwpItems()
     {
         for (int i = 0; i < inventoryAwps.Length; i++)
@@ -69,7 +73,7 @@ public class myInventroy : MonoBehaviour
             int style = Convert.ToInt32(inventoryAwps[i]);
             bool eqT = inventoryEquipedAwpIdT == style;
             bool eqCT = inventoryEquipedAwpIdCT == style;
-            o.GetComponent<InventoryItem>().configure(inventoryMenu.getStruct(0, style),getTeam(eqT,eqCT));
+            o.GetComponent<InventoryItem>().configure(InventoryMenu.getStruct(inventoryMenu.storeList,0, style),getTeam(eqT,eqCT));
             itemsList.Add(o);
         }
     }
@@ -82,7 +86,20 @@ public class myInventroy : MonoBehaviour
             int style = Convert.ToInt32(inventoryKnifes[i]);
             bool eqT = inventoryEquipedKnifeIdT == style;
             bool eqCT = inventoryEquipedKnifeIdCT == style;
-            o.GetComponent<InventoryItem>().configure(inventoryMenu.getStruct(1, style),getTeam(eqT,eqCT));
+            o.GetComponent<InventoryItem>().configure(InventoryMenu.getStruct(inventoryMenu.storeList,1, style),getTeam(eqT,eqCT));
+            itemsList.Add(o);
+        }
+    }
+
+    private void initZeusItems()
+    {
+        for (int i = 0; i < inventoryZeus.Length; i++)
+        {
+            GameObject o = Instantiate(inventoryItemPrefab, container.transform, false);
+            int style = Convert.ToInt32(inventoryZeus[i]);
+            bool eqT = inventoryEquipedZeusIdT == style;
+            bool eqCT = inventoryEquipedZeusIdCT == style;
+            o.GetComponent<InventoryItem>().configure(InventoryMenu.getStruct(inventoryMenu.storeList,2, style),getTeam(eqT,eqCT));
             itemsList.Add(o);
         }
     }

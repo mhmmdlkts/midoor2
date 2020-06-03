@@ -50,6 +50,7 @@ MonoBehaviour:
   - T_plants_bomb
   - receiveStatus
   - startGame
+  - receiveZeus
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

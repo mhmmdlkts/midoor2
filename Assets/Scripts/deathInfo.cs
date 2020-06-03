@@ -12,9 +12,19 @@ public class deathInfo : MonoBehaviour
     public float stayTime;
 
     private Color32 CT_TEXT_COLOR, T_TEXT_COLOR;
+
+    public static int AWP_CODE   = 0;
+    public static int AK47_CODE  = 1;
+    public static int M4A4_CODE  = 2;
+    public static int ZEUS_CODE  = 3;
+    public static int KNIFE_CODE = 4;
     
-    public Sprite[] weapons; //awp: 0, ak47: 1, m4a4: 2, zeus: 3, knifeT: 4, knifeCT: 5,
-    
+    public Sprite[] weapons;
+
+    public static int getKnifesGlobalCode(int localKnifeCode)
+    {
+        return localKnifeCode + KNIFE_CODE;
+    }
     void Start()
     {
         CT_TEXT_COLOR = new Color32(167,180,207, 255);
@@ -26,7 +36,6 @@ public class deathInfo : MonoBehaviour
 
     public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)
     {
-        Debug.Log("wpCODE:" + weaponCode + " killerName: " + killerName + " killedName: " + killedName);
         killerNameLabel.GetComponent<Text>().text = killerName + "  ";
         killedNameLabel.GetComponent<Text>().text = "  " + killedName;
         headImg.SetActive(isHeadShot);

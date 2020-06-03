@@ -20,6 +20,19 @@ public struct StoreItemStruct
         this.iconId = iconId;
         this.name = name;
     }
+
+    public StoreItemStruct(string allInfo)
+    {
+        string[] splitedVirgül = allInfo.Split(',');
+            
+        weaponCode = Convert.ToInt32(splitedVirgül[0]);
+        style = Convert.ToInt32(splitedVirgül[1]);
+        quality = Convert.ToInt32(splitedVirgül[2]);
+        price = Convert.ToInt32(splitedVirgül[3]);
+        team = Convert.ToChar(splitedVirgül[4]);
+        iconId = Convert.ToInt32(splitedVirgül[5]);
+        name = splitedVirgül[6];
+    }
 }
 public class InventoryMenu : MonoBehaviour
 {
@@ -56,16 +69,7 @@ public class InventoryMenu : MonoBehaviour
     {
         for (int i = 1; i < storeItemsStringArr.Length; i++)
         {
-            string[] splitedVirgül = storeItemsStringArr[i].Split(',');
-            
-            int weaponCode = Convert.ToInt32(splitedVirgül[0]);
-            int style = Convert.ToInt32(splitedVirgül[1]);
-            int quality = Convert.ToInt32(splitedVirgül[2]);
-            int price = Convert.ToInt32(splitedVirgül[3]);
-            char team = Convert.ToChar(splitedVirgül[4]);
-            int iconId = Convert.ToInt32(splitedVirgül[5]);
-            string name = splitedVirgül[6];
-            storeItemStruct.Add(new StoreItemStruct(weaponCode, quality, style, price, team, iconId, name));
+            storeItemStruct.Add(new StoreItemStruct(storeItemsStringArr[i]));
         }
     }
 
@@ -77,6 +81,11 @@ public class InventoryMenu : MonoBehaviour
         if (isInventory)
             StartCoroutine(inventoryLayout.GetComponent<myInventroy>().reload());
     }
+    
+    public void go_back_button()
+    {
+        SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+    }
 
     public void ButtonClickSound(int soundId)
     {
@@ -84,14 +93,16 @@ public class InventoryMenu : MonoBehaviour
         soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<ArraysData>().menuSounds[soundId]);
     }
 
-    public StoreItemStruct getStruct(int weaponCode, int style)
+    public static StoreItemStruct getStruct(TextAsset weaponList, int weaponCode, int style)
     {
-        foreach (var item in storeItemStruct)
+        string[] arr = weaponList.text.Split('\n');
+        StoreItemStruct itemStruct;
+        for (int i = 1; i < arr.Length; i++)
         {
-            if (item.style == style && item.weaponCode == weaponCode)
-                return item;
+            itemStruct = new StoreItemStruct(arr[i]);
+            if (itemStruct.style == style && itemStruct.weaponCode == weaponCode)
+                return itemStruct;
         }
-
         return new StoreItemStruct();
     }
 }

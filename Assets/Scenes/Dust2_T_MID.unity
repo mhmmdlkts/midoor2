@@ -3020,6 +3020,8 @@ MonoBehaviour:
     type: 3}
   roundEndPanel: {fileID: 5705463371622355934, guid: 48330313a93d84ca0931fa927417557b,
     type: 3}
+  deathWeaponPrefab: {fileID: 8899218846582981673, guid: ade3712c6ef2240a89201c15f7584c7c,
+    type: 3}
   showAfter: 0
 --- !u!114 &316719121
 MonoBehaviour:
@@ -5581,6 +5583,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1960619352}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &786270577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 786270578}
+  m_Layer: 0
+  m_Name: ButtonHendler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &786270578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786270577}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 936.2236, y: 482.02048, z: -773.9302}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &792926856
 GameObject:
@@ -18505,7 +18537,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6c31964701c064527b406278cfc5a56a, type: 3}
   - {fileID: 21300000, guid: b9528485d1ad143778063fd715b59e0a, type: 3}
   - {fileID: 21300000, guid: 0fcc2dc010c1547dcaf2330fe55b1cb6, type: 3}
+  - {fileID: 21300000, guid: 742a6c92607854f5ea6df80fec121ab1, type: 3}
+  - {fileID: 21300000, guid: 62116c8303dd443ddbbead971a3f4c98, type: 3}
   chosedKnifeId: 0
+  weaponList: {fileID: 4900000, guid: 2ea45d878051a4c729025409a977e421, type: 3}
   strategy: 0
   enemysNameList: []
   bombIsPlanted: 0
@@ -18540,14 +18575,10 @@ MonoBehaviour:
   explodeFlashAC: {fileID: 8300000, guid: a7a3622b5d388455bb3491858d050e5e, type: 3}
   T_Win_AC: {fileID: 8300000, guid: 66218ce9c595d497290fd619e16ca127, type: 3}
   CT_Win_AC: {fileID: 8300000, guid: bcd255b6e3dc34455b4ebd0af6cad0cd, type: 3}
-  getKnifedAC:
-  - {fileID: 8300000, guid: 4a0ac385b43cc4fa48d7b748bdc5617e, type: 3}
-  - {fileID: 8300000, guid: a7d080f9d7dd44e6cb97753cc620b714, type: 3}
-  - {fileID: 8300000, guid: a7d080f9d7dd44e6cb97753cc620b714, type: 3}
-  knifeAirAC:
-  - {fileID: 8300000, guid: 6bd52cc7167ab441a9f8178b77f6801f, type: 3}
-  - {fileID: 8300000, guid: 98c20425b4aa34952a856d384ad84801, type: 3}
-  - {fileID: 8300000, guid: 98c20425b4aa34952a856d384ad84801, type: 3}
+  getKnifedAC: {fileID: 8300000, guid: a7d080f9d7dd44e6cb97753cc620b714, type: 3}
+  knifeAirAC: {fileID: 8300000, guid: 98c20425b4aa34952a856d384ad84801, type: 3}
+  getZeusedAC: {fileID: 8300000, guid: 4a0ac385b43cc4fa48d7b748bdc5617e, type: 3}
+  zeusAirAC: {fileID: 8300000, guid: 6bd52cc7167ab441a9f8178b77f6801f, type: 3}
   otherShotsAWP:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}

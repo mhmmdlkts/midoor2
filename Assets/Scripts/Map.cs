@@ -6,7 +6,8 @@ public enum MapChose
 {
     plant,
     defus,
-    knife
+    knife,
+    zeus
 }
 public class Map : MonoBehaviour
 {
@@ -17,12 +18,6 @@ public class Map : MonoBehaviour
         game = GameObject.Find("MOVABLE");
         container = GameObject.Find("SafeArea");
         gameObject.transform.SetParent (container.transform, false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void side_picker_buttonListner(int side) // A -> 1 ; B -> 2

@@ -16,10 +16,11 @@ public class MainMenu : MonoBehaviour
     public Sprite[] ppList;
     public Sprite[] knifesSprite;
     public Sprite[] awpsSprite;
+    public Sprite[] zeusSprite;
     public Color32[] qualityColors;
     public static string ArraysDataName = "Arrays";
-    public static string[] playerPrafsWeaponKey = {"AWP_inventory5", "Knive_inventory5"}; // TODO
-    public static string[] playerPrafsWeaponDef = {"0-0=0", "0,1-0=1"};
+    public static string[] playerPrafsWeaponKey = {"AWP_inventory5", "Knive_inventory5", "Zeus_inventory5"}; // TODO
+    public static string[] playerPrafsWeaponDef = {"0-0=0", "0,1-0=1", "0-0=0"};
     void Start()
     {
         if (GameObject.Find(ArraysDataName) == null)
@@ -31,6 +32,7 @@ public class MainMenu : MonoBehaviour
             arraysData.ppList = ppList;
             arraysData.awpImgs = awpsSprite;
             arraysData.knifeImgs = knifesSprite;
+            arraysData.zeusImgs = zeusSprite;
             arraysData.qualityColors = qualityColors;
             Instantiate(sound);
             DontDestroyOnLoad(sound);

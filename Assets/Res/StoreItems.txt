@@ -1,7 +1,8 @@
-weaponCode, style (img index), qualityColorId, price, forWhichTeam(0->B,1->T,2->CT), deathIcon, name
-0,0,5,0,B,0,AWP
-0,1,0,1500,B,0,AWP Hyper Beast
-1,0,5,0,T,0,Knife T
-1,1,5,0,C,1,Knife CT
-1,2,0,3000,B,2,Knife Carambit
-1,3,0,3000,B,3,Knife Nice
+weaponCode, style (img index), qualityColorId, price, forWhichTeam, knifeIdIcon(only important for knifes & zeus), name // code will not first line
+0,0,5,0,B,-1,AWP
+0,1,0,15,B,-1,AWP Hyper Beast
+1,0,5,0,T,1,Knife T
+1,1,5,0,C,2,Knife CT
+1,2,0,30,B,3,Knife Carambit
+1,3,0,30,B,4,Knife Nice
+2,0,5,0,B,0,Zeus x27

@@ -794,6 +794,8 @@ MonoBehaviour:
   awpsSprite:
   - {fileID: 21300000, guid: bcbf361e86ef24bab9edb1082fd221a6, type: 3}
   - {fileID: 21300000, guid: 422bb3cf077484f59bf8a52b6773d6fb, type: 3}
+  zeusSprite:
+  - {fileID: 21300000, guid: c1552c039ab49476a82dad8ed9108614, type: 3}
   qualityColors:
   - serializedVersion: 2
     rgba: 4278190280

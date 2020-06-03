@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class ShowDialogs : MonoBehaviour
 {
-    public GameObject gameEndPanel, roundEndPanel;
+    public GameObject gameEndPanel, roundEndPanel, deathWeaponPrefab;
     public float showAfter = 0;
 
     public void showRoundEndDialog(bool tWin)
     {
         if (tWin)
         {
-            Invoke("showNowRoundWinDialog",showAfter);
+            Invoke(nameof(showNowRoundWinDialog),showAfter);
         }
         else
         {
-            Invoke("showNowRoundLoseDialog",showAfter);
+            Invoke(nameof(showNowRoundLoseDialog),showAfter);
         }
     }
 
@@ -31,21 +31,24 @@ public class ShowDialogs : MonoBehaviour
 
     public void showNowGameEndDialog()
     {
-        GameObject dialog = Instantiate(gameEndPanel, gameEndPanel.transform.position, gameEndPanel.transform.rotation);
-        dialog.transform.SetParent (gameObject.transform, false);
+        GameObject dialog = Instantiate(gameEndPanel, transform, false);
     }
     
     public void showNowRoundWinDialog()
     {
-        GameObject dialog = Instantiate(roundEndPanel, roundEndPanel.transform.position, roundEndPanel.transform.rotation);
+        GameObject dialog = Instantiate(roundEndPanel, transform, false);
         dialog.GetComponent<EndRoundShow>().show(true);
-        dialog.transform.SetParent (gameObject.transform, false);
     }
     
     public void showNowRoundLoseDialog()
     {
-        GameObject dialog = Instantiate(roundEndPanel, roundEndPanel.transform.position, roundEndPanel.transform.rotation);
+        GameObject dialog = Instantiate(roundEndPanel, transform, false);
         dialog.GetComponent<EndRoundShow>().show(false);
-        dialog.transform.SetParent (gameObject.transform, false);
+    }
+
+    public void showDeathWeapon(int weaponCode, int style, string killersName)
+    {
+        GameObject createdDeathWeapon = Instantiate(deathWeaponPrefab, transform, false);
+        createdDeathWeapon.GetComponent<youKilledWithWeaponImg>().show(weaponCode, style, killersName);
     }
 }
