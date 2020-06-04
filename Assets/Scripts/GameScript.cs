@@ -1106,20 +1106,6 @@ public class GameScript : MonoBehaviour
             knifeAS.PlayOneShot(knifeAirAC);
     }
 
-    //private int localKnifeStyle;
-    
-    /*private void knifed(int weaponCode, int knifeId)
-    {
-        setHealthy(0);
-        localKnifeStyle = knifeId-1;
-        int weaponId = knifeId == -1 ? 2 : 1;
-        string methodName = weaponId == 2 ? nameof(startCaroutineDeathZeus) : nameof(startCaroutineDeathKnife);
-        executeAfterSound(knifeAS, getKnifedAC[knifeId], new string[] {nameof(roundWin), methodName});
-        StartCoroutine(WaitForSound(knifeAS, getKnifedAC[knifeId]));
-        isOtherPlayerSpawned = true;
-        showKillInfo(!isT, weaponCode, knifeId, false, false, enemysNameList[0], yourName);
-    }*/
-
     public void closeBomb()
     {
         setBGside(0);

@@ -21,26 +21,58 @@ public class MainMenu : MonoBehaviour
     public static string ArraysDataName = "Arrays";
     public static string[] playerPrafsWeaponKey = {"AWP_inventory5", "Knive_inventory5", "Zeus_inventory5"}; // TODO
     public static string[] playerPrafsWeaponDef = {"0-0=0", "0,1-0=1", "0-0=0"};
+    public static string AdManagerGOName = "AdManager";
     void Start()
     {
-        if (GameObject.Find(ArraysDataName) == null)
-        {
-            GameObject sound = new GameObject(ArraysDataName);
-            sound.AddComponent<AudioSource>().playOnAwake = false;
-            ArraysData arraysData = sound.AddComponent<ArraysData>();
-            arraysData.menuSounds = menuSounds;
-            arraysData.ppList = ppList;
-            arraysData.awpImgs = awpsSprite;
-            arraysData.knifeImgs = knifesSprite;
-            arraysData.zeusImgs = zeusSprite;
-            arraysData.qualityColors = qualityColors;
-            Instantiate(sound);
-            DontDestroyOnLoad(sound);
-        }
+        createArraysData();
+        createAdObject();
     }
 
-    public void button_ranked()
+    private void createArraysData()
     {
+        if (GameObject.Find(ArraysDataName) != null)
+            return;
+        GameObject sound = new GameObject(ArraysDataName);
+        sound.AddComponent<AudioSource>().playOnAwake = false;
+        ArraysData arraysData = sound.AddComponent<ArraysData>();
+        arraysData.menuSounds = menuSounds;
+        arraysData.ppList = ppList;
+        arraysData.awpImgs = awpsSprite;
+        arraysData.knifeImgs = knifesSprite;
+        arraysData.zeusImgs = zeusSprite;
+        arraysData.qualityColors = qualityColors;
+        Instantiate(sound);
+        DontDestroyOnLoad(sound);
+    }
+
+    private void createAdObject()
+    {
+        if (getAdManager() != null)
+            return;
+        GameObject adManager = new GameObject(AdManagerGOName);
+        adManager.AddComponent<MainMenuAd>();
+        DontDestroyOnLoad(adManager);
+    }
+
+    public static MainMenuAd getAdManager()
+    {
+        GameObject ad = GameObject.Find(AdManagerGOName);
+        if (ad == null)
+            return null;
+        return ad.GetComponent<MainMenuAd>();
+    }
+
+    private void destroyAd()
+    {
+        MainMenuAd ad = getAdManager();
+        if (ad == null)
+            return;
+        ad.destroyAdds();
+    }
+
+    public void button_ranked() // ofline
+    {
+        destroyAd();
         SceneManager.LoadScene("Assets/Scenes/Dust2_T_MID.unity", LoadSceneMode.Single);
     }
 
@@ -60,6 +92,11 @@ public class MainMenu : MonoBehaviour
     }
     
     public void button_restore_purchase()
+    {
+        
+    }
+    
+    public void button_more_coins()
     {
         
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GoogleMobileAds.Api;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class EndGameShow : MonoBehaviour
     public Sprite[] rankList;
     public static int WinLoseSerieForNewRank = 3;
     public bool isRankUpgrade, isRankDowngrade;
+    private InterstitialAd interstitial;
 
     private Text a, b, c, d;
 
@@ -24,6 +26,7 @@ public class EndGameShow : MonoBehaviour
     
     void Start()
     {
+        RequestInterstitial();
         tot_kills = PlayerPrefs.GetInt("total_kill",0);
         winns = PlayerPrefs.GetInt("total_wins",0);
         money = PlayerPrefs.GetInt("money",0);
@@ -41,6 +44,34 @@ public class EndGameShow : MonoBehaviour
         saveStatus();
         writeStatus();
         show();
+    }
+    
+    private void RequestInterstitial()
+    {
+        if (MainMenuAd.isRemovedAds())
+            return;
+        MobileAds.Initialize(initStatus => { });
+        
+        if (MainMenuAd.isRemovedAds())
+            return;
+        
+        interstitial = new InterstitialAd(AdUnitIds.getAdUnitId(Ads.Menu_Popup));
+        
+        AdRequest request = new AdRequest.Builder().Build();
+        interstitial.LoadAd(request);
+        interstitial.OnAdClosed += HandleOnAdClosed;
+    }
+
+    public void HandleOnAdClosed(object sender, EventArgs args)
+    {
+        if (MainMenuAd.isRemovedAds())
+        {
+            quitGame();
+            return;
+        }
+
+        interstitial.Destroy();
+        quitGame();
     }
 
     private void saveStatus()
@@ -96,25 +127,25 @@ public class EndGameShow : MonoBehaviour
 
     public void show()
     {
-        Invoke("setKills", 1);
+        Invoke(nameof(setKills), 1);
     }
 
     private void setKills()
     {
         b.text += " + " + kills;
-        Invoke("setWins", 1);
+        Invoke(nameof(setWins), 1);
     }
 
     private void setWins()
     {
         c.text += " + " + (newWin == 1 ? 1 : 0);
-        Invoke("setMoney", 1);
+        Invoke(nameof(setMoney), 1);
     }
 
     private void setMoney()
     {
         d.text += " + " + getNewMoney();
-        Invoke("setRank", 1);
+        Invoke(nameof(setRank), 1);
     }
 
     private void setRank()
@@ -124,7 +155,25 @@ public class EndGameShow : MonoBehaviour
             // TODO play stars sound
         }
         e.sprite = rankList[rank];
-        Invoke("quitGame", 1);
+        
+        if (MainMenuAd.isRemovedAds())
+            Invoke(nameof(quitGame), 1);
+        else
+            Invoke(nameof(showPopup), 1);
+    }
+
+    private void showPopup()
+    {
+        if (MainMenuAd.isRemovedAds())
+        {
+            quitGame();
+            return;
+        }
+
+        if (interstitial.IsLoaded())
+            interstitial.Show();
+        else
+            quitGame();
     }
 
     private void quitGame()

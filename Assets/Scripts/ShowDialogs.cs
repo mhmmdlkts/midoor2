@@ -26,7 +26,7 @@ public class ShowDialogs : MonoBehaviour
         PlayerPrefs.SetInt("new_win", isWinn);
         if (isWinn == -2)
             return;
-        Invoke("showNowGameEndDialog", 2f);
+        Invoke(nameof(showNowGameEndDialog), 2f);
     }
 
     public void showNowGameEndDialog()

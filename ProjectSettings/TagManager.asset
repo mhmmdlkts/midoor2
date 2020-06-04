@@ -12,6 +12,11 @@ TagManager:
   - HARD_2
   - HARD_1
   - HARD_0
+  - UI_name
+  - UI_wins
+  - UI_rank
+  - UI_coin
+  - ad
   layers:
   - Default
   - TransparentFX

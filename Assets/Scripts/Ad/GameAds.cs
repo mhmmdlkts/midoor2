@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using GoogleMobileAds.Api;
 using UnityEngine;
 
 public class GameAds : MonoBehaviour
 {
     private BannerView bannerView;
-    // Start is called before the first frame update
     public void Start()
     {
-        // Initialize the Google Mobile Ads SDK.
+        if (MainMenuAd.isRemovedAds())
+            return;
         MobileAds.Initialize(initStatus => { });
 
         RequestBanner();
@@ -17,13 +16,20 @@ public class GameAds : MonoBehaviour
 
     private void RequestBanner()
     {
-        // Create a 320x50 banner at the top of the screen.
+        if (MainMenuAd.isRemovedAds())
+            return;
         bannerView = new BannerView(AdUnitIds.getAdUnitId(Ads.Game_Banner), AdSize.Banner, AdPosition.BottomLeft);
         
-        // Create an empty ad request.
         AdRequest request = new AdRequest.Builder().Build();
 
-        // Load the banner with the request.
         bannerView.LoadAd(request);
     }
+
+    public void OnDestroy()
+    {
+        bannerView.Destroy();
+    }
+    
+    
+
 }

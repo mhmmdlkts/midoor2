@@ -261,8 +261,17 @@ public class Launcher : MonoBehaviourPunCallbacks
         checkIsAccepted();
     }
 
+    private void destroyAd()
+    {
+        MainMenuAd ad = MainMenu.getAdManager();
+        if (ad == null)
+            return;
+        ad.destroyAdds();
+    }
+
     private void loadGame()
     {
+        destroyAd();
         stopInvokes();
         PhotonNetwork.LoadLevel("Assets/Scenes/Dust2_T_MID.unity");
     }
