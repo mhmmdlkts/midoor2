@@ -45,6 +45,11 @@ public class EndGameShow : MonoBehaviour
         writeStatus();
         show();
     }
+
+    public static void addPlays(int i)
+    {
+        PlayerPrefs.SetInt("plays", PlayerPrefs.GetInt("plays", 3)+i);
+    }
     
     private void RequestInterstitial()
     {
@@ -81,6 +86,7 @@ public class EndGameShow : MonoBehaviour
         PlayerPrefs.SetInt("total_wins", winns+newWin);
         if (newWin == 1)
         {
+            addPlays(1);
             winSerie++;
             loseSerie = 0;
         } else if (newWin == -1){

@@ -284,6 +284,7 @@
             <e p="AdUnitIds.cs" t="Include" />
             <e p="GameAds.cs" t="Include" />
             <e p="MainMenuAd.cs" t="Include" />
+            <e p="SearchRewardAd.cs" t="Include" />
           </e>
           <e p="aim.cs" t="Include" />
           <e p="ammoPanel.cs" t="Include" />
@@ -346,10 +347,12 @@
               <e p="midRightSpawn.cs" t="Include" />
             </e>
           </e>
+          <e p="Start_Cancel_Search_Button.cs" t="Include" />
           <e p="StoreItem.cs" t="Include" />
           <e p="StoreMenu.cs" t="Include" />
           <e p="TeamEditor.cs" t="Include" />
           <e p="TextLoading.cs" t="Include" />
+          <e p="watchAddMenu.cs" t="Include" />
           <e p="youKilledWithWeaponImg.cs" t="Include" />
           <e p="ZoomButtonHandler.cs" t="Include" />
         </e>

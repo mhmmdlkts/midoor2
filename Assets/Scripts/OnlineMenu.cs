@@ -9,10 +9,12 @@ using UnityEngine.UI;
 
 public class OnlineMenu : MonoBehaviour
 {
-    public int money, rank, wins, ppId;
+    public int money, rank, wins, ppId, plays;
     public string name;
-    public GameObject pp_me, name_me, money_me, wins_me, rank_me;
-    public GameObject pp_him, name_him, money_him, wins_him, rank_him;
+    public GameObject pp_me, name_me, money_me, wins_me, rank_me, plays_me;
+    public GameObject pp_him, name_him, wins_him, rank_him;
+    public Start_Cancel_Search_Button scs;
+    public GameObject watchAddMenuPrefab;
     public OnlineData data;
     public ArraysData arraysData;
     public Sprite[] rankList;
@@ -56,6 +58,18 @@ public class OnlineMenu : MonoBehaviour
         rank_me.GetComponent<Image>().sprite = rankList[rank];
         name_me.GetComponent<Text>().text = name;
         pp_me.GetComponent<Image>().sprite = arraysData.ppList[ppId];
+        refreshPlays();
+    }
+
+    private void refreshPlays()
+    {
+        plays = PlayerPrefs.GetInt("plays", 3);
+        plays_me.GetComponent<Text>().text = "" + plays;
+    }
+
+    public void rewardAdListener()
+    {
+        Instantiate(watchAddMenuPrefab, GameObject.Find("Canvas").transform, false);
     }
 
     public void setEnemyStatus(String name, int rank)
@@ -67,6 +81,26 @@ public class OnlineMenu : MonoBehaviour
     public void button_leave_room()
     {
         gameObject.GetComponent<Launcher>().LeaveRoom();
+    }
+    
+    public void button_start_cancel_listener()
+    {
+        if (scs.isGreen)
+        {
+            if (plays <= 0)
+            {
+                rewardAdListener();
+                return;
+            }
+            scs.setToRed();
+            gameObject.GetComponent<Launcher>().Connect();
+        }
+        else
+        {
+            scs.setToGreen();
+            gameObject.GetComponent<Launcher>().Disconnect();
+        }
+            
     }
 
     public void setHisRank(int rank)
@@ -102,5 +136,16 @@ public class OnlineMenu : MonoBehaviour
     {
         GameObject soundManeger = GameObject.Find(MainMenu.ArraysDataName);
         soundManeger.GetComponent<AudioSource>().PlayOneShot(soundManeger.GetComponent<ArraysData>().menuSounds[soundId]);
+    }
+
+    public void watchRewardAd()
+    {
+        GetComponent<SearchRewardAd>().showRewardAd();
+    }
+
+    public void addPlays(int i)
+    {
+        EndGameShow.addPlays(i);
+        refreshPlays();
     }
 }

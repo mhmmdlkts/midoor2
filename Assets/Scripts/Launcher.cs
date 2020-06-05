@@ -14,7 +14,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         
     bool isConnecting;
     string gameVersion = "1";
-    public GameObject accept_match_dialog, leave_room_button;
+    public GameObject accept_match_dialog;
     private OnlineMenu onlineMenu;
     public float waitTimeForSearchAgain = 3f;
     [SerializeField] byte maxPlayersPerRoom;
@@ -40,7 +40,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Start()
     {
         onlineMenu = gameObject.GetComponent<OnlineMenu>();
-        Connect();
+        Disconnect();
     }
 
     public override void OnCreatedRoom()
@@ -81,7 +81,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     
     public override void OnDisconnected(DisconnectCause cause)
     {
-        leftScene();
+        if (!forceQuit)
+        {
+            SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+            return;
+        }
+
+        GetComponent<OnlineMenu>().scs.setToGreen();
+        progressLabel.SetActive(false);
     }
     
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -118,7 +125,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void match_found()
     {
-        leave_room_button.SetActive(false);
         stopInvokes();
         created_accept_dialog = Instantiate(accept_match_dialog);
         sendStatus();
@@ -127,10 +133,18 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
-        leave_room_button.SetActive(true);
         setSearching(true);
-        progressLabel.GetComponent<TextLoading>().setNewText(disconnectingLabel);
         forceQuit = false;
+        if (PhotonNetwork.IsConnected)
+            Disconnect();
+        else
+            SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+    }
+
+    public void Disconnect()
+    {
+        him.SetActive(false);
+        progressLabel.GetComponent<TextLoading>().setNewText(disconnectingLabel);
         if (PhotonNetwork.IsConnected)
             PhotonNetwork.Disconnect();
     }

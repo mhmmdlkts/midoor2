@@ -86,6 +86,11 @@ public class ENEMY_SPAWN : MonoBehaviour
         {
             for (int i = 0; i < count; i++)
                 game.enemysNameList.Add(main.GetComponent<GameScript>().online_data.otherTeam[i]); // IndexOutOfRangeException: Index was outside the bounds of the array. online oyun basinda hemen
+            /*
+                  IndexOutOfRangeException: Index was outside the bounds of the array.
+                  ENEMY_SPAWN.initEnemysFirstNameList (System.Int32 count, System.Boolean isOnline) (at Assets/Scripts/ENEMY_SPAWN.cs:88)
+                  GameScript.Start () (at Assets/Scripts/GameScript.cs:213)
+             */
         }
     }
 

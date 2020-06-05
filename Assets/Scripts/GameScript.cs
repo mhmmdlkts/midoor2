@@ -188,6 +188,7 @@ public class GameScript : MonoBehaviour
         online = gameObject.GetComponent<GameScriptOnline>();
         isOnline = GameObject.Find("Data") != null;
         if (isOnline) {
+            EndGameShow.addPlays(-1);
             online_data = GameObject.Find("Data").GetComponent<OnlineData>();
             initializeOtherTeam();
             strategy = Online.WRITE;
