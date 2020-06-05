@@ -62,7 +62,7 @@ public class MainMenuAd : MonoBehaviour
         return PlayerPrefs.HasKey(removedAdsPlayerprefsString);
     }
 
-    public void removeAdsPermananty()
+    public static void removeAdsPermananty()
     {
         PlayerPrefs.SetInt(removedAdsPlayerprefsString, 1); // The value is doesn't important
     }

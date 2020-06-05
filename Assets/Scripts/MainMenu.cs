@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using CompleteProject;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -93,17 +94,17 @@ public class MainMenu : MonoBehaviour
     
     public void button_restore_purchase()
     {
-        
+        GetComponent<Purchaser>().RestorePurchases();
     }
     
     public void button_more_coins()
     {
-        
+        GetComponent<Purchaser>().Buy2000Money();
     }
     
     public void button_remove_ads()
     {
-        
+        GetComponent<Purchaser>().BuyNoAds();
     }
     
     public void button_inventory()

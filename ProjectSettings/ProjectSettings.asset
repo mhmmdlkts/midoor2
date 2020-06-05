@@ -827,10 +827,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: acdde144-c735-4e25-9311-568cc44df7cd
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Midoor 3D
+  organizationId: mhmmdlkts
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

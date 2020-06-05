@@ -723,6 +723,7 @@ GameObject:
   - component: {fileID: 217732063}
   - component: {fileID: 217732065}
   - component: {fileID: 217732068}
+  - component: {fileID: 217732069}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -961,6 +962,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &217732069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217732062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a114c27ce312f4e9587b173d85ffb74e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &245816781
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,11 +1347,11 @@ RectTransform:
   m_Children:
   - {fileID: 811175102}
   m_Father: {fileID: 2067781362}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -465}
+  m_AnchoredPosition: {x: 0, y: -550}
   m_SizeDelta: {x: 0.31713867, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &398051522
@@ -1594,7 +1607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &505657976
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1608,7 +1621,7 @@ RectTransform:
   m_Children:
   - {fileID: 1706827652}
   m_Father: {fileID: 2067781362}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1658,8 +1671,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: btnClickMoreCoins
+      - m_Target: {fileID: 217732065}
+        m_MethodName: button_more_coins
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3608,15 +3621,15 @@ RectTransform:
   - {fileID: 1145301795}
   - {fileID: 89096042}
   - {fileID: 131523834}
-  - {fileID: 398051521}
   - {fileID: 505657976}
+  - {fileID: 398051521}
   m_Father: {fileID: 1220607486}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -270}
-  m_SizeDelta: {x: 0, y: 540}
+  m_AnchoredPosition: {x: 0, y: -294.28555}
+  m_SizeDelta: {x: 0, y: 588.5709}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2067781363
 MonoBehaviour:

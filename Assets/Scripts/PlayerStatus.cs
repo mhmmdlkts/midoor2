@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class PlayerStatus : MonoBehaviour
     public ArraysData arraysData;
     private bool isPPsLoaded;
     public GameObject Pp_choser;
+    private static string removedPlaysPlayerprefsString = "isPlays";
     void Start()
     {
         
@@ -72,5 +74,42 @@ public class PlayerStatus : MonoBehaviour
     {
         PlayerPrefs.SetInt("pp",ppId);
         setStatus();
+    }
+
+    public static void addMoney(int extra)
+    {
+        int money = PlayerPrefs.GetInt("money", 0) + extra;
+        PlayerPrefs.SetInt("money",money);
+        GameObject[] coinObjects = GameObject.FindGameObjectsWithTag("UI_coin");
+        foreach (var coinObject in coinObjects)
+        {
+            Text txt = coinObject.GetComponent<Text>();
+            if (txt != null)
+                txt.text = "$" + money;
+        }
+    }
+
+    public static void addPlays(int extra)
+    {
+        int plays = PlayerPrefs.GetInt("plays", 0) + extra;
+        PlayerPrefs.SetInt("plays",plays);
+        GameObject[] coinObjects = GameObject.FindGameObjectsWithTag("UI_plays");
+        foreach (var coinObject in coinObjects)
+        {
+            Text txt = coinObject.GetComponent<Text>();
+            if (txt != null)
+                txt.text = "" + plays;
+        }
+    }
+
+    public static bool isPlaysRemoved()
+    {
+        return PlayerPrefs.HasKey(removedPlaysPlayerprefsString);
+    }
+
+    public static void removePlaysPermanently()
+    {
+        PlayerPrefs.SetInt("plays", Int32.MaxValue);
+        PlayerPrefs.SetInt(removedPlaysPlayerprefsString, 1); // The value is doesn't important
     }
 }

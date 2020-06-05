@@ -63,12 +63,21 @@ public class OnlineMenu : MonoBehaviour
 
     private void refreshPlays()
     {
+        if (PlayerStatus.isPlaysRemoved())
+        {
+            plays_me.GetComponent<Text>().text = "∞";
+            plays = Int32.MaxValue;
+            return;
+        }
+
         plays = PlayerPrefs.GetInt("plays", 3);
         plays_me.GetComponent<Text>().text = "" + plays;
     }
 
     public void rewardAdListener()
     {
+        if (PlayerStatus.isPlaysRemoved()) 
+            return;
         Instantiate(watchAddMenuPrefab, GameObject.Find("Canvas").transform, false);
     }
 

@@ -17,6 +17,7 @@ TagManager:
   - UI_rank
   - UI_coin
   - ad
+  - UI_plays
   layers:
   - Default
   - TransparentFX
