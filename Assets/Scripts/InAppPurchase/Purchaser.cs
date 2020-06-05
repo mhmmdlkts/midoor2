@@ -23,16 +23,10 @@ namespace CompleteProject
         // when defining the Product Identifiers on the store. Except, for illustration purposes, the 
         // kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
         // specific mapping to Unity Purchasing's AddProduct, below.
-        public static string MONEY_2000 = "MONEY_2000";
-        public static string PLAYS_20   = "PLAYS_20";
-        public static string NO_ADS     = "noads";
-        public static string NO_PLAYS   = "NO_PLAYS";
-
-        // Apple App Store-specific product identifier for the subscription product.
-        private static string kProductNameAppleSubscription =  "com.unity3d.subscription.new";
-
-        // Google Play Store-specific product identifier subscription product.
-        private static string kProductNameGooglePlaySubscription =  "com.unity3d.subscription.original"; 
+        public static string MONEY_2000 = "2000_money";
+        public static string PLAYS_20   = "20_plays";
+        public static string NO_ADS     = "no_ads";
+        public static string NO_PLAYS   = "no_plays";
 
         void Start()
         {

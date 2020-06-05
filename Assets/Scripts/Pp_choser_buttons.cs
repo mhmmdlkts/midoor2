@@ -17,5 +17,6 @@ public class Pp_choser_buttons : MonoBehaviour
     public void clickListener()
     {
         GameObject.Find("Panel").GetComponent<PlayerStatus>().setPP(ppId);
+        GameObject.Find("RightSide").SetActive(false);
     }
 }

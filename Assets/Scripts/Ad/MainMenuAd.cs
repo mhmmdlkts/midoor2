@@ -69,8 +69,10 @@ public class MainMenuAd : MonoBehaviour
 
     public void destroyAdds()
     {
-        bannerView.Destroy();
-        interstitial.Destroy();
+        if (bannerView != null)
+            bannerView.Destroy();
+        if (interstitial != null)
+            interstitial.Destroy();
         Destroy(gameObject);
     }
 }

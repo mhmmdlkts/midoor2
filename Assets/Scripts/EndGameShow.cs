@@ -75,7 +75,8 @@ public class EndGameShow : MonoBehaviour
             return;
         }
 
-        interstitial.Destroy();
+        if (interstitial != null)
+            interstitial.Destroy();
         quitGame();
     }
 

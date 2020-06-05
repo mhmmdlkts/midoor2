@@ -27,7 +27,8 @@ public class GameAds : MonoBehaviour
 
     public void OnDestroy()
     {
-        bannerView.Destroy();
+        if (bannerView != null)
+            bannerView.Destroy();
     }
     
     
