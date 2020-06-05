@@ -104,7 +104,7 @@ public class mobGoDesPoint : MonoBehaviour
 
     public void doActionLater(float waitTime)
     {
-        Invoke("doAction", waitTime);
+        Invoke(nameof(doAction), waitTime);
     }
 
     public void newAction(Action action)
@@ -222,7 +222,7 @@ public class mobGoDesPoint : MonoBehaviour
         stop();
         isFiring = true;
         float fireTime = getFireTime();
-        Invoke("stopFiring", fireTime);
+        Invoke(nameof(stopFiring), fireTime);
     }
 
     private long nextFire = 0;

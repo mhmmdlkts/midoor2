@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time_text: {fileID: 3078735779334561718}
   accept_text: {fileID: 4457220121949104652}
+  title_text: {fileID: 4653382376024544846}
   accept_button: {fileID: 631081516184903482}
   wait_sec: 20
   acceptedBeepAC: {fileID: 8300000, guid: 774afd437da99475fafc5a51ea82c472, type: 3}

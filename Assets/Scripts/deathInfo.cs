@@ -31,7 +31,7 @@ public class deathInfo : MonoBehaviour
         T_TEXT_COLOR = new Color32(177,169,122, 255); 
         container = GameObject.Find("kill_info_container");
         gameObject.transform.SetParent (container.transform, false);
-        Invoke("destroyDialog",stayTime);
+        Invoke(nameof(destroyDialog),stayTime);
     }
 
     public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)

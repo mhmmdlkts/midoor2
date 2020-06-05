@@ -31,9 +31,9 @@ public class PlayerStatus : MonoBehaviour
     public void setStatus()
     {
         wins.GetComponent<Text>().text = PlayerPrefs.GetInt("total_wins",0) + "";
-        money.GetComponent<Text>().text = "$" + PlayerPrefs.GetInt("money",0);
+        money.GetComponent<Text>().text = LanguageSystem.GET_CURRENCY() + PlayerPrefs.GetInt("money",0);
         rank.GetComponent<Image>().sprite = rankList[PlayerPrefs.GetInt("rank", 4)];
-        name.GetComponent<Text>().text = PlayerPrefs.GetString("name", "Set Your Name");
+        name.GetComponent<Text>().text = PlayerPrefs.GetString("name", LanguageSystem.GET_PLAYER_STATUS_NO_NAME_ME());
         pp.GetComponent<Image>().sprite = arraysData.ppList[PlayerPrefs.GetInt("pp",2)];
     }
     
@@ -85,7 +85,7 @@ public class PlayerStatus : MonoBehaviour
         {
             Text txt = coinObject.GetComponent<Text>();
             if (txt != null)
-                txt.text = "$" + money;
+                txt.text = LanguageSystem.GET_CURRENCY() + money;
         }
     }
 

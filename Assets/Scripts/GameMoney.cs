@@ -9,7 +9,6 @@ public class GameMoney : MonoBehaviour
     private Text text;
     public int money;
     public int FIRST_MONEY, ROUNDWIN_MONEY, ROUNDLOSE_MONEY, BOMBPLANT_MONEY, BOMBDEFUSE_MONEY, KNIFE_MONEY;
-    private static string prefix = "$";
     void Start()
     {
         text = GetComponent<Text>();
@@ -23,7 +22,7 @@ public class GameMoney : MonoBehaviour
 
     private void refreshUI()
     {
-        text.text = prefix + money;
+        text.text = LanguageSystem.GET_CURRENCY() + money;
     }
 
     public void addMoney(int money)

@@ -378,9 +378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5255638945a846ad99a40459c1b5b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button_pos: {fileID: 0}
-  button_neg: {fileID: 0}
-  text: {fileID: 0}
+  button_posLabel: {fileID: 9124826965526973098}
+  button_negLabel: {fileID: 9124826966250388588}
+  titleLabel: {fileID: 9124826966052586091}
 --- !u!1 &9124826966250388590
 GameObject:
   m_ObjectHideFlags: 0

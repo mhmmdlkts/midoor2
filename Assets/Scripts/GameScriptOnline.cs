@@ -116,11 +116,9 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         for (int i = 0; i < b.Length - 1; i++)
         {
             b[i] = pin[i];
-            Debug.Log(i + "; " + b[i]);
         }
 
         b[b.Length - 1] = (byte)side;
-        Debug.Log( "side0: " + b[b.Length - 1]);
         photonView.RPC(nameof(T_plants_bomb), RpcTarget.Others, b);
     }
     
@@ -136,7 +134,6 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         }
 
         int side = b[b.Length - 1];
-        Debug.Log( "side1: " + side);
         
         game.bombPlanted(Encoding.ASCII.GetString(pin), side);
     }

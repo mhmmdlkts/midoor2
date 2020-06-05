@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class Start_Cancel_Search_Button : MonoBehaviour
 {
-    public static string cancelText = "CANCEL SEARCH";
-    public static string startText = "START SEARCH";
-
     public Color32 CancelButtonColor;
     public Color32 StartButtonColor;
 
@@ -28,7 +25,7 @@ public class Start_Cancel_Search_Button : MonoBehaviour
     {
         GetComponent<Image>().color = StartButtonColor;
         textObj.GetComponent<Text>().color = StartLabelColor;
-        textObj.GetComponent<Text>().text = startText;
+        textObj.GetComponent<Text>().text = LanguageSystem.GET_START_SEARCH_BUTTON_LABEL();
         isGreen = true;
     }
 
@@ -37,6 +34,6 @@ public class Start_Cancel_Search_Button : MonoBehaviour
         isGreen = false;
         GetComponent<Image>().color = CancelButtonColor;
         textObj.GetComponent<Text>().color = CancelLabelColor;
-        textObj.GetComponent<Text>().text = cancelText;
+        textObj.GetComponent<Text>().text = LanguageSystem.GET_CANCEL_SEARCH_BUTTON_LABEL();
     }
 }

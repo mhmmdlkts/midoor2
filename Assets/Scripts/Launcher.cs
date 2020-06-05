@@ -24,9 +24,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     private bool isT;
     private bool accepted_you, accepted_him;
     private GameObject created_accept_dialog;
-    public static String connectingLabel = "Connecting";
-    public static String disconnectingLabel = "Disconnecting";
-    public static String searchingLabel = "Waiting for player";
     private long room_time_stamp;
     private bool forceQuit = true;
     private bool isRejoining = false;
@@ -76,7 +73,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         setSearchinActive(isCon);
         isConnecting = isCon;
         if (isCon)
-            progressLabel.GetComponent<TextLoading>().setNewText(connectingLabel);
+            progressLabel.GetComponent<TextLoading>().setNewText(LanguageSystem.GET_IS_CONNECTING_LABEL());
     }
     
     public override void OnDisconnected(DisconnectCause cause)
@@ -144,7 +141,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void Disconnect()
     {
         him.SetActive(false);
-        progressLabel.GetComponent<TextLoading>().setNewText(disconnectingLabel);
+        progressLabel.GetComponent<TextLoading>().setNewText(LanguageSystem.GET_IS_DISCONNECTING_LABEL());
         if (PhotonNetwork.IsConnected)
             PhotonNetwork.Disconnect();
     }
@@ -308,7 +305,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         setSearchinActive(isSearching);
         if (isSearching)
         {
-            progressLabel.GetComponent<TextLoading>().setNewText(searchingLabel);
+            progressLabel.GetComponent<TextLoading>().setNewText(LanguageSystem.GET_IS_SEARCHING_PLAYER_LABEL());
             Invoke(nameof(searchForOtherRooms),waitTimeForSearchAgain);
         }
     }

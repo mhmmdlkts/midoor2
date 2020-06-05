@@ -9,7 +9,7 @@ public class BloodieScreen : MonoBehaviour
     public void showBlood()
     {
         bloodie.SetActive(true);
-        Invoke("hideBlood",1f);
+        Invoke(nameof(hideBlood),1f);
     }
 
     public void hideBlood()

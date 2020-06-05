@@ -19,14 +19,28 @@ public class MainMenu : MonoBehaviour
     public Sprite[] awpsSprite;
     public Sprite[] zeusSprite;
     public Color32[] qualityColors;
+    public Text btnRankedLabel, btnRankedOfflineLabel, btnTeamEditorLabel, btnInventoryLabel, btnRemoveAdsLabel, btnMoreCoinsLabel, btnRestorePurchaseLabel;
+    
     public static string ArraysDataName = "Arrays";
     public static string[] playerPrafsWeaponKey = {"AWP_inventory5", "Knive_inventory5", "Zeus_inventory5"}; // TODO
     public static string[] playerPrafsWeaponDef = {"0-0=0", "0,1-0=1", "0-0=0"};
     public static string AdManagerGOName = "AdManager";
     void Start()
     {
+        setButtonsLabel();
         createArraysData();
         createAdObject();
+    }
+
+    private void setButtonsLabel()
+    {
+        btnRankedLabel.text = LanguageSystem.GET_RANKED_BUTTON_LABEL();
+        btnRankedOfflineLabel.text = LanguageSystem.GET_RANKED_OFFLINE_BUTTON_LABEL();
+        btnTeamEditorLabel.text = LanguageSystem.GET_TEAM_EDITOR_BUTTON_LABEL();
+        btnInventoryLabel.text = LanguageSystem.GET_INVENTORY_BUTTON_LABEL();
+        btnRemoveAdsLabel.text = LanguageSystem.GET_REMOVE_ADS_BUTTON_LABEL();
+        btnMoreCoinsLabel.text = LanguageSystem.GET_MORE_COIN_BUTTON_LABEL();
+        btnRestorePurchaseLabel.text = LanguageSystem.GET_RESTORE_PURCHASE_BUTTON_LABEL();
     }
 
     private void createArraysData()

@@ -41,7 +41,7 @@ public class Bomb : MonoBehaviour
     void blink(Color32 color, float blinkTime)
     {
         Led.GetComponent<Image>().color = color;
-        Invoke("blinkOff", blinkTime);
+        Invoke(nameof(blinkOff), blinkTime);
         buttonsInteractible = false;
     }
 
@@ -56,15 +56,15 @@ public class Bomb : MonoBehaviour
         if (isItCorrect())
         {
             blink(green, blinkTime*3);
-            Invoke("plantOk", 1f);
+            Invoke(nameof(plantOk), 1f);
         }
         else
         {
-            Invoke("deletePin", blinkTime*3);
+            Invoke(nameof(deletePin), blinkTime*3);
             Led.GetComponent<Image>().color = red;
         }
 
-        Invoke("blinkOff", blinkTime*3);
+        Invoke(nameof(blinkOff), blinkTime*3);
     }
 
     public void setCorrectPin(string pin)
@@ -122,7 +122,7 @@ public class Bomb : MonoBehaviour
         else
         {
             blink(transparan, getDefBlinkWaitTime());
-            Invoke("refreshDefPass", getDefBlinkWaitTime());
+            Invoke(nameof(refreshDefPass), getDefBlinkWaitTime());
         }
     }
 

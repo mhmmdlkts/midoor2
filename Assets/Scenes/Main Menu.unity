@@ -809,6 +809,13 @@ MonoBehaviour:
     rgba: 4292461488
   - serializedVersion: 2
     rgba: 4283851114
+  btnRankedLabel: {fileID: 290527462}
+  btnRankedOfflineLabel: {fileID: 1782368166}
+  btnTeamEditorLabel: {fileID: 353545489}
+  btnInventoryLabel: {fileID: 77731925}
+  btnRemoveAdsLabel: {fileID: 1733514616}
+  btnMoreCoinsLabel: {fileID: 1706827653}
+  btnRestorePurchaseLabel: {fileID: 811175103}
 --- !u!20 &217732066
 Camera:
   m_ObjectHideFlags: 0

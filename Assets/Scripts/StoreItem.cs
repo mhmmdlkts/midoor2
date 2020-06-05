@@ -20,6 +20,7 @@ public class StoreItem : MonoBehaviour
     {
         initWidth();
         arraysData = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>();
+        buyButtonText.text = LanguageSystem.GET_STORE_BUY_BUTTON_LABEL();
         awpImgs = arraysData.awpImgs;
         knifeImgs = arraysData.knifeImgs;
         zeusImgs = arraysData.zeusImgs;
@@ -42,7 +43,7 @@ public class StoreItem : MonoBehaviour
     private void disableButton()
     {
         buyButton.GetComponent<Button>().interactable = false;
-        buyButtonText.text = "Bought";
+        buyButtonText.text = LanguageSystem.GET_STORE_Bought_BUTTON_LABEL();
     }
 
     public void buyButtonListener()
@@ -60,7 +61,7 @@ public class StoreItem : MonoBehaviour
         price = storeItemStruct.price;
         name = storeItemStruct.name;
         
-        priceText.text = "$" + price;
+        priceText.text = LanguageSystem.GET_CURRENCY() + price;
         weaponName.text = name;
         frame.color = arraysData.qualityColors[quality];
         image.sprite = getImg(weaponCode, style);

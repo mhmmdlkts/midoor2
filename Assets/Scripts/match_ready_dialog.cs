@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class match_ready_dialog : MonoBehaviour
 {
-    public Text time_text, accept_text;
+    public Text time_text, accept_text, title_text;
     public Button accept_button;
     public int wait_sec;
     private GameObject parent;
@@ -16,6 +16,8 @@ public class match_ready_dialog : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        accept_text.GetComponent<Text>().text = LanguageSystem.GET_SEARCH_GAME_MENU_BUTTON_LABEL_ACCEPT();
+        title_text.GetComponent<Text>().text = LanguageSystem.GET_SEARCH_GAME_MENU_TITLE();
         GetComponent<AudioSource>().PlayOneShot(matchFoundAC);
         parent = GameObject.Find("Main Camera");
         canvas = GameObject.Find("Canvas");
@@ -39,7 +41,7 @@ public class match_ready_dialog : MonoBehaviour
         if (wait_sec <= 0)
             reject();
         else
-            Invoke("decSec",1f);
+            Invoke(nameof(decSec),1f);
         wait_sec--;
     }
 
@@ -53,7 +55,7 @@ public class match_ready_dialog : MonoBehaviour
     {
         parent.GetComponent<Launcher>().acceptGame();
         accept_button.GetComponent<Button>().interactable = false;
-        accept_text.GetComponent<Text>().text = "ACCEPTED";
+        accept_text.GetComponent<Text>().text = LanguageSystem.GET_SEARCH_GAME_MENU_BUTTON_LABEL_ACCEPTED();
         accept_text.GetComponent<Text>().color = new Color32(37,227,0,255);
         accepted = true;
     }

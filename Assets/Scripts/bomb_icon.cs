@@ -17,7 +17,7 @@ public class bomb_icon : MonoBehaviour
     {
         Container = GameObject.Find("Time_Bomb");
         gameObject.transform.SetParent (Container.transform, false);
-        Invoke("counter", 1f);
+        Invoke(nameof(counter), 1f);
     }
 
     void counter()
@@ -26,7 +26,7 @@ public class bomb_icon : MonoBehaviour
         if (explodeTime > 0)
         {
             explodeTime--;
-            Invoke("counter", 1f);
+            Invoke(nameof(counter), 1f);
             return;
         }
         Debug.Log("BOOM");

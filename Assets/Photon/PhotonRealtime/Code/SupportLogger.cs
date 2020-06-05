@@ -119,7 +119,7 @@ namespace Photon.Realtime
         public void StopLogStats()
         {
             #if SUPPORTED_UNITY
-            this.CancelInvoke("LogStats");
+            this.CancelInvoke(nameof(LogStats));
             #else
             Debug.Log("Not implemented for non-Unity projects.");
             #endif
@@ -137,7 +137,7 @@ namespace Photon.Realtime
         private void StopTrackValues()
         {
             #if SUPPORTED_UNITY
-            this.CancelInvoke("TrackValues");
+            this.CancelInvoke(nameof(TrackValues));
             #else
             Debug.Log("Not implemented for non-Unity projects.");
             #endif

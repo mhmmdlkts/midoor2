@@ -56,7 +56,7 @@ public class TeamEditor : MonoBehaviour, IDeselectHandler
         {
             names[i].SetActive(true);
             InputFields[i].SetActive(false);
-            names[i].GetComponent<Text>().text = PlayerPrefs.GetString("game_firend_" + i,"Set Your Friends Name");
+            names[i].GetComponent<Text>().text = PlayerPrefs.GetString("game_firend_" + i,LanguageSystem.GET_PLAYER_STATUS_NO_NAME_TEAM());
         }
     }
 

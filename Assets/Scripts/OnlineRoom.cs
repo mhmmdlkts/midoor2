@@ -19,8 +19,8 @@ public class OnlineRoom : MonoBehaviour
     private void setStatus()
     {
         wins_me.GetComponent<Text>().text = PlayerPrefs.GetInt("total_wins",0) + "";
-        money_me.GetComponent<Text>().text = "$" + PlayerPrefs.GetInt("money",0);
+        money_me.GetComponent<Text>().text = LanguageSystem.GET_CURRENCY() + PlayerPrefs.GetInt("money",0);
         rank_me.GetComponent<Image>().sprite = rankList[PlayerPrefs.GetInt("rank", 4)];
-        name_me.GetComponent<Text>().text = PlayerPrefs.GetString("name", "Name");
+        name_me.GetComponent<Text>().text = PlayerPrefs.GetString("name", LanguageSystem.GET_NAME());
     }
 }

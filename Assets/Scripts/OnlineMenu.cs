@@ -54,7 +54,7 @@ public class OnlineMenu : MonoBehaviour
         ppId = PlayerPrefs.GetInt("pp", 2);
         
         wins_me.GetComponent<Text>().text = "" + wins;
-        money_me.GetComponent<Text>().text = "$" + money;
+        money_me.GetComponent<Text>().text = LanguageSystem.GET_CURRENCY() + money;
         rank_me.GetComponent<Image>().sprite = rankList[rank];
         name_me.GetComponent<Text>().text = name;
         pp_me.GetComponent<Image>().sprite = arraysData.ppList[ppId];
@@ -65,7 +65,7 @@ public class OnlineMenu : MonoBehaviour
     {
         if (PlayerStatus.isPlaysRemoved())
         {
-            plays_me.GetComponent<Text>().text = "∞";
+            plays_me.GetComponent<Text>().text = LanguageSystem.GET_INFINITY();
             plays = Int32.MaxValue;
             return;
         }
@@ -96,7 +96,7 @@ public class OnlineMenu : MonoBehaviour
     {
         if (scs.isGreen)
         {
-            if (plays <= 0 && false)
+            if (plays <= 0 && false) // TODO IMPORTANT
             {
                 rewardAdListener();
                 return;

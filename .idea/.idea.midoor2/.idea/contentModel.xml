@@ -368,6 +368,7 @@
           <e p="InventoryItem.cs" t="Include" />
           <e p="InventoryMenu.cs" t="Include" />
           <e p="JoystickMove.cs" t="Include" />
+          <e p="LanguageSystem.cs" t="Include" />
           <e p="Launcher.cs" t="Include" />
           <e p="MainMenu.cs" t="Include" />
           <e p="Map.cs" t="Include" />

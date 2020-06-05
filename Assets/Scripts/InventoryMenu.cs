@@ -36,8 +36,6 @@ public struct StoreItemStruct
 }
 public class InventoryMenu : MonoBehaviour
 {
-    private static string storeButtonText = "Store";
-    private static string inventoryButtonText = "Inventory";
     
     public TextAsset storeList;
     private string[] storeItemsStringArr;
@@ -77,7 +75,7 @@ public class InventoryMenu : MonoBehaviour
     {
         inventoryLayout.SetActive(isInventory);
         storeLayout.SetActive(!isInventory);
-        storeInventoryButtonText.text = isInventory ? storeButtonText : inventoryButtonText;
+        storeInventoryButtonText.text = isInventory ? LanguageSystem.GET_STORE_TAB_BUTTON_LABEL() : LanguageSystem.GET_INVENTORY_TAB_BUTTON_LABEL();
         if (isInventory)
             StartCoroutine(inventoryLayout.GetComponent<myInventroy>().reload());
     }

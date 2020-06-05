@@ -9,8 +9,6 @@ public class youKilledWithWeaponImg : MonoBehaviour
     public Image image, bg, qualityLine;
     public Text weaponName, title;
     private ArraysData arraysData;
-    private string titleStart = "You are killed with ";
-    private string titleEnd = "'s";
     void Start()
     {
         Invoke(nameof(destroyMe), EndRoundShow.stayTime);
@@ -29,7 +27,7 @@ public class youKilledWithWeaponImg : MonoBehaviour
         image.sprite = getSprite(weaponCode, style);
         qualityLine.color = arraysData.qualityColors[itemStruct.quality];
         weaponName.text = itemStruct.name;
-        title.text = titleStart + playersName + titleEnd;
+        title.text = LanguageSystem.GET_SHOW_WEAPON_PANEL_TITLE_START() + playersName + LanguageSystem.GET_SHOW_WEAPON_PANEL_TITLE_MIDDLE() + LanguageSystem.GET_SHOW_WEAPON_PANEL_TITLE_END();
     }
 
     private Sprite getSprite(int weaponCode, int style)

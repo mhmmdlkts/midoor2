@@ -12,7 +12,6 @@ public class BuyPanel : MonoBehaviour
     public Text zeusButtonText, flashButtonText, kitButtonText;
     public Text zeusPriceText, flashPriceText, kitPriceText;
     public int zeusPrice, flashPrice, kitPrice;
-    private string dollarPrefix = "$";
     public AudioClip buy_cantAC;
     public AudioClip[] buy_equipAC;
     public Color32 cantBuyColor;
@@ -21,13 +20,21 @@ public class BuyPanel : MonoBehaviour
         game = GameObject.Find("MOVABLE").GetComponent<GameScript>();
         money = GameObject.Find("Money").GetComponent<GameMoney>();
         container = GameObject.Find("SafeArea");
+        setButtonsName();
         gameObject.transform.SetParent (container.transform, false);
-        zeusPriceText.text = dollarPrefix + zeusPrice;
-        flashPriceText.text = dollarPrefix + flashPrice;
-        kitPriceText.text = dollarPrefix + kitPrice;
+        zeusPriceText.text = LanguageSystem.GET_CURRENCY() + zeusPrice;
+        flashPriceText.text = LanguageSystem.GET_CURRENCY() + flashPrice;
+        kitPriceText.text = LanguageSystem.GET_CURRENCY() + kitPrice;
         if (game.isT)
             kitButton.SetActive(false);
         checkcanBuyItem();
+    }
+
+    private void setButtonsName()
+    {
+        zeusButtonText.text = LanguageSystem.GET_BUY_PANEL_BUTTON_LABEL_ZEUS();
+        kitButtonText.text = LanguageSystem.GET_BUY_PANEL_BUTTON_LABEL_DEFUSE();
+        flashButtonText.text = LanguageSystem.GET_BUY_PANEL_BUTTON_LABEL_FLASHBANG();
     }
 
     void playEquip()

@@ -68,7 +68,7 @@ public class ammoPanel : MonoBehaviour
             reloaded_ammo = tot_ammo_ex_reloaded;
             tot_ammo_ex_reloaded = 0;
         }
-        Invoke("updateAmmoTextPanel", 3.4f);
+        Invoke(nameof(updateAmmoTextPanel), 3.4f);
     }
     
     

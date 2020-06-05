@@ -7,11 +7,16 @@ using UnityEngine.UI;
 public class EquipMenu : MonoBehaviour
 {
     public Button btnT, btnCT, btnBoth, btnCancel;
+    public Text btnT_text, btnCT_text, btnBoth_text, btnCancel_text;
     private InventoryItem inventory;
     private int weaponCode, style;
 
     public void Start()
     {
+        btnBoth_text.text = LanguageSystem.GET_EQUIP_MENU_BUTTON_LABEL_BOTH();
+        btnT_text.text = LanguageSystem.GET_EQUIP_MENU_BUTTON_LABEL_T();
+        btnCT_text.text = LanguageSystem.GET_EQUIP_MENU_BUTTON_LABEL_CT();
+        btnCancel_text.text = LanguageSystem.GET_EQUIP_MENU_BUTTON_LABEL_CANCEL();
         GameObject.Find("ScrollInventory").GetComponent<myInventroy>().isChoseMenuOpen = true;
     }
 

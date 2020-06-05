@@ -10,9 +10,6 @@ public class EndGameShow : MonoBehaviour
     public GameObject ppImg, moneyLabel, nameLabel, killsLabel, winsLabel, rankImg;
     public int tot_kills, kills, money, winns, rank, newWin = 0, winSerie, loseSerie;
     public String name;
-    public String KILLS_TEXT = "Kills : ";
-    public String WINS_TEXT  = "Wins : ";
-    public String MONEY_TEXT = "Money : $";
     private int winMoneyBonus = 200;
     private int loseMoneyBonus = 50;
     public Sprite[] rankList;
@@ -121,9 +118,9 @@ public class EndGameShow : MonoBehaviour
     public void writeStatus()
     {
         a.text = name;
-        b.text = KILLS_TEXT + tot_kills;
-        c.text = WINS_TEXT + winns;
-        d.text = MONEY_TEXT + money;
+        b.text = LanguageSystem.GET_END_GAME_PANEL_LABEL_KILLS() + tot_kills;
+        c.text = LanguageSystem.GET_END_GAME_PANEL_LABEL_WINS() + winns;
+        d.text = LanguageSystem.GET_END_GAME_PANEL_LABEL_MONEY() + money;
         e.sprite = rankList[rank];
     }
 

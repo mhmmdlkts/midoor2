@@ -39,7 +39,7 @@ public class enemy : MonoBehaviour
     {
         isFiring = true;
         fireParticle.GetComponent<ParticleSystem>().Play();
-        Invoke("stopFireParticle",0.15f);
+        Invoke(nameof(stopFireParticle),0.15f);
     }
 
     public void stopFireParticle()

@@ -329,6 +329,10 @@ MonoBehaviour:
   btnCT: {fileID: 8409141284293490834}
   btnBoth: {fileID: 8409141284597184486}
   btnCancel: {fileID: 8409141283915811297}
+  btnT_text: {fileID: 8409141285090263282}
+  btnCT_text: {fileID: 8409141283712379111}
+  btnBoth_text: {fileID: 8409141283462441452}
+  btnCancel_text: {fileID: 8409141283232248531}
 --- !u!1 &8409141283915811295
 GameObject:
   m_ObjectHideFlags: 0
