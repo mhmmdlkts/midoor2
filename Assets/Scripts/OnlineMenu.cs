@@ -87,7 +87,7 @@ public class OnlineMenu : MonoBehaviour
     {
         if (scs.isGreen)
         {
-            if (plays <= 0)
+            if (plays <= 0 && false)
             {
                 rewardAdListener();
                 return;

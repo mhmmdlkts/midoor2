@@ -1057,8 +1057,11 @@ public class GameScript : MonoBehaviour
 
     public void zeusOther()
     {
-        
+        gameMoney.addMoney(gameMoney.KNIFE_MONEY);
+        knifeAS.PlayOneShot(getZeusedAC);
         online.zeusOther();
+        roundWin();
+        showKillInfo(isT, deathInfo.ZEUS_CODE, false, false, yourName, enemysNameList[0]);
     }
 
     public void knifeOther()
@@ -1126,11 +1129,18 @@ public class GameScript : MonoBehaviour
 
     public void getZeusTry()
     {
-        
+        if (created_bomb != null)
+            zeused();
+        else
+            knifeAS.PlayOneShot(zeusAirAC);
     }
 
     public void zeused()
     {
-        
+        setHealthy(0);
+        knifeAS.PlayOneShot(getZeusedAC);
+        StartCoroutine(showDeathWeapon(getZeusedAC.length*2/3, 2, 0));
+        isOtherPlayerSpawned = true;
+        showKillInfo(!isT, deathInfo.ZEUS_CODE, false, false, enemysNameList[0], yourName);
     }
 }

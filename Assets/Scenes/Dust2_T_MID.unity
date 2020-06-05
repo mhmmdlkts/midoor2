@@ -15684,7 +15684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0
-  FIRST_MONEY: 200
+  FIRST_MONEY: 400
   ROUNDWIN_MONEY: 200
   ROUNDLOSE_MONEY: 50
   BOMBPLANT_MONEY: 50
