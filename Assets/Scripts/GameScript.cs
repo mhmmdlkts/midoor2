@@ -723,6 +723,14 @@ public class GameScript : MonoBehaviour
         isStoped = true;
         round++;
         updateScore();
+        if (isOnline)
+            setForBuy();
+        else
+            newRound();
+    }
+
+    private void setForBuy()
+    {
         buyTime = BUY_TIME;
         setTimeLabel(buyTime);
         created_buy_panel = Instantiate(buy_panel_prefab);

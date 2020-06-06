@@ -96,7 +96,7 @@ public class OnlineMenu : MonoBehaviour
     {
         if (scs.isGreen)
         {
-            if (plays <= 0 && false) // TODO IMPORTANT
+            if (plays <= 0 && !AdUnitIds.isTest) // TODO IMPORTANT
             {
                 rewardAdListener();
                 return;

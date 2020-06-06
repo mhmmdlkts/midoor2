@@ -8,10 +8,15 @@ using UnityEngine.UI;
 public class EndGameShow : MonoBehaviour
 {
     public GameObject ppImg, moneyLabel, nameLabel, killsLabel, winsLabel, rankImg;
+    private GameScript game;
     public int tot_kills, kills, money, winns, rank, newWin = 0, winSerie, loseSerie;
     public String name;
-    private int winMoneyBonus = 200;
-    private int loseMoneyBonus = 50;
+    private int winOnlineMoneyBonus = 200;
+    private int winOfflineMoneyBonus = 50;
+    private int loseOnlineMoneyBonus = 50;
+    private int loseOfflineMoneyBonus = 10;
+    private int forEveryOnlineKillMoneyBonus = 10;
+    private int forEveryOfflineKillMoneyBonus = 5;
     public Sprite[] rankList;
     public static int WinLoseSerieForNewRank = 3;
     public bool isRankUpgrade, isRankDowngrade;
@@ -25,6 +30,7 @@ public class EndGameShow : MonoBehaviour
     void Start()
     {
         RequestInterstitial();
+        game = GameObject.Find("MOVABLE").GetComponent<GameScript>();
         ppImg.GetComponent<Image>().sprite = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>().ppList[PlayerPrefs.GetInt("pp", 2)];
         tot_kills = PlayerPrefs.GetInt("total_kill",0);
         winns = PlayerPrefs.GetInt("total_wins",0);
@@ -84,6 +90,12 @@ public class EndGameShow : MonoBehaviour
         PlayerPrefs.SetInt("total_kill", tot_kills+kills);
         PlayerPrefs.SetInt("money", money+getNewMoney());
         PlayerPrefs.SetInt("total_wins", winns+newWin);
+        if (game.isOnline)
+            saveRankStatus();
+    }
+
+    private void saveRankStatus()
+    {
         if (newWin == 1)
         {
             addPlays(1);
@@ -132,7 +144,9 @@ public class EndGameShow : MonoBehaviour
 
     private int getNewMoney()
     {
-        return (kills * 10) + (newWin == 1 ? winMoneyBonus : loseMoneyBonus);
+        if (game.isOnline)
+            return (kills * forEveryOnlineKillMoneyBonus) + (newWin == 1 ? winOnlineMoneyBonus : loseOnlineMoneyBonus);
+        return (kills * forEveryOfflineKillMoneyBonus) + (newWin == 1 ? winOfflineMoneyBonus : loseOfflineMoneyBonus);
     }
 
     public void show()
@@ -158,7 +172,10 @@ public class EndGameShow : MonoBehaviour
     {
         GetComponent<AudioSource>().PlayOneShot(newItemSound);
         d.text += " + " + getNewMoney();
-        Invoke(nameof(setRank), 1);
+        if (game.isOnline)
+            Invoke(nameof(setRank), 1);
+        else
+            finish();
     }
 
     private void setRank()
@@ -168,7 +185,11 @@ public class EndGameShow : MonoBehaviour
             GetComponent<AudioSource>().PlayOneShot(newRankSound);
         }
         e.sprite = rankList[rank];
-        
+        finish();
+    }
+
+    private void finish()
+    {
         if (MainMenuAd.isRemovedAds())
             Invoke(nameof(quitGame), 1);
         else
@@ -183,14 +204,13 @@ public class EndGameShow : MonoBehaviour
             return;
         }
 
-        if (interstitial.IsLoaded())
-            interstitial.Show();
-        else
+        if (interstitial == null || !interstitial.IsLoaded())
             quitGame();
+        interstitial.Show();
     }
 
     private void quitGame()
     {
-        GameObject.Find("MOVABLE").GetComponent<GameScript>().gameQuit();
+        game.gameQuit();
     }
 }

@@ -86,7 +86,7 @@ public class Bomb : MonoBehaviour
     public bool isItCorrect()
     {
         if (isPlanting)
-            return true;
+            return enteredPin.Length > 0;
         return enteredPin.Equals(correctPin);
     }
 
