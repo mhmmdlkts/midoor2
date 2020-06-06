@@ -18581,7 +18581,7 @@ MonoBehaviour:
   bombDefusStarAC: {fileID: 8300000, guid: f30532936b2f94dea83d5c2b3e16cb94, type: 3}
   bombExplodeAC: {fileID: 8300000, guid: eef84aa733f7d454bae320aaab4fd836, type: 3}
   lastSecondsAC: {fileID: 8300000, guid: eff25a00a7bef4ed998b48a0ae329202, type: 3}
-  goChangeSideStepAC: {fileID: 8300000, guid: 7b38adcce705447deaea4e07ba50b88d, type: 3}
+  goChangeSideStepAC: {fileID: 8300000, guid: 8ae0e755e95394d078d8829883badcfb, type: 3}
   goBombStepAC: {fileID: 8300000, guid: 69273ba5019404fc2964f0df8f2f897c, type: 3}
   throughFlashAC: {fileID: 8300000, guid: 63a8bef1a70654fe5a57d54b8e0685ee, type: 3}
   farFlashAC: {fileID: 8300000, guid: 10f2579ec68f1456ea97d1b86db99c51, type: 3}

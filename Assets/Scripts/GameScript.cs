@@ -222,6 +222,7 @@ public class GameScript : MonoBehaviour
     {
         plant_bomb_button.SetActive(false);
         flash_button.SetActive(false);
+        knife_button.SetActive(false);
     }
 
     private void refreshColorTags()
@@ -1088,30 +1089,20 @@ public class GameScript : MonoBehaviour
 
     public void setButtonsActive(bool active)
     {
-        flash_button.GetComponent<buttonDelay>().fillButtonFull();
-        knife_button.GetComponent<buttonDelay>().fillButtonFull();
-        plant_bomb_button.GetComponent<buttonDelay>().fillButtonFull();
-        rightButton.GetComponent<buttonDelay>().fillButtonFull();
-        leftButton.GetComponent<buttonDelay>().fillButtonFull();
-        zoomButton.GetComponent<buttonDelay>().fillButtonFull();
-        shotButton.GetComponent<buttonDelay>().fillButtonFull();
-
-        flash_button.SetActive(active);
-        knife_button.SetActive(active);
-        plant_bomb_button.SetActive(active);
-        rightButton.SetActive(active);
-        leftButton.SetActive(active);
-        zoomButton.SetActive(active);
-        shotButton.SetActive(active);
+        flash_button.GetComponent<buttonDelay>().showButton(active);
+        knife_button.GetComponent<buttonDelay>().showButton(active);
+        plant_bomb_button.GetComponent<buttonDelay>().showButton(active);
+        rightButton.GetComponent<buttonDelay>().showButton(active);
+        leftButton.GetComponent<buttonDelay>().showButton(active);
+        zoomButton.GetComponent<buttonDelay>().showButton(active);
+        shotButton.GetComponent<buttonDelay>().showButton(active);
     }
 
     private int localInvokeChosedSide;
-    private int localInvokeChosedKnife;
     
     public void mapOK(int side, MapChose mapChose)
     {
         localInvokeChosedSide = side;
-        localInvokeChosedKnife = chosedKnifeId;
         string methodName = null;
         switch (mapChose)
         {

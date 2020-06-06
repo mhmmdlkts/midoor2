@@ -55,6 +55,15 @@ public class buttonDelay : MonoBehaviour
         gameObject.GetComponent<Button>().interactable = true;
     }
 
+    public void showButton(bool show)
+    {
+        fillButtonFull();
+        GetComponent<Image>().enabled = show;
+        GetComponent<Button>().interactable = show;
+        if (createdMask != null)
+            createdMask.GetComponent<Image>().enabled = show;
+    }
+
     public void fillButtonFull()
     {
         StopCoroutine(fillButton());
