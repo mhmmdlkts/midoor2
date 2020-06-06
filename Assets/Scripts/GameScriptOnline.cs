@@ -209,4 +209,17 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     {
         game.getZeusTry();
     }
+
+    public void sendEndRoundData(int tScore, int ctScore, bool raundWin)
+    {
+        photonView.RPC(nameof(receiveEndRound), RpcTarget.Others, new byte[] {(byte)tScore, (byte)ctScore, (byte) (raundWin ? 1 : 0)});
+        Debug.Log("Send New Round");
+    }
+
+    [PunRPC]
+    public void receiveEndRound(byte[] b)
+    {
+        Debug.Log("Receive New Round");
+        game.onlineReceiveEndRound(b[0], b[1], b[2] == 1);
+    }
 }

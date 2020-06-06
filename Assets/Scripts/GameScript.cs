@@ -105,7 +105,7 @@ public class GameScript : MonoBehaviour
     public Online strategy;
     public List<String> enemysNameList;
     public int bombIsPlanted, whereIsOther;
-    public int myWeapon = 0;
+    public int myWeapon = deathInfo.AWP_CODE;
 
     public string correctBombPin;
     public bool hasCtKit;
@@ -397,7 +397,8 @@ public class GameScript : MonoBehaviour
     {
         int min = sec / 60;
         sec %= 60;
-        
+        if (sec < 0) 
+            return;
         timeLabel.GetComponent<Text>().text = min + ":" + ((sec < 10)?"0":"") + sec;
     }
 
@@ -409,24 +410,63 @@ public class GameScript : MonoBehaviour
     public void T_win()
     {
         if (isT)
+        {
+            if (isOnline)
+            {
+                if (!PhotonNetwork.IsMasterClient)
+                    return;
+                sendRoundLose();
+            }
             roundWin();
+            Debug.Log("rw0");
+        }
         else
+        {
+            if (isOnline)
+            {
+                if (!PhotonNetwork.IsMasterClient)
+                    return;
+                sendRoundWin();
+            }
             roundLose();
+            Debug.Log("rl0");
+        }
     }
 
     public void CT_win()
     {
         
         if (isT)
+        {
+            if (isOnline)
+            {
+                if (!PhotonNetwork.IsMasterClient)
+                    return;
+                sendRoundWin();
+            }
             roundLose();
+            Debug.Log("rl1");
+        }
         else
+        {
+            if (isOnline)
+            {
+                if (!PhotonNetwork.IsMasterClient)
+                    return;
+                sendRoundLose();
+            }
             roundWin();
+            Debug.Log("rw1");
+        }
     }
 
     public void playerDeath(int weaponCode, bool isHead, GameObject enemy)
     {
         if (!isOnline)
-            roundLose(); 
+        {
+            roundLose();
+            Debug.Log("rl2");
+        }
         else
             ;// TODOBURAYA
         showKillInfo(!isT, weaponCode, isHead, false, enemy.GetComponent<enemy>().name, yourName);
@@ -457,6 +497,8 @@ public class GameScript : MonoBehaviour
 
     public void gameQuit()
     {
+        if(isOnline)
+            online.disconnect();
         banControl();
         ButtonClickSound(4);
         SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
@@ -464,8 +506,6 @@ public class GameScript : MonoBehaviour
 
     void endGame(int isWinn)
     {
-        if(isOnline)
-            online.disconnect();
         if (isWinn == -2)
             return;
         isGameFinished = true;
@@ -657,6 +697,23 @@ public class GameScript : MonoBehaviour
         teamCount = START_ENEMY_COUNT;
     }
 
+    public void onlineReceiveEndRound(int tScore, int ctScore, bool isRoundWin)
+    {
+        this.tScore = tScore;
+        this.ctScore = ctScore;
+        Debug.Log("I receive now round win: " + isRoundWin + " ct:"+ctScore+" t:" + tScore);
+        if (isRoundWin)
+        {
+            roundWin();
+            Debug.Log("rw2");
+        }
+        else
+        {
+            roundLose();
+            Debug.Log("rl3");
+        }
+    }
+
     private void beforeNewRound()
     {
         setButtonsActive(false);
@@ -735,19 +792,46 @@ public class GameScript : MonoBehaviour
     {
         if (bombHasBeenPlant() && !isT)
             return;
+        
+        if (isOnline)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+            sendRoundLose();
+            Debug.Log("rl4");
+        }
         roundWin();
+        Debug.Log("rw3");
     }
 
     void teamDeath(int style)
     {
         if(bombHasBeenPlant() && isT)
             return;
-        roundLose();
         StartCoroutine(showDeathWeapon(0.2f,0,style));
+        if (isOnline)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+            sendRoundWin();
+        }
+        roundLose();
+        Debug.Log("rl5");
+    }
+
+    private void sendRoundWin()
+    {
+        Debug.Log("PhotonNetwork.IsMasterClient:"+PhotonNetwork.IsMasterClient);
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        
+        Debug.Log("I send now round win ct:"+ctScore+" t:" + tScore);
+        online.sendEndRoundData(tScore, ctScore, true);
     }
 
     private void roundWin()
     {
+        Debug.Log("Round Win");
         gameMoney.addMoney(gameMoney.ROUNDWIN_MONEY);
         giveScore(true);
         StartCoroutine(showDialogNextFrame(isT));
@@ -755,9 +839,19 @@ public class GameScript : MonoBehaviour
         else GetComponent<AudioSource>().PlayOneShot(CT_Win_AC);
         endRound();
     }
+
+    private void sendRoundLose()
+    {
+        Debug.Log("PhotonNetwork.IsMasterClient:"+PhotonNetwork.IsMasterClient);
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        Debug.Log("I send now roundlose ct:"+ctScore+" t:" + tScore);
+        online.sendEndRoundData(tScore, ctScore, false);
+    }
     
     private void roundLose()
     {
+        Debug.Log("Round Lose");
         resetItems();
         gameMoney.addMoney(gameMoney.ROUNDLOSE_MONEY);
         giveScore(false);
@@ -802,8 +896,16 @@ public class GameScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(wait);
         yield return new WaitForEndOfFrame();
         
-        roundLose();
         canvas.GetComponent<ShowDialogs>().showDeathWeapon(weaponCode, style, online_data.otherTeam[0]);
+        
+        if (isOnline)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                yield break;
+            sendRoundWin();
+        }
+        roundLose();
+        Debug.Log("rl6");
     }
 
     private void startCaroutineDeathZeus()
@@ -1061,8 +1163,15 @@ public class GameScript : MonoBehaviour
         gameMoney.addMoney(gameMoney.KNIFE_MONEY);
         knifeAS.PlayOneShot(getZeusedAC);
         online.zeusOther();
-        roundWin();
         showKillInfo(isT, deathInfo.ZEUS_CODE, false, false, yourName, enemysNameList[0]);
+        if (isOnline)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+            sendRoundLose();
+        }
+        roundWin();
+        Debug.Log("rw4");
     }
 
     public void knifeOther()
@@ -1071,8 +1180,15 @@ public class GameScript : MonoBehaviour
         knifeAS.PlayOneShot(getKnifedAC);
         int knifeId = getKnifePlayerPrefs();
         online.knifeOther(knifeId);
-        roundWin();
         showKillInfo(isT, deathInfo.getKnifesGlobalCode(knifeId), false, false, yourName, enemysNameList[0]);
+        if (isOnline)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+            sendRoundLose();
+        }
+        roundWin();
+        Debug.Log("rw5");
     }
     
     private void knifed(int knifeId)

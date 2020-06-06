@@ -19,6 +19,8 @@ public class DeveloperHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!AdUnitIds.isTest)
+            return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             gameObject.GetComponent<ChangeShow>().lookRight();
