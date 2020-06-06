@@ -107,14 +107,18 @@ public class EndGameShow : MonoBehaviour
 
     private void rankDown()
     {
-        if(rank > 0)
+        if (rank > 0)
             rank--;
+        else
+            isRankDowngrade = false;
     }
 
     private void rankUp()
     {
         if(rank < GameScript.tot_rank-1)
             rank++;
+        else
+            isRankUpgrade = false;
     }
 
     public void writeStatus()
