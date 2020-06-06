@@ -80,6 +80,10 @@ public class LanguageSystem : MonoBehaviour
     private static string STORE_Bought_BUTTON_LABEL_TR = "";
     
     // Popup Menus & Buttons
+    private static string EQUIP_MENU_TITLE_EN = "Equip Menu";
+    private static string EQUIP_MENU_TITLE_DE = "";
+    private static string EQUIP_MENU_TITLE_TR = "";
+    
     private static string EQUIP_MENU_BUTTON_LABEL_T_EN = "T";
     private static string EQUIP_MENU_BUTTON_LABEL_T_DE = "T";
     private static string EQUIP_MENU_BUTTON_LABEL_T_TR = "T";
@@ -432,6 +436,18 @@ public class LanguageSystem : MonoBehaviour
                 return STORE_Bought_BUTTON_LABEL_TR;
         }
         return         STORE_Bought_BUTTON_LABEL_EN;
+    }
+
+    public static string GET_EQUIP_MENU_TITLE()
+    {
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.German:
+                return EQUIP_MENU_TITLE_DE;
+            case SystemLanguage.Turkish:
+                return EQUIP_MENU_TITLE_TR;
+        }
+        return         EQUIP_MENU_TITLE_EN;
     }
 
     public static string GET_EQUIP_MENU_BUTTON_LABEL_T()

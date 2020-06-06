@@ -15,6 +15,7 @@ public class EndGameShow : MonoBehaviour
     public Sprite[] rankList;
     public static int WinLoseSerieForNewRank = 3;
     public bool isRankUpgrade, isRankDowngrade;
+    public AudioClip newItemSound, newRankSound;
     private InterstitialAd interstitial;
 
     private Text a, b, c, d;
@@ -24,13 +25,14 @@ public class EndGameShow : MonoBehaviour
     void Start()
     {
         RequestInterstitial();
+        ppImg.GetComponent<Image>().sprite = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>().ppList[PlayerPrefs.GetInt("pp", 2)];
         tot_kills = PlayerPrefs.GetInt("total_kill",0);
         winns = PlayerPrefs.GetInt("total_wins",0);
         money = PlayerPrefs.GetInt("money",0);
         rank = PlayerPrefs.GetInt("rank",4);
         newWin = PlayerPrefs.GetInt("new_win",0);
         kills = PlayerPrefs.GetInt("new_kills",0);
-        name = PlayerPrefs.GetString("name", "Name");
+        name = PlayerPrefs.GetString("name", LanguageSystem.GET_NAME());
         winSerie = PlayerPrefs.GetInt("winSerie",0);
         loseSerie = PlayerPrefs.GetInt("loseSerie",0);
         a = nameLabel.GetComponent<UnityEngine.UI.Text>();
@@ -136,18 +138,21 @@ public class EndGameShow : MonoBehaviour
 
     private void setKills()
     {
+        GetComponent<AudioSource>().PlayOneShot(newItemSound);
         b.text += " + " + kills;
         Invoke(nameof(setWins), 1);
     }
 
     private void setWins()
     {
+        GetComponent<AudioSource>().PlayOneShot(newItemSound);
         c.text += " + " + (newWin == 1 ? 1 : 0);
         Invoke(nameof(setMoney), 1);
     }
 
     private void setMoney()
     {
+        GetComponent<AudioSource>().PlayOneShot(newItemSound);
         d.text += " + " + getNewMoney();
         Invoke(nameof(setRank), 1);
     }
@@ -156,7 +161,7 @@ public class EndGameShow : MonoBehaviour
     {
         if (isRankUpgrade)
         {
-            // TODO play stars sound
+            GetComponent<AudioSource>().PlayOneShot(newRankSound);
         }
         e.sprite = rankList[rank];
         

@@ -36,6 +36,16 @@ public class deathInfo : MonoBehaviour
 
     public void configure(bool ctIsDeath, int weaponCode, bool isHeadShot, bool isWall, String killerName, String killedName)
     {
+        if (PlayerPrefs.GetString("name", LanguageSystem.GET_NAME()).Equals(killerName))
+        {
+            // you killed
+            GetComponent<Image>().color = new Color32(142, 42, 52, 64);
+        }
+        if (PlayerPrefs.GetString("name", LanguageSystem.GET_NAME()).Equals(killedName))
+        {
+            // you death
+            GetComponent<Image>().color = new Color32(200, 62, 75, 128);
+        }
         killerNameLabel.GetComponent<Text>().text = killerName + "  ";
         killedNameLabel.GetComponent<Text>().text = "  " + killedName;
         headImg.SetActive(isHeadShot);

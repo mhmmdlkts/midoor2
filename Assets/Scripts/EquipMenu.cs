@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public class EquipMenu : MonoBehaviour
 {
     public Button btnT, btnCT, btnBoth, btnCancel;
-    public Text btnT_text, btnCT_text, btnBoth_text, btnCancel_text;
+    public Text btnT_text, btnCT_text, btnBoth_text, btnCancel_text, title_text;
     private InventoryItem inventory;
     private int weaponCode, style;
 
     public void Start()
     {
+        title_text.text = LanguageSystem.GET_EQUIP_MENU_TITLE();
         btnBoth_text.text = LanguageSystem.GET_EQUIP_MENU_BUTTON_LABEL_BOTH();
         btnT_text.text = LanguageSystem.GET_EQUIP_MENU_BUTTON_LABEL_T();
         btnCT_text.text = LanguageSystem.GET_EQUIP_MENU_BUTTON_LABEL_CT();
@@ -48,7 +49,7 @@ public class EquipMenu : MonoBehaviour
         GameObject.Find("ScrollInventory").GetComponent<myInventroy>().isChoseMenuOpen = false;
         Destroy(gameObject);
     }
-    
+
     public void open(InventoryItem inventory, int weaponCode, int style, char team)
     {
         this.inventory = inventory;
