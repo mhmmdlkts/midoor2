@@ -789,11 +789,31 @@ MonoBehaviour:
   knifesSprite:
   - {fileID: 21300000, guid: 7988bc87e9b554b90aa7b4815ae9e381, type: 3}
   - {fileID: 21300000, guid: 75ab1908a7daa4e1ea16e1fd0274ccba, type: 3}
-  - {fileID: 21300000, guid: 6dec5ebd0c081405c8e47eb52eb779fb, type: 3}
+  - {fileID: 21300000, guid: 2b30c2ba337aa4f6780597f0bfebca60, type: 3}
+  - {fileID: 21300000, guid: c7dbc9537b0944f09bfec9ee4b55af16, type: 3}
+  - {fileID: 21300000, guid: 79f7cd61411d344b186e728ef4bf211a, type: 3}
+  - {fileID: 21300000, guid: 88c2a98a92c124545ae1824eb22729b5, type: 3}
+  - {fileID: 21300000, guid: e082f020746834ad2b46faabc4cbf409, type: 3}
+  - {fileID: 21300000, guid: f09046805db6e41aaad91e49e3088e13, type: 3}
+  - {fileID: 21300000, guid: f85b93239aa51443d88c987691f3c0b3, type: 3}
+  - {fileID: 21300000, guid: c05843fafc79a45988d8a274a006c43c, type: 3}
+  - {fileID: 21300000, guid: 7d04eddad67ea46bdb5f3b07d144bfa4, type: 3}
   - {fileID: 21300000, guid: c5a18e30994a34341aee816b370b3eb7, type: 3}
+  - {fileID: 21300000, guid: a22804446580f4f90b96ac44975a61ed, type: 3}
   awpsSprite:
   - {fileID: 21300000, guid: bcbf361e86ef24bab9edb1082fd221a6, type: 3}
+  - {fileID: 21300000, guid: 54fda4d98efc745119cf06a7593faf79, type: 3}
+  - {fileID: 21300000, guid: f0a2b1d81c1794c16b0ec604fbf908f3, type: 3}
+  - {fileID: 21300000, guid: bfaf476ceb3d645d5ae34ddd8a2e732e, type: 3}
+  - {fileID: 21300000, guid: 7c6ef756c99284ebb92acee46a48654e, type: 3}
+  - {fileID: 21300000, guid: 1e04fea42b3bf4a99a61b303618dbfbd, type: 3}
+  - {fileID: 21300000, guid: 270ed1b9904be41929852c13f2f5cf02, type: 3}
   - {fileID: 21300000, guid: 422bb3cf077484f59bf8a52b6773d6fb, type: 3}
+  - {fileID: 21300000, guid: 3592d6ea979254576b6519bf4915e3e6, type: 3}
+  - {fileID: 21300000, guid: f0187f578328b4650bf766a16f2aa5ae, type: 3}
+  - {fileID: 21300000, guid: 5f26b6d8d3b7f46108911bcb056c09a0, type: 3}
+  - {fileID: 21300000, guid: 9e735d288505d458ab528f50c0dbccc8, type: 3}
+  - {fileID: 21300000, guid: 43d0f2b6471c941989b0337822492ddc, type: 3}
   zeusSprite:
   - {fileID: 21300000, guid: c1552c039ab49476a82dad8ed9108614, type: 3}
   qualityColors:

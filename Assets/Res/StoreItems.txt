@@ -1,8 +1,28 @@
 weaponCode, style (img index), qualityColorId, price, forWhichTeam, knifeIdIcon(only important for knifes & zeus), name // code will not first line
 0,0,5,0,B,-1,AWP
-0,1,0,15,B,-1,AWP Hyper Beast
+2,0,5,0,B,0,Zeus x27
 1,0,5,0,T,1,Knife T
 1,1,5,0,C,2,Knife CT
-1,2,0,30,B,3,Knife Carambit
-1,3,0,30,B,4,Knife Nice
-2,0,5,0,B,0,Zeus x27
+0,1,2,2030,B,-1,AWP | Phobos
+0,2,2,2160,B,-1,AWP | Worm God
+0,3,4,4035,B,-1,AWP | Capillary
+0,4,3,6990,B,-1,AWP | Sun in Leo
+0,5,1,8220,B,-1,AWP | Fever Dream
+0,6,1,10955,B,-1,AWP | Elite Build
+0,7,0,16400,B,-1,AWP | Hyper Beast
+0,8,1,18870,B,-1,AWP | BOOM
+0,9,0,220000,B,-1,AWP | Oni Taiji
+0,10,0,268540,B,-1,AWP | Lightning Strike
+0,11,0,409795,B,-1,AWP | Medusa
+0,12,0,980430,B,-1,AWP | Dragon Lore
+1,2,0,16240,B,3,Navaja Knife | Tiger Tooth
+1,3,0,16625,B,4,Gut Knife | Slaughter
+1,4,0,17015,B,5,Shadow Daggers | Slaughter
+1,5,0,17570,B,6,Falchion Knife | Blue Steel
+1,6,0,18405,B,6,Falchion Knife | Marble Fade
+1,7,0,18930,B,7,Bayonet | Bright Water
+1,8,0,19635,B,8,Flip Knife | Doppler
+1,9,0,21460,B,9,Karambit | Bright Water
+1,10,0,38745,B,10,Talon Knife | Tiger Tooth
+1,11,0,68395,B,11,Skeleton Knife | Slaughter
+1,12,0,72630,B,12,M9 Bayonet | Autotronic

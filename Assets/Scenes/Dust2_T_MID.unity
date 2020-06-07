@@ -18550,8 +18550,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6c31964701c064527b406278cfc5a56a, type: 3}
   - {fileID: 21300000, guid: b9528485d1ad143778063fd715b59e0a, type: 3}
   - {fileID: 21300000, guid: 0fcc2dc010c1547dcaf2330fe55b1cb6, type: 3}
+  - {fileID: 21300000, guid: c7fedc6f7c4cf4da0b75429127a13c56, type: 3}
+  - {fileID: 21300000, guid: c39c308c5da5f4f38bd3362c4dfffe96, type: 3}
+  - {fileID: 21300000, guid: 3c9b90104670245c9a29f9cd3850765e, type: 3}
+  - {fileID: 21300000, guid: 715a59d9dcc754640a79d352a498bb94, type: 3}
+  - {fileID: 21300000, guid: b8c578cffe870467b8f1dcd7315bf527, type: 3}
+  - {fileID: 21300000, guid: 3193bb06a8eb64a18a72a332af45743f, type: 3}
   - {fileID: 21300000, guid: 742a6c92607854f5ea6df80fec121ab1, type: 3}
+  - {fileID: 21300000, guid: 5f82cc2b4f2a5426183dcde6d528fc44, type: 3}
   - {fileID: 21300000, guid: 62116c8303dd443ddbbead971a3f4c98, type: 3}
+  - {fileID: 21300000, guid: c39079d81d95d4093a413e15f51d6a32, type: 3}
   chosedKnifeId: 0
   weaponList: {fileID: 4900000, guid: 2ea45d878051a4c729025409a977e421, type: 3}
   strategy: 0

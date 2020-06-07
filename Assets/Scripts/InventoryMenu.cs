@@ -10,16 +10,6 @@ public struct StoreItemStruct
     public char team;
     public int price, weaponCode, style, quality, iconId;
     public string name;
-    public StoreItemStruct(int weaponCode, int quality, int style, int price, char team, int iconId, string name)
-    {
-        this.weaponCode = weaponCode;
-        this.quality = quality;
-        this.price = price;
-        this.style = style;
-        this.team = team;
-        this.iconId = iconId;
-        this.name = name;
-    }
 
     public StoreItemStruct(string allInfo)
     {
