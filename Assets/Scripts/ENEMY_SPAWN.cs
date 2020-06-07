@@ -76,9 +76,9 @@ public class ENEMY_SPAWN : MonoBehaviour
 
     public void initEnemysFirstNameList(int count, bool isOnline)
     {
+        main.GetComponent<GetRandomEnemyName>().initNames();
         if (!isOnline)
         {
-            main.GetComponent<GetRandomEnemyName>().initNames();
             for (int i = 0; i < count; i++)
                 game.enemysNameList.Add(main.GetComponent<GetRandomEnemyName>().getRandomName());
         }

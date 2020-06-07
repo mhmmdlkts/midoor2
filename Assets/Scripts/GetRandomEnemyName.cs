@@ -23,12 +23,6 @@ public class GetRandomEnemyName : MonoBehaviour
     {
         int index;
         do { index = rnd.Next(0,tot_names); }
-        /*
-         * NullReferenceException: Object reference not set to an instance of an object
-GetRandomEnemyName.getRandomName () (at Assets/Scripts/GetRandomEnemyName.cs:25)
-ENEMY_SPAWN.initEnemysFirstNameList (System.Int32 count, System.Boolean isOnline) (at Assets/Scripts/ENEMY_SPAWN.cs:91)
-GameScript.Start () (at Assets/Scripts/GameScript.cs:214)
-         */
         while (usedIndexes.Contains(index));
         usedIndexes.Add(index);
         return getAt(index);
