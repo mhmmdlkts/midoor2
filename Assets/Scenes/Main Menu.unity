@@ -836,6 +836,9 @@ MonoBehaviour:
   btnRemoveAdsLabel: {fileID: 1733514616}
   btnMoreCoinsLabel: {fileID: 1706827653}
   btnRestorePurchaseLabel: {fileID: 811175103}
+  priceListPrefab: {fileID: 796402026004986980, guid: 219f28de239884fe296ce687e89cef08,
+    type: 3}
+  createdPriceListPrefab: {fileID: 0}
 --- !u!20 &217732066
 Camera:
   m_ObjectHideFlags: 0

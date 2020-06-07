@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     public Sprite[] zeusSprite;
     public Color32[] qualityColors;
     public Text btnRankedLabel, btnRankedOfflineLabel, btnTeamEditorLabel, btnInventoryLabel, btnRemoveAdsLabel, btnMoreCoinsLabel, btnRestorePurchaseLabel;
+    public GameObject priceListPrefab, createdPriceListPrefab;
     
     public static string ArraysDataName = "Arrays";
     public static string[] playerPrafsWeaponKey = {"AWP_inventory5", "Knive_inventory5", "Zeus_inventory5"}; // TODO
@@ -113,7 +114,8 @@ public class MainMenu : MonoBehaviour
     
     public void button_more_coins()
     {
-        GetComponent<Purchaser>().Buy2000Money();
+        if (createdPriceListPrefab == null)
+            createdPriceListPrefab = Instantiate(priceListPrefab, GameObject.Find("Canvas").transform, false);
     }
     
     public void button_remove_ads()

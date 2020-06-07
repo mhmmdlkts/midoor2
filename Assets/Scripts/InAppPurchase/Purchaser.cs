@@ -23,10 +23,15 @@ namespace CompleteProject
         // when defining the Product Identifiers on the store. Except, for illustration purposes, the 
         // kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
         // specific mapping to Unity Purchasing's AddProduct, below.
-        public static string MONEY_2000 = "2000_money";
-        public static string PLAYS_20   = "20_plays";
-        public static string NO_ADS     = "no_ads";
-        public static string NO_PLAYS   = "no_plays";
+        public static string MONEY_100000 = "100000_money";
+        public static string MONEY_50000  = "50000_money";
+        public static string MONEY_25000  = "25000_money";
+        public static string MONEY_10000  = "10000_money";
+        public static string MONEY_5000   = "5000_money";
+        public static string MONEY_2000   = "2000_money";
+        public static string PLAYS_20     = "20_plays";
+        public static string NO_ADS       = "no_ads";
+        public static string NO_PLAYS     = "no_plays";
 
         void Start()
         {
@@ -52,6 +57,11 @@ namespace CompleteProject
 
             // Add a product to sell / restore by way of its identifier, associating the general identifier
             // with its store-specific identifiers.
+            builder.AddProduct(MONEY_100000, ProductType.Consumable);
+            builder.AddProduct(MONEY_50000, ProductType.Consumable);
+            builder.AddProduct(MONEY_25000, ProductType.Consumable);
+            builder.AddProduct(MONEY_10000, ProductType.Consumable);
+            builder.AddProduct(MONEY_5000, ProductType.Consumable);
             builder.AddProduct(MONEY_2000, ProductType.Consumable);
             builder.AddProduct(PLAYS_20, ProductType.Consumable);
             // Continue adding the non-consumable product.
@@ -67,6 +77,46 @@ namespace CompleteProject
         {
             // Only say we are initialized if both the Purchasing references are set.
             return m_StoreController != null && m_StoreExtensionProvider != null;
+        }
+
+
+        public void Buy100000Money()
+        {
+            // Buy the consumable product using its general identifier. Expect a response either 
+            // through ProcessPurchase or OnPurchaseFailed asynchronously.
+            BuyProductID(MONEY_100000);
+        }
+
+
+        public void Buy50000Money()
+        {
+            // Buy the consumable product using its general identifier. Expect a response either 
+            // through ProcessPurchase or OnPurchaseFailed asynchronously.
+            BuyProductID(MONEY_50000);
+        }
+
+
+        public void Buy25000Money()
+        {
+            // Buy the consumable product using its general identifier. Expect a response either 
+            // through ProcessPurchase or OnPurchaseFailed asynchronously.
+            BuyProductID(MONEY_25000);
+        }
+
+
+        public void Buy10000Money()
+        {
+            // Buy the consumable product using its general identifier. Expect a response either 
+            // through ProcessPurchase or OnPurchaseFailed asynchronously.
+            BuyProductID(MONEY_10000);
+        }
+
+
+        public void Buy5000Money()
+        {
+            // Buy the consumable product using its general identifier. Expect a response either 
+            // through ProcessPurchase or OnPurchaseFailed asynchronously.
+            BuyProductID(MONEY_5000);
         }
 
 

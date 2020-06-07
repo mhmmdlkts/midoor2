@@ -80,6 +80,19 @@ public class LanguageSystem : MonoBehaviour
     private static string STORE_Bought_BUTTON_LABEL_TR = "Satın alındı";
     
     // Popup Menus & Buttons
+    private static string PRICE_LIST_MENU_COIN_EN = "Coins";
+    private static string PRICE_LIST_MENU_COIN_DE = "Münzen";
+    private static string PRICE_LIST_MENU_COIN_TR = "Jeton";
+    
+    private static string PRICE_LIST_MENU_BEST_SELLER_EN = "Bestseller";
+    private static string PRICE_LIST_MENU_BEST_SELLER_DE = "Meistgewählter";
+    private static string PRICE_LIST_MENU_BEST_SELLER_TR = "Tercih Edilen";
+    
+    private static string PRICE_LIST_MENU_CLOSE_EN = "Close";
+    private static string PRICE_LIST_MENU_CLOSE_DE = "Schließen";
+    private static string PRICE_LIST_MENU_CLOSE_TR = "Kapat";
+    
+    
     private static string EQUIP_MENU_TITLE_EN = "Equip";
     private static string EQUIP_MENU_TITLE_DE = "Ausrüsten";
     private static string EQUIP_MENU_TITLE_TR = "Kuşan";
@@ -436,6 +449,42 @@ public class LanguageSystem : MonoBehaviour
                 return STORE_Bought_BUTTON_LABEL_TR;
         }
         return         STORE_Bought_BUTTON_LABEL_EN;
+    }
+
+    public static string GET_PRICE_LIST_MENU_COIN()
+    {
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.German:
+                return PRICE_LIST_MENU_COIN_DE;
+            case SystemLanguage.Turkish:
+                return PRICE_LIST_MENU_COIN_TR;
+        }
+        return         PRICE_LIST_MENU_COIN_EN;
+    }
+
+    public static string GET_PRICE_LIST_MENU_BEST_SELLER()
+    {
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.German:
+                return PRICE_LIST_MENU_BEST_SELLER_DE;
+            case SystemLanguage.Turkish:
+                return PRICE_LIST_MENU_BEST_SELLER_TR;
+        }
+        return         PRICE_LIST_MENU_BEST_SELLER_EN;
+    }
+
+    public static string GET_PRICE_LIST_MENU_CLOSE()
+    {
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.German:
+                return PRICE_LIST_MENU_CLOSE_DE;
+            case SystemLanguage.Turkish:
+                return PRICE_LIST_MENU_CLOSE_TR;
+        }
+        return         PRICE_LIST_MENU_CLOSE_EN;
     }
 
     public static string GET_EQUIP_MENU_TITLE()

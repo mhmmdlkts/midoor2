@@ -381,6 +381,7 @@
           <e p="PlayerStatus.cs" t="Include" />
           <e p="PP_Beavior.cs" t="Include" />
           <e p="Pp_choser_buttons.cs" t="Include" />
+          <e p="PriceListMenu.cs" t="Include" />
           <e p="SafeArea.cs" t="Include" />
           <e p="Set_Team_dialog.cs" t="Include" />
           <e p="ShotButtonHandler.cs" t="Include" />
