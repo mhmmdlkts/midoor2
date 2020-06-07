@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TeamEditor : MonoBehaviour, IDeselectHandler
+public class TeamEditor : MonoBehaviour
 {
     public GameObject[] names;
     public GameObject[] InputFields;
@@ -13,11 +13,6 @@ public class TeamEditor : MonoBehaviour, IDeselectHandler
     void Start()
     {
         setStatus();
-    }
-
-    public void OnDeselect(BaseEventData data)
-    {
-        Debug.Log("Deselected");
     }
 
     public void go_back_button()
@@ -35,7 +30,8 @@ public class TeamEditor : MonoBehaviour, IDeselectHandler
     public void setName(int i)
     {
         InputFields[i].SetActive(true);
-        InputFields[i].GetComponent<InputField>().text = names[i].GetComponent<Text>().text;
+        if (PlayerPrefs.HasKey("game_firend_" + i))
+            InputFields[i].GetComponent<InputField>().text = names[i].GetComponent<Text>().text;
         names[i].SetActive(false);
         EventSystem.current.SetSelectedGameObject(InputFields[i].gameObject, null);
     }

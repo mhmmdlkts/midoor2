@@ -40,7 +40,8 @@ public class PlayerStatus : MonoBehaviour
     public void button_set_name()
     {
         inputName.SetActive(true);
-        inputName.GetComponent<InputField>().text = name.GetComponent<Text>().text;
+        if (PlayerPrefs.HasKey("name"))
+            inputName.GetComponent<InputField>().text = name.GetComponent<Text>().text;
         name.SetActive(false);
         EventSystem.current.SetSelectedGameObject(inputName.gameObject, null);
     }
