@@ -240,25 +240,26 @@ public class mobGoDesPoint : MonoBehaviour
     public void giveDamage(bool isHead)
     {
         GameObject.Find("Canvas").GetComponent<BloodieScreen>().showBlood();
+        GameScript game = mainObject.GetComponent<GameScript>();
         int damage = 0;
         int weaponCode = 0;
         switch (thisLokkingPos)
         {
             case 0: 
                 damage = isHead?88:27;
-                weaponCode = 3;
+                weaponCode = game.isT ? deathInfo.M4A4_CODE : deathInfo.AK47_CODE;;
                 break;
             case 1:
                 damage = isHead?350:85;
-                weaponCode = 0;
+                weaponCode = deathInfo.AWP_CODE;
                 break;
             case 2:
                 damage = isHead?84:26;
-                weaponCode = 3;
+                weaponCode = game.isT ? deathInfo.M4A4_CODE : deathInfo.AK47_CODE;
                 break;
             case 3:
                 damage = 110;
-                weaponCode = 4;
+                weaponCode = deathInfo.KNIFE_CODE;
                 break;
         }
         mainObject.GetComponent<GameScript>().givePlayerDamage(damage, weaponCode, isHead, createdMob);

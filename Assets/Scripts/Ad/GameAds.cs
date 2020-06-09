@@ -9,6 +9,7 @@ public class GameAds : MonoBehaviour
     {
         if (MainMenuAd.isRemovedAds())
             return;
+        destroyMenuAdIfExist();
         MobileAds.Initialize(initStatus => { });
 
         RequestBanner();
