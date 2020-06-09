@@ -39,7 +39,7 @@ public class match_ready_dialog : MonoBehaviour
             GetComponent<AudioSource>().PlayOneShot(notAcceptedBeepAC);
         setTime();
         if (wait_sec <= 0)
-            reject();
+            notAccepted();
         else
             Invoke(nameof(decSec),1f);
         wait_sec--;
@@ -47,7 +47,19 @@ public class match_ready_dialog : MonoBehaviour
 
     public void reject()
     {
-        parent.GetComponent<Launcher>().LeaveRoom();
+        parent.GetComponent<Launcher>().notAccepted(false);
+        close();
+    }
+
+    public void notAccepted()
+    {
+        parent.GetComponent<Launcher>().notAccepted(accepted);
+        close();
+    }
+
+    private void close()
+    {
+        parent.GetComponent<Launcher>().resetAccepts();
         Destroy(gameObject);
     }
 

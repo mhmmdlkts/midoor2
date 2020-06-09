@@ -53,6 +53,7 @@ public class EndGameShow : MonoBehaviour
 
     public static void addPlays(int i)
     {
+        Debug.Log("ADTEST + addPlays:" + i);
         PlayerPrefs.SetInt("plays", PlayerPrefs.GetInt("plays", 3)+i);
     }
     
@@ -62,26 +63,23 @@ public class EndGameShow : MonoBehaviour
             return;
         MobileAds.Initialize(initStatus => { });
         
-        if (MainMenuAd.isRemovedAds())
-            return;
-        
         interstitial = new InterstitialAd(AdUnitIds.getAdUnitId(Ads.Menu_Popup));
         
         AdRequest request = new AdRequest.Builder().Build();
-        interstitial.LoadAd(request);
         interstitial.OnAdClosed += HandleOnAdClosed;
+        interstitial.OnAdLoaded += HandleOnAdLoaded;
+        interstitial.LoadAd(request);
+    }
+
+    public void HandleOnAdLoaded(object sender, EventArgs args)
+    {
+        Debug.Log("ADDTEST + onloaded" );
     }
 
     public void HandleOnAdClosed(object sender, EventArgs args)
     {
-        if (MainMenuAd.isRemovedAds())
-        {
-            quitGame();
-            return;
-        }
-
-        if (interstitial != null)
-            interstitial.Destroy();
+        Debug.Log("ADDTEST + onclosed" );
+        interstitial?.Destroy();
         quitGame();
     }
 
@@ -175,7 +173,7 @@ public class EndGameShow : MonoBehaviour
         if (game.isOnline)
             Invoke(nameof(setRank), 1);
         else
-            finish();
+            Invoke(nameof(finish), 1);
     }
 
     private void setRank()
@@ -211,6 +209,6 @@ public class EndGameShow : MonoBehaviour
 
     private void quitGame()
     {
-        game.gameQuit();
+        game.gameQuitNow = true;
     }
 }

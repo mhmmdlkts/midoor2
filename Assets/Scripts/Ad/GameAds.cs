@@ -30,7 +30,12 @@ public class GameAds : MonoBehaviour
         if (bannerView != null)
             bannerView.Destroy();
     }
-    
-    
 
+    private void destroyMenuAdIfExist()
+    {
+        GameObject ad = GameObject.Find("AdManager");
+        if (ad == null)
+            return;
+        ad.GetComponent<MainMenuAd>().destroyAdds();
+    }
 }

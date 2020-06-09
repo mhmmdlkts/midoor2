@@ -27,9 +27,15 @@ public class Launcher : MonoBehaviourPunCallbacks
     private long room_time_stamp;
     private bool forceQuit = true;
     private bool isRejoining = false;
+    private bool isLeftingScene = false;
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+        resetAccepts();
+    }
+
+    public void resetAccepts()
+    {
         accepted_you = false;
         accepted_him = false;
     }
@@ -80,7 +86,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (!forceQuit)
         {
-            SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+            GetComponent<OnlineMenu>().setButtonSearch(false);
+            if (isLeftingScene)
+                leftScene();
             return;
         }
 
@@ -130,20 +138,32 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
-        setSearching(true);
         forceQuit = false;
+        isLeftingScene = true;
         if (PhotonNetwork.IsConnected)
             Disconnect();
         else
+        {
+            DestroyData();
             SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+        }
+
     }
 
     public void Disconnect()
     {
         him.SetActive(false);
-        progressLabel.GetComponent<TextLoading>().setNewText(LanguageSystem.GET_IS_DISCONNECTING_LABEL());
         if (PhotonNetwork.IsConnected)
+        {
+            progressLabel.GetComponent<TextLoading>().setNewText(LanguageSystem.GET_IS_DISCONNECTING_LABEL());
             PhotonNetwork.Disconnect();
+        }
+        else
+        {
+            progressLabel.SetActive(false);
+            if (isLeftingScene)
+                leftScene();
+        }
     }
 
     public override void OnLeftLobby()
@@ -158,13 +178,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        accepted_you = false;
-        accepted_him = false;
+        resetAccepts();
         if (!isRejoining)
         {
             if (!forceQuit)
             {
-                leftScene();
+                Disconnect();
             }
         }
         else
@@ -178,14 +197,20 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void leftScene()
     {
+        DestroyData();
         if (!forceQuit)
         {
             stopInvokes();
             SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
-            GameObject createdData = GameObject.Find("Data");
-            if (createdData != null)
-                Destroy(createdData);
         }
+    }
+
+    private void DestroyData()
+    {
+        Debug.Log("SILLLLLL");
+        GameObject createdData = GameObject.Find("Data");
+        if (createdData != null)
+            Destroy(createdData);
     }
 
     private void stopInvokes()
@@ -341,7 +366,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < names.Length; i++)
         {
-            addAllToList(byteList, Encoding.ASCII.GetBytes(names[i]));
+            addAllToList(byteList, stringToArr(names[i]));
         }
         
         byteList.Add(byteRank);
@@ -350,22 +375,32 @@ public class Launcher : MonoBehaviourPunCallbacks
         byteList.Add(byteisT);
         return byteList.ToArray();
     }
-
+    
+    public static byte[] stringToArr(string str)
+    {
+        return Convert.FromBase64String(Convert.ToBase64String(UTF8Encoding.UTF8.GetBytes(str)));
+    }
+    
+    public static string arrToString(byte[] arr)
+    {
+        return UTF8Encoding.UTF8.GetString(arr);
+    }
+    
     private List <String> DeserializePlayersName(byte [] arr)
     {
         List<String> nameList = new List<String>();
         String name = "";
+        
+        List<byte> byteArr = new List<byte>();
         for(int i = 0; i < arr.Length-3; i++)
         {
             byte b = arr[i];
             if (b == END_OF_TEXT)
             {
-                nameList.Add(name);
-                name = "";
+                nameList.Add(arrToString(byteArr.ToArray()));
                 continue;
             }
-
-            name = String.Concat(name, Convert.ToChar(b));
+            byteArr.Add(b);
         }
         return nameList;
     }
@@ -378,4 +413,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         list.Add(END_OF_TEXT);
     }
 
+    public void notAccepted(bool accepted)
+    {
+        if (!accepted)
+            LeaveRoom();
+    }
 }

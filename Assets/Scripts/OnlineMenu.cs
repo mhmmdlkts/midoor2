@@ -19,22 +19,34 @@ public class OnlineMenu : MonoBehaviour
     public ArraysData arraysData;
     public Sprite[] rankList;
     public string[] myTeam;
+    public int rewardPlays;
     
     void Start()
     {
         
         if (GameObject.Find(MainMenu.ArraysDataName) == null)
         {
-            SceneManager.LoadScene("Assets/Scenes/Main Menu.unity", LoadSceneMode.Single);
+            button_leave_room();
             return;
         }
-
+        
         arraysData = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>();
+
+        rewardPlays = 0;
         
         setStatus();
         initializeMyTeam();
     }
-    
+
+    private void Update()
+    {
+        if (rewardPlays != 0)
+        {
+            addPlays(rewardPlays);
+            rewardPlays = 0;
+        }
+    }
+
     private void initializeMyTeam()
     {
         myTeam = new string[GameScript.START_ENEMY_COUNT];
@@ -63,6 +75,7 @@ public class OnlineMenu : MonoBehaviour
 
     private void refreshPlays()
     {
+        Debug.Log("ADTEST + refreshPlays: " + PlayerPrefs.HasKey("isPlays"));
         if (PlayerStatus.isPlaysRemoved())
         {
             plays_me.GetComponent<Text>().text = LanguageSystem.GET_INFINITY();
@@ -94,13 +107,19 @@ public class OnlineMenu : MonoBehaviour
     
     public void button_start_cancel_listener()
     {
-        if (scs.isGreen)
+        setButtonSearch(scs.isGreen);
+    }
+
+    public void setButtonSearch(bool search)
+    {
+        if (search)
         {
             if (plays <= 0 && !AdUnitIds.isTest) // TODO IMPORTANT
             {
                 rewardAdListener();
                 return;
             }
+
             scs.setToRed();
             gameObject.GetComponent<Launcher>().Connect();
         }
@@ -109,7 +128,6 @@ public class OnlineMenu : MonoBehaviour
             scs.setToGreen();
             gameObject.GetComponent<Launcher>().Disconnect();
         }
-            
     }
 
     public void setHisRank(int rank)
@@ -149,11 +167,12 @@ public class OnlineMenu : MonoBehaviour
 
     public void watchRewardAd()
     {
-        GetComponent<SearchRewardAd>().showRewardAd();
+        GetComponent<SearchRewardAd>().showRewardAd(this);
     }
 
     public void addPlays(int i)
     {
+        Debug.Log("ADTEST + addPlays: " + i);
         EndGameShow.addPlays(i);
         refreshPlays();
     }

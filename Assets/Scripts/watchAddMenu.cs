@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CompleteProject;
 using UnityEngine;
@@ -10,8 +11,12 @@ public class watchAddMenu : MonoBehaviour
     public void onWatchAdClick()
     {
         GameObject.Find("Main Camera").GetComponent<OnlineMenu>().watchRewardAd();
-        setLabels();
         Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        setLabels();
     }
 
     private void setLabels()

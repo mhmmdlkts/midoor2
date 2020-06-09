@@ -252,9 +252,29 @@ namespace CompleteProject
             // A consumable product has been purchased by this user.
             if (String.Equals(args.purchasedProduct.definition.id, MONEY_2000, StringComparison.Ordinal))
             {
-                PlayerStatus.addMoney(2000);
+                PlayerStatus.addMoney(2_000);
             }
-            if (String.Equals(args.purchasedProduct.definition.id, PLAYS_20, StringComparison.Ordinal))
+            else if (String.Equals(args.purchasedProduct.definition.id, MONEY_5000, StringComparison.Ordinal))
+            {
+                PlayerStatus.addMoney(5_000);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, MONEY_10000, StringComparison.Ordinal))
+            {
+                PlayerStatus.addMoney(10_000);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, MONEY_25000, StringComparison.Ordinal))
+            {
+                PlayerStatus.addMoney(25_000);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, MONEY_50000, StringComparison.Ordinal))
+            {
+                PlayerStatus.addMoney(50_000);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, MONEY_100000, StringComparison.Ordinal))
+            {
+                PlayerStatus.addMoney(100_000);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, PLAYS_20, StringComparison.Ordinal))
             {
                 PlayerStatus.addPlays(20);
             }

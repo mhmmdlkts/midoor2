@@ -2473,9 +2473,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d1d953d6a0484259988671668c0d7a2, type: 3}
   - {fileID: 8300000, guid: 0a212763e9395443ea5d2fc2a203d41b, type: 3}
   arriveDelay: 1
-  localMoveSpeed: 0.5
+  localMoveSpeed: 0.7
   localFireSpeed: 2
-  localHitChance: 0.5
+  localHitChance: 0.6
 --- !u!114 &302100757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2600,6 +2600,7 @@ GameObject:
   - component: {fileID: 306899921}
   - component: {fileID: 306899919}
   - component: {fileID: 306899920}
+  - component: {fileID: 306899924}
   m_Layer: 5
   m_Name: Flash
   m_TagString: Untagged
@@ -2779,9 +2780,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2016928303}
-        m_MethodName: throughFlash
-        m_Mode: 1
+      - m_Target: {fileID: 306899920}
+        m_MethodName: waitIf
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2790,8 +2791,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 306899920}
-        m_MethodName: wait
+      - m_Target: {fileID: 2016928303}
+        m_MethodName: throughFlash
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2838,6 +2839,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306899917}
   m_CullTransparentMesh: 0
+--- !u!114 &306899924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306899917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286ffe37b5e3b4006a5ea161a630f931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 435149436}
+  countText: {fileID: 686243392}
 --- !u!1 &307634266
 GameObject:
   m_ObjectHideFlags: 0
@@ -4415,12 +4430,12 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 589147092}
-        m_MethodName: wait
-        m_Mode: 1
+        m_MethodName: waitIf
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12436,7 +12451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c1de077899e4ce2bebddc9b8db86fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 2
+  delay: 1
 --- !u!1 &1148062399
 GameObject:
   m_ObjectHideFlags: 0
@@ -12814,7 +12829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c1de077899e4ce2bebddc9b8db86fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0.4
+  delay: 0.7
 --- !u!1 &1180372543
 GameObject:
   m_ObjectHideFlags: 0
@@ -13719,12 +13734,12 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1273870789}
-        m_MethodName: wait
-        m_Mode: 1
+        m_MethodName: waitIf
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -18527,18 +18542,18 @@ MonoBehaviour:
   isT: 0
   isGameFinished: 0
   inventory: {fileID: 277372812}
+  gameQuitNow: 0
   roundTime: 90
   enemyCount: 0
   teamCount: 0
   BUY_TIME: 5
   round_per_half: 4
-  defLookPintCT: 1
-  defLookPintT: 1
+  defLookPointCT: 1
+  defLookPointT: 1
   online_data: {fileID: 0}
   isOnline: 0
   isOtherPlayerSpawned: 0
   myTeam: []
-  otherTeam: []
   a_side_sprite: {fileID: 21300000, guid: 9c1caccd5bf364242a5391a75f785aac, type: 3}
   b_side_sprite: {fileID: 21300000, guid: dce5ffafa22764273b7a1da68a92d667, type: 3}
   bgSideImg: {fileID: 209378179}
@@ -18560,7 +18575,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5f82cc2b4f2a5426183dcde6d528fc44, type: 3}
   - {fileID: 21300000, guid: 62116c8303dd443ddbbead971a3f4c98, type: 3}
   - {fileID: 21300000, guid: c39079d81d95d4093a413e15f51d6a32, type: 3}
-  chosedKnifeId: 0
   weaponList: {fileID: 4900000, guid: 2ea45d878051a4c729025409a977e421, type: 3}
   strategy: 0
   enemysNameList: []
@@ -19129,7 +19143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c1de077899e4ce2bebddc9b8db86fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0.4
+  delay: 0.7
 --- !u!1 &2033837279
 GameObject:
   m_ObjectHideFlags: 0

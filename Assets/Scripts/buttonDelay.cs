@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,9 +9,12 @@ public class buttonDelay : MonoBehaviour
     public float delay;
     public static float alpha = 0.4f; // 0 -> transparent after click; 1 -> opposite
     private GameObject createdMask;
+
+    private GameScript game;
     // Start is called before the first frame update
     void Start()
     {
+        game = GameObject.Find("MOVABLE").GetComponent<GameScript>();
         createdMask = new GameObject("Mask_" + gameObject.name);
         
         
@@ -35,6 +39,13 @@ public class buttonDelay : MonoBehaviour
     {
         gameObject.GetComponent<Button>().interactable = false;
         StartCoroutine(fillButton());
+    }
+
+    public void waitIf(int checkId)
+    {
+        if(!game.checkButtonDelays(checkId))
+            return;
+        wait();
     }
 
     public void changeSprite(Sprite sprite)
@@ -62,6 +73,9 @@ public class buttonDelay : MonoBehaviour
         GetComponent<Button>().interactable = show;
         if (createdMask != null)
             createdMask.GetComponent<Image>().enabled = show;
+        flasbangCounter fc = GetComponent<flasbangCounter>();
+        if (fc != null)
+            fc.setShow(show);
     }
 
     public void fillButtonFull()
@@ -69,5 +83,12 @@ public class buttonDelay : MonoBehaviour
         StopCoroutine(fillButton());
         gameObject.GetComponent<Image>().fillAmount = 1.0f;
         gameObject.GetComponent<Button>().interactable = true;
+    }
+
+    public void unfillButton()
+    {
+        StopCoroutine(fillButton());
+        gameObject.GetComponent<Image>().fillAmount = 0.0f;
+        gameObject.GetComponent<Button>().interactable = false;
     }
 }

@@ -210,7 +210,7 @@ public class LanguageSystem : MonoBehaviour
     
     private static string END_GAME_PANEL_LABEL_MONEY_EN = "Coins : " + GET_CURRENCY();
     private static string END_GAME_PANEL_LABEL_MONEY_DE = "Münzen : " + GET_CURRENCY();
-    private static string END_GAME_PANEL_LABEL_MONEY_TR = "Jetonlar" + GET_CURRENCY();
+    private static string END_GAME_PANEL_LABEL_MONEY_TR = "Jeton : " + GET_CURRENCY();
     
     
     private static string END_ROUND_PANEL_LABEL_T_WIN_EN = "Terrorists Win";

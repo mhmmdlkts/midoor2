@@ -7,65 +7,35 @@ using UnityEngine;
 public class SearchRewardAd : MonoBehaviour
 {
     private RewardedAd rewardedAd;
+    OnlineMenu onlineMenu;
     
-    public void showRewardAd()
+    public void showRewardAd(OnlineMenu online)
     {
+        onlineMenu = online;
         if (MainMenuAd.isRemovedAds())
             return;
         rewardedAd = new RewardedAd(AdUnitIds.getAdUnitId(Ads.Search_Reward));
         
         AdRequest request = new AdRequest.Builder().Build();
         
-        // Called when an ad request has successfully loaded.
         rewardedAd.OnAdLoaded += HandleRewardedAdLoaded;
-        // Called when an ad request failed to load.
-        rewardedAd.OnAdFailedToLoad += HandleRewardedAdFailedToLoad;
-        // Called when an ad is shown.
-        rewardedAd.OnAdOpening += HandleRewardedAdOpening;
-        // Called when an ad request failed to show.
-        rewardedAd.OnAdFailedToShow += HandleRewardedAdFailedToShow;
-        // Called when the user should be rewarded for interacting with the ad.
         rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;
-        // Called when the ad is closed.
-        rewardedAd.OnAdClosed += HandleRewardedAdClosed;
         
         rewardedAd.LoadAd(request);
     }
     
     public void HandleRewardedAdLoaded(object sender, EventArgs args)
     {
+        Debug.Log("ADTEST + YÜKLENDI");
         MonoBehaviour.print("HandleRewardedAdLoaded event received");
         rewardedAd.Show();
     }
 
-    public void HandleRewardedAdFailedToLoad(object sender, AdErrorEventArgs args)
-    {
-        MonoBehaviour.print(
-            "HandleRewardedAdFailedToLoad event received with message: "
-            + args.Message);
-    }
-
-    public void HandleRewardedAdOpening(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardedAdOpening event received");
-    }
-
-    public void HandleRewardedAdFailedToShow(object sender, AdErrorEventArgs args)
-    {
-        MonoBehaviour.print(
-            "HandleRewardedAdFailedToShow event received with message: "
-            + args.Message);
-    }
-
-    public void HandleRewardedAdClosed(object sender, EventArgs args)
-    {
-        MonoBehaviour.print("HandleRewardedAdClosed event received");
-    }
-
     public void HandleUserEarnedReward(object sender, Reward args)
     {
-        string type = args.Type;
-        double amount = args.Amount;
-        GetComponent<OnlineMenu>().addPlays(Convert.ToInt32(amount));
+        int amount = Convert.ToInt32(args.Amount);
+        Debug.Log("ADTEST + GOLDD S: + " + amount);
+        onlineMenu.rewardPlays = amount;
+        Debug.Log("ADTEST + GOLDD F: + " + amount);
     }
 }

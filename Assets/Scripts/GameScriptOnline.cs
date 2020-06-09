@@ -95,7 +95,7 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player other)
     {
-        
+        PhotonNetwork.Disconnect();
         game.otherLeavs();
         if (PhotonNetwork.IsMasterClient)
         {
@@ -210,9 +210,9 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
         game.getZeusTry();
     }
 
-    public void sendEndRoundData(int tScore, int ctScore, bool raundWin)
+    public void sendEndRoundData(int tScore, int ctScore, bool raundWin, RoundEnd why)
     {
-        photonView.RPC(nameof(receiveEndRound), RpcTarget.Others, new byte[] {(byte)tScore, (byte)ctScore, (byte) (raundWin ? 1 : 0)});
+        photonView.RPC(nameof(receiveEndRound), RpcTarget.Others, new byte[] {(byte)tScore, (byte)ctScore, (byte) (raundWin ? 1 : 0), (byte) (why == RoundEnd.Defused? 1 : 0)});
         Debug.Log("Send New Round");
     }
 
@@ -220,6 +220,6 @@ public class GameScriptOnline : MonoBehaviourPunCallbacks
     public void receiveEndRound(byte[] b)
     {
         Debug.Log("Receive New Round");
-        game.onlineReceiveEndRound(b[0], b[1], b[2] == 1);
+        game.onlineReceiveEndRound(b[0], b[1], b[2] == 1, b[3] == 1 ? RoundEnd.Defused: RoundEnd.AllDeath);
     }
 }
