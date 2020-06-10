@@ -398,6 +398,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             if (b == END_OF_TEXT)
             {
                 nameList.Add(arrToString(byteArr.ToArray()));
+                byteArr.Clear();
                 continue;
             }
             byteArr.Add(b);

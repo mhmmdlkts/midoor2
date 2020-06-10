@@ -154,21 +154,21 @@ public class EndGameShow : MonoBehaviour
 
     private void setKills()
     {
-        GetComponent<AudioSource>().PlayOneShot(newItemSound);
+        GetComponent<AudioSource>().PlayOneShot(newItemSound,0.4f);
         b.text += " + " + kills;
         Invoke(nameof(setWins), 1);
     }
 
     private void setWins()
     {
-        GetComponent<AudioSource>().PlayOneShot(newItemSound);
+        GetComponent<AudioSource>().PlayOneShot(newItemSound,0.4f);
         c.text += " + " + (newWin == 1 ? 1 : 0);
         Invoke(nameof(setMoney), 1);
     }
 
     private void setMoney()
     {
-        GetComponent<AudioSource>().PlayOneShot(newItemSound);
+        GetComponent<AudioSource>().PlayOneShot(newItemSound,0.4f);
         d.text += " + " + getNewMoney();
         if (game.isOnline)
             Invoke(nameof(setRank), 1);
@@ -180,7 +180,7 @@ public class EndGameShow : MonoBehaviour
     {
         if (isRankUpgrade)
         {
-            GetComponent<AudioSource>().PlayOneShot(newRankSound);
+            GetComponent<AudioSource>().PlayOneShot(newRankSound,0.4f);
         }
         e.sprite = rankList[rank];
         finish();

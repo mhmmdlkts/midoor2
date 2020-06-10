@@ -109,6 +109,7 @@ public class GameScript : MonoBehaviour
     public Sprite[] knifeButtonSprite;
     public TextAsset weaponList;
 
+    private Queue<Coroutine> startedCoroutineBombKnife;
     public TeamFriend[] friends;
     public Online strategy;
     public List<String> enemysNameList;
@@ -127,6 +128,7 @@ public class GameScript : MonoBehaviour
     public AudioClip throughFlashAC, farFlashAC, explodeFlashAC;
     public AudioClip T_Win_AC, CT_Win_AC;
     public AudioClip getKnifedAC, knifeAirAC, getZeusedAC, zeusAirAC;
+    public AudioClip awpShotDeath;
     public AudioClip[] otherShotsAWP;
 
     void takeFlash()
@@ -188,7 +190,7 @@ public class GameScript : MonoBehaviour
         }
 
         arraysData = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>();
-
+        startedCoroutineBombKnife = new Queue<Coroutine>();
         Application.targetFrameRate = 300;
 
         online = gameObject.GetComponent<GameScriptOnline>();
@@ -294,6 +296,7 @@ public class GameScript : MonoBehaviour
                     break;
                 case 0:
                     setHealthy(playersHealthy - damage);
+                    iAmDeath();
                     teamDeath(style);
                     break;
             }
@@ -591,20 +594,26 @@ public class GameScript : MonoBehaviour
     public void explodeFlash()
     {
         flashAS.PlayOneShot(explodeFlashAC);
-        GameObject panel = new GameObject("Flash");
-        panel.AddComponent<CanvasRenderer>();
-        RectTransform rc = panel.AddComponent<RectTransform>();
-        Image i = panel.AddComponent<Image>();
+        GameObject panel = createFullScreenCanvas("Flash", Color.white);
+        
+        StartCoroutine(flashFade(panel, 0.0f, panel.GetComponent<Image>().color, 2.0f, 1.5f, null));
+    }
+
+    private GameObject createFullScreenCanvas(string objectName, Color color)
+    {
+        GameObject go = new GameObject(objectName);
+        go.AddComponent<CanvasRenderer>();
+        RectTransform rc = go.AddComponent<RectTransform>();
+        Image i = go.AddComponent<Image>();
             
         rc.anchorMin = new Vector2(0, 0);
         rc.anchorMax = new Vector2(1, 1);
         rc.offsetMin = new Vector2(0, 0);
         rc.offsetMax = new Vector2(0, 0);
 
-        i.color = Color.white;
-        panel.transform.SetParent(canvas.transform, false);
-        
-        StartCoroutine(flashFade(panel, 0.0f, i.color, 2.0f, 1.5f, null));
+        i.color = color;
+        go.transform.SetParent(canvas.transform, false);
+        return go;
     }
 
     public void walk(bool longWalk, string methodName)
@@ -634,13 +643,32 @@ public class GameScript : MonoBehaviour
         float alpha = panel.GetComponent<Image>().color.a;
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
         {
+            if (am_i_Death)
+            {
+                Destroy(panel);
+                yield break;
+            }
+
             Color newColor = new Color(c.r, c.g, c.b, Mathf.Lerp(alpha,aValue,t));
             panel.GetComponent<Image>().color = newColor;
             yield return null;
         }
         Destroy(panel);
-        if (methodName != null)
+        if (methodName != null && !isStoped && !am_i_Death)
             StartCoroutine(methodName);
+    }
+    
+    IEnumerator killedRedScreen(GameObject panel, float aValue, float aTime)
+    {
+        Color c = panel.GetComponent<Image>().color;
+        float alpha = panel.GetComponent<Image>().color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Color newColor = new Color(c.r, c.g, c.b, Mathf.Lerp(alpha,aValue,t));
+            panel.GetComponent<Image>().color = newColor;
+            yield return null;
+        }
+        Destroy(panel);
     }
 
     public void banControl()
@@ -754,6 +782,7 @@ public class GameScript : MonoBehaviour
     void endRound()
     {
         setButtonsActive(false);
+        cancelKnifeAndBomb();
         destroyPrefabs();
         //if (!bombHasBeenPlant() && time > 0)
         isStoped = true;
@@ -801,7 +830,7 @@ public class GameScript : MonoBehaviour
         if (obj != null)
             Destroy(obj);
     }
-
+    
     void allKilled()
     {
         if (bombHasBeenPlant() && !isT)
@@ -831,6 +860,31 @@ public class GameScript : MonoBehaviour
         }
         roundLose(RoundEnd.AllDeath);
         Debug.Log("rl5");
+    }
+
+    public void iAmDeath()
+    {
+        GetComponent<AudioSource>().PlayOneShot(awpShotDeath);
+        am_i_Death = true;
+        isStoped = true;
+        GameObject blood = createFullScreenCanvas("Blood", new Color32(189, 19, 19, 255));
+        StartCoroutine(killedRedScreen(blood, 0, 1.6f));
+        cancelKnifeAndBomb();
+        resetLook();
+    }
+
+    private void cancelKnifeAndBomb()
+    {
+        while (startedCoroutineBombKnife.Count != 0)
+        {
+            StopCoroutine(startedCoroutineBombKnife.Dequeue());
+            
+        }
+    }
+
+    private void cancelBomb()
+    {
+        StopCoroutine(nameof(openBomb));
     }
 
     private void sendRoundWin(RoundEnd why)
@@ -895,14 +949,6 @@ public class GameScript : MonoBehaviour
         canvas.GetComponent<ShowDialogs>().showRoundEndDialog(forT);
     }
 
-    private IEnumerator showDeathZeus()
-    {
-        if (!isOnline)
-            yield return null;
-        yield return new WaitForEndOfFrame();
-        canvas.GetComponent<ShowDialogs>().showDeathWeapon(0, 0, online_data.otherTeam[0]);
-    }
-
     private IEnumerator showDeathWeapon(float wait, int weaponCode, int style)
     {
         if (!isOnline)
@@ -920,11 +966,6 @@ public class GameScript : MonoBehaviour
         }
         roundLose(RoundEnd.AllDeath);
         Debug.Log("rl6");
-    }
-
-    private void startCaroutineDeathZeus()
-    {
-        StartCoroutine(nameof(showDeathZeus));
     }
 
     void updateScore()

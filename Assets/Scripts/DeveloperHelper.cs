@@ -49,6 +49,10 @@ public class DeveloperHelper : MonoBehaviour
         {
             gameObject.GetComponent<GameScript>().knifeOther();
         }
+        if (Input.GetKeyDown("i"))
+        {
+            gameObject.GetComponent<GameScript>().iAmDeath();
+        }
         if (Input.GetKeyDown("5"))
         {
             GameObject.Find("longSpawn_dooble_door").GetComponent<ctLongDoorSpawn>().spawnMob();

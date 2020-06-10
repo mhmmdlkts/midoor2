@@ -92,7 +92,7 @@ public class PlayerStatus : MonoBehaviour
 
     public static void addPlays(int extra)
     {
-        int plays = PlayerPrefs.GetInt("plays", 0) + extra;
+        int plays = PlayerPrefs.GetInt("plays", 3) + extra;
         PlayerPrefs.SetInt("plays",plays);
         GameObject[] coinObjects = GameObject.FindGameObjectsWithTag("UI_plays");
         foreach (var coinObject in coinObjects)
