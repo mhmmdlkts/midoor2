@@ -23,15 +23,30 @@ namespace CompleteProject
         // when defining the Product Identifiers on the store. Except, for illustration purposes, the 
         // kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
         // specific mapping to Unity Purchasing's AddProduct, below.
-        public static string MONEY_100000 = "100000_money";
-        public static string MONEY_50000  = "50000_money";
-        public static string MONEY_25000  = "25000_money";
-        public static string MONEY_10000  = "10000_money";
-        public static string MONEY_5000   = "5000_money";
-        public static string MONEY_2000   = "2000_money";
-        public static string PLAYS_20     = "20_plays";
-        public static string NO_ADS       = "no_ads";
-        public static string NO_PLAYS     = "no_plays";
+        
+        
+        
+        #if UNITY_IPHONE
+            public static string MONEY_100000 = "_100000_money";
+            public static string MONEY_50000  = "_50000_money";
+            public static string MONEY_25000  = "_25000_money";
+            public static string MONEY_10000  = "_10000_money";
+            public static string MONEY_5000   = "_5000_money";
+            public static string MONEY_2000   = "_2000_money";
+            public static string PLAYS_20     = "_20_plays";
+            public static string NO_ADS       = "_no_ads";
+            public static string NO_PLAYS     = "_no_plays";
+        #else
+            public static string MONEY_100000 = "100000_money";
+            public static string MONEY_50000  = "50000_money";
+            public static string MONEY_25000  = "25000_money";
+            public static string MONEY_10000  = "10000_money";
+            public static string MONEY_5000   = "5000_money";
+            public static string MONEY_2000   = "2000_money";
+            public static string PLAYS_20     = "20_plays";
+            public static string NO_ADS       = "no_ads";
+            public static string NO_PLAYS     = "no_plays";
+        #endif
 
         void Start()
         {

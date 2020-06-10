@@ -12,7 +12,7 @@ public enum Ads
 }
 public class AdUnitIds : MonoBehaviour
 {
-    public static bool isTest = false;
+    public static bool isTest = true;
     
     private static string adUnitId_UNEXPECTED = "unexpected_platform";
     
@@ -31,16 +31,16 @@ public class AdUnitIds : MonoBehaviour
     
     private static string appID__Iphone                  = "ca-app-pub-2593865920560334~8283098053";
     
-    private static string adUnitId_Game_Popup__Iphone    = "ca-app-pub-2593865920560334/8437983054";
-    private static string adUnitId_Menu_Popup__Iphone    = "ca-app-pub-2593865920560334/5464049948";
+    private static string adUnitId_Game_Popup__Iphone    = "ca-app-pub-2593865920560334/9600398204";
+    private static string adUnitId_Menu_Popup__Iphone    = "ca-app-pub-2593865920560334/4539643211";
     private static string adUnitId_Test_Popup__Iphone    = "ca-app-pub-3940256099942544/4411468910";
     
-    private static string adUnitId_Game_Banner__Iphone   = "ca-app-pub-2593865920560334/9403294957";
-    private static string adUnitId_Menu_Banner__Iphone   = "ca-app-pub-2593865920560334/4723126990";
+    private static string adUnitId_Game_Banner__Iphone   = "ca-app-pub-2593865920560334/6044296571";
+    private static string adUnitId_Menu_Banner__Iphone   = "ca-app-pub-2593865920560334/1342634233";
     private static string adUnitId_Test_Banner__Iphone   = "ca-app-pub-3940256099942544/2934735716";
     
     private static string adUnitId_Test_Reward__Iphone   = "ca-app-pub-3940256099942544/1712485313";
-    private static string adUnitId_Search_Reward_Iphone  = "ca-app-pub-2593865920560334/6096467159";
+    private static string adUnitId_Search_Reward_Iphone  = "ca-app-pub-2593865920560334/9408826516";
 
     public static string getAdUnitId(Ads ad)
     {

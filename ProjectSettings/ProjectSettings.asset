@@ -167,9 +167,9 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.mali.midoor
     Standalone: com.Company.ProductName
-    iPhone: com.mali.midoor
+    iPhone: com.Mali.Midoor3D
   buildNumber:
-    iPhone: 8
+    iPhone: 0
   AndroidBundleVersionCode: 8
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 28
@@ -521,7 +521,7 @@ PlayerSettings:
   actionOnDotNetUnhandledException: 1
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
-  enableCrashReportAPI: 0
+  enableCrashReportAPI: 1
   cameraUsageDescription: 
   locationUsageDescription: 
   microphoneUsageDescription: 
