@@ -67,7 +67,7 @@ public class GameScript : MonoBehaviour
 {
     public GameObject canvas, aim, timeLabel, ctScorLaber, tScorLabel, kill_info_dialog, mobGenT, mobGenCT, healthy_panel,
         healthy_panel_outside, healthy_text, ammo, bomb_prefab, bomb_icon_hud, plant_bomb_button, flash_button, colorTag_prefab, buy_panel_prefab, created_buy_panel,
-        knife_button, rightButton, leftButton, shotButton, zoomButton, map_prefab, created_map, flashCountContainer, flashCountText;
+        knife_button, rightButton, leftButton, shotButton, zoomButton, map_prefab, created_map, quitGameMenuPrefab, createdQuitGameMenuPrefab;
     private GameObject created_bomb_icon, created_bomb;
     private ArraysData arraysData;
     public GameObject[] createdColorTags;
@@ -495,6 +495,17 @@ public class GameScript : MonoBehaviour
     public void gameLose()
     {
         endGame(-1);
+    }
+
+    public void homeButtonListener()
+    {
+        if (createdQuitGameMenuPrefab != null)
+            return;
+        
+        if (isGameFinished)
+            gameQuit();
+        else
+            createdQuitGameMenuPrefab = Instantiate(quitGameMenuPrefab, canvas.transform, false);
     }
 
     public void gameQuit()

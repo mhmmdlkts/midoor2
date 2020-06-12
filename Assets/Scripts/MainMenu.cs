@@ -20,17 +20,45 @@ public class MainMenu : MonoBehaviour
     public Sprite[] zeusSprite;
     public Color32[] qualityColors;
     public Text btnRankedLabel, btnRankedOfflineLabel, btnTeamEditorLabel, btnInventoryLabel, btnRemoveAdsLabel, btnMoreCoinsLabel, btnRestorePurchaseLabel;
-    public GameObject priceListPrefab, createdPriceListPrefab;
+    public Button btnRanked, btnRankedOffline, btnTeamEditor, btnInventory, btnRemoveAds, btnMoreCoins, btnRestorePurchase;
+    public GameObject priceListPrefab, buttonContainer, removeAdsContainer, restorePurchaseContainer;
+    private GameObject createdPriceListPrefab;
     
     public static string ArraysDataName = "Arrays";
-    public static string[] playerPrafsWeaponKey = {"AWP_inventory5", "Knive_inventory5", "Zeus_inventory5"}; // TODO
+    public static string[] playerPrafsWeaponKey = {"AWP_inventory", "Knife_inventory", "Zeus_inventory"};
     public static string[] playerPrafsWeaponDef = {"0-0=0", "0,1-0=1", "0-0=0"};
     public static string AdManagerGOName = "AdManager";
     void Start()
     {
         setButtonsLabel();
+        setButtonWidth();
         createArraysData();
         createAdObject();
+        removeSomeButtons();
+    }
+
+    private void removeSomeButtons()
+    {
+        #if !UNITY_IPHONE
+            restorePurchaseContainer.SetActive(false);
+        #endif
+        
+        if (MainMenuAd.isRemovedAds())
+            removeAdsContainer.SetActive(false);
+    }
+
+    private void setButtonWidth()
+    {
+        float containerWidth = buttonContainer.GetComponent<RectTransform>().rect.width;
+        float buttonHeight = btnRanked.GetComponent<RectTransform>().rect.height;
+        Vector2 buttonSize = new Vector2(containerWidth, buttonHeight);
+        btnRanked.GetComponent<RectTransform>().sizeDelta = buttonSize;
+        btnRankedOffline.GetComponent<RectTransform>().sizeDelta = buttonSize;
+        btnTeamEditor.GetComponent<RectTransform>().sizeDelta = buttonSize;
+        btnInventory.GetComponent<RectTransform>().sizeDelta = buttonSize;
+        btnRemoveAds.GetComponent<RectTransform>().sizeDelta = buttonSize;
+        btnMoreCoins.GetComponent<RectTransform>().sizeDelta = buttonSize;
+        btnRestorePurchase.GetComponent<RectTransform>().sizeDelta = buttonSize;
     }
 
     private void setButtonsLabel()
@@ -65,6 +93,7 @@ public class MainMenu : MonoBehaviour
     {
         if (getAdManager() != null)
             return;
+
         GameObject adManager = new GameObject(AdManagerGOName);
         adManager.AddComponent<MainMenuAd>();
         DontDestroyOnLoad(adManager);

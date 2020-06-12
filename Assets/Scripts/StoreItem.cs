@@ -11,7 +11,7 @@ public class StoreItem : MonoBehaviour
     public GameObject buyButton;
     private GameObject container;
     public int weaponCode, style, price, quality;
-    public string name, playerPrefabKey, playerPrefabDef, inventoryCode;
+    public string name;
     private Sprite[] awpImgs, knifeImgs, zeusImgs;
     private ArraysData arraysData;
     private RectTransform _rectTransform, _containerRectTransform;
@@ -52,7 +52,7 @@ public class StoreItem : MonoBehaviour
             buyIt();
     }
 
-    public void configure(StoreItemStruct storeItemStruct)
+    public bool configure(StoreItemStruct storeItemStruct)
     {
         init();
         weaponCode = storeItemStruct.weaponCode;
@@ -60,31 +60,41 @@ public class StoreItem : MonoBehaviour
         style = storeItemStruct.style;
         price = storeItemStruct.price;
         name = storeItemStruct.name;
-        
+
         priceText.text = LanguageSystem.GET_CURRENCY() + price;
         weaponName.text = name;
         frame.color = arraysData.qualityColors[quality];
         image.sprite = getImg(weaponCode, style);
-        
-        playerPrefabKey = MainMenu.playerPrafsWeaponKey[weaponCode];
-        playerPrefabDef = MainMenu.playerPrafsWeaponDef[weaponCode];
-        inventoryCode = PlayerPrefs.GetString(playerPrefabKey, playerPrefabDef);
-        
+
         if (haveBought())
             disableButton();
+
+        if (price <= 0)
+        {
+            Destroy(gameObject);
+            return false;
+        }
+
+        return true;
     }
+
 
     private void buyIt()
     {
         PlayerPrefs.SetInt("money",PlayerPrefs.GetInt("money")-price);
         GameObject.Find("Panel").GetComponent<PlayerStatus>().setStatus();
-        PlayerPrefs.SetString(playerPrefabKey, style + "," + inventoryCode);
+        PlayerPrefs.SetString(MainMenu.playerPrafsWeaponKey[weaponCode], style + "," + inventoryCode(weaponCode));
         disableButton();
+    }
+
+    private static string inventoryCode(int weaponCode)
+    {
+        return PlayerPrefs.GetString(MainMenu.playerPrafsWeaponKey[weaponCode], MainMenu.playerPrafsWeaponDef[weaponCode]);
     }
 
     private bool haveBought()
     {
-        string s = inventoryCode.Split('-')[0];
+        string s = inventoryCode(weaponCode).Split('-')[0];
         return s.Contains(style.ToString());
     }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class myInventroy : MonoBehaviour
 {
@@ -45,9 +46,22 @@ public class myInventroy : MonoBehaviour
         initKnifeItems();
         initZeusItems();
         registerAll();
-        float containerHeight = inventoryItemPrefab.GetComponent<RectTransform>().rect.height * (inventoryKnifes.Length+inventoryAwps.Length); // Todo yatay kareler
+        setContainerHeight();
+    }
+
+    private void setContainerHeight()
+    {
+        int tot_items = inventoryAwps.Length + inventoryZeus.Length + inventoryKnifes.Length;
         RectTransform rc = container.GetComponent<RectTransform>();
-        rc.sizeDelta = new Vector2(0, containerHeight + 10);
+        float itemHeight = container.GetComponent<GridLayoutGroup>().cellSize.y;
+        float itemWidth = inventoryItemPrefab.GetComponent<RectTransform>().rect.width;
+        float firstContainerWidth = GameObject.Find("ScrollInventory").GetComponent<RectTransform>().rect.width;
+        float firstContainerHeight = GameObject.Find("ScrollInventory").GetComponent<RectTransform>().rect.height;
+        int mod1 = (int)Math.Ceiling(firstContainerWidth) / (int)Math.Ceiling(itemWidth);
+        int mod2 = (int)Math.Ceiling(Math.Ceiling((float)tot_items) / mod1);
+        container.GetComponent<GridLayoutGroup>().cellSize = new Vector2(firstContainerWidth / mod1, itemHeight);
+        float containerHeight = (float)mod2 * itemHeight;
+        rc.sizeDelta = new Vector2(0, containerHeight - firstContainerHeight);
     }
 
     private void initPlayerPrefabs()

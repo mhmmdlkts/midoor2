@@ -360,7 +360,6 @@
           <e p="GameScript.cs" t="Include" />
           <e p="GameScriptOnline.cs" t="Include" />
           <e p="GetRandomEnemyName.cs" t="Include" />
-          <e p="HomeButton.cs" t="Include" />
           <e p="InAppPurchase" t="Include">
             <e p="Purchaser.cs" t="Include" />
           </e>

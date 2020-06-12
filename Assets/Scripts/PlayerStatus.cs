@@ -110,7 +110,7 @@ public class PlayerStatus : MonoBehaviour
 
     public static void removePlaysPermanently()
     {
-        PlayerPrefs.SetInt("plays", Int32.MaxValue);
+        addPlays(Int32.MaxValue - PlayerPrefs.GetInt("plays", 3));
         PlayerPrefs.SetInt(removedPlaysPlayerprefsString, 1); // The value is doesn't important
     }
 }

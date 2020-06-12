@@ -4665,8 +4665,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2016928302}
-        m_MethodName: quitGame
+      - m_Target: {fileID: 2016928303}
+        m_MethodName: homeButtonListener
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18508,8 +18508,9 @@ MonoBehaviour:
   map_prefab: {fileID: 5421278019769283435, guid: 05832b40f6997409893bf5555cb87e60,
     type: 3}
   created_map: {fileID: 0}
-  flashCountContainer: {fileID: 435149436}
-  flashCountText: {fileID: 686243392}
+  quitGameMenuPrefab: {fileID: 9124826966209643529, guid: 591679a5f226d42718fc777aedd6996c,
+    type: 3}
+  createdQuitGameMenuPrefab: {fileID: 0}
   createdColorTags: []
   T_aimPoints:
   - {fileID: 205901022}

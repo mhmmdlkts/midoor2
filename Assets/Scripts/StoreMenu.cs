@@ -10,16 +10,22 @@ public class StoreMenu : MonoBehaviour
     
     void Start()
     {
-        
-        initStoreItems();
-        float containerHeight = storeItemPrefab.GetComponent<RectTransform>().rect.height * inventoryMenu.storeItemStruct.Count-1;
+        int count = initStoreItems();
+        float containerHeight = storeItemPrefab.GetComponent<RectTransform>().rect.height * count;
         RectTransform rc = container.GetComponent<RectTransform>();
         rc.sizeDelta = new Vector2(0, containerHeight + 10);
     }
 
-    private void initStoreItems()
+    private int initStoreItems()
     {
+        int count = 0;
         for (int i = 0; i < inventoryMenu.storeItemStruct.Count; i++)
-            Instantiate(storeItemPrefab, container.transform, false).GetComponent<StoreItem>().configure(inventoryMenu.storeItemStruct[i]);
+        {
+            if (Instantiate(storeItemPrefab, container.transform, false).GetComponent<StoreItem>()
+                .configure(inventoryMenu.storeItemStruct[i]))
+                count++;
+        }
+
+        return count;
     }
 }
