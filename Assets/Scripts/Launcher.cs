@@ -28,10 +28,18 @@ public class Launcher : MonoBehaviourPunCallbacks
     private bool forceQuit = true;
     private bool isRejoining = false;
     private bool isLeftingScene = false;
+    
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         resetAccepts();
+    }
+
+    void OnDisable()
+    {
+        base.OnDisable();
+        if (!isLeftingScene)
+            Disconnect();
     }
 
     public void resetAccepts()
@@ -207,7 +215,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private void DestroyData()
     {
-        Debug.Log("SILLLLLL");
         GameObject createdData = GameObject.Find("Data");
         if (createdData != null)
             Destroy(createdData);
@@ -307,6 +314,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private void loadGame()
     {
+        isLeftingScene = true;
         destroyAd();
         stopInvokes();
         PhotonNetwork.LoadLevel("Assets/Scenes/Dust2_T_MID.unity");

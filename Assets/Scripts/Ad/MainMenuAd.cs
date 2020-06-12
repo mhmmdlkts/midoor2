@@ -65,6 +65,13 @@ public class MainMenuAd : MonoBehaviour
     public static void removeAdsPermananty()
     {
         PlayerPrefs.SetInt(removedAdsPlayerprefsString, 1); // The value is doesn't important
+        GameObject main = GameObject.Find("Main Camera");
+        if (main == null)
+            return;
+        MainMenuAd mainMenuAd = main.GetComponent<MainMenuAd>();
+        if (mainMenuAd == null)
+            return;
+        mainMenuAd.destroyAdds();
     }
 
     public void destroyAdds()

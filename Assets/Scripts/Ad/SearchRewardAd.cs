@@ -12,8 +12,7 @@ public class SearchRewardAd : MonoBehaviour
     public void showRewardAd(OnlineMenu online)
     {
         onlineMenu = online;
-        if (MainMenuAd.isRemovedAds())
-            return;
+        
         rewardedAd = new RewardedAd(AdUnitIds.getAdUnitId(Ads.Search_Reward));
         
         AdRequest request = new AdRequest.Builder().Build();

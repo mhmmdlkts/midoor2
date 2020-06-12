@@ -1432,11 +1432,11 @@ MonoBehaviour:
   tryingAt: 0
   plantingSide: 0
   waitTimeForDefWithoutKit: 0.5
-  waitTimeForDefWithKit: 0.25
+  waitTimeForDefWithKit: 0.15
   clickSounds:
   - {fileID: 8300000, guid: dee340461c8e0449aaf0b85b3f93e94f, type: 3}
   - {fileID: 8300000, guid: e039b6615b9b04ab1a4cb3f909c8df92, type: 3}
-  maxPinLength: 7
+  maxPinLength: 5
 --- !u!82 &3883978176983663594
 AudioSource:
   m_ObjectHideFlags: 0

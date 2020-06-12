@@ -14,12 +14,24 @@ public class OnlineMenu : MonoBehaviour
     public GameObject pp_me, name_me, money_me, wins_me, rank_me, plays_me;
     public GameObject pp_him, name_him, wins_him, rank_him;
     public Start_Cancel_Search_Button scs;
-    public GameObject watchAddMenuPrefab;
+    public GameObject watchAddMenuPrefab, notUpdatedPrefab;
     public OnlineData data;
     public ArraysData arraysData;
     public Sprite[] rankList;
     public string[] myTeam;
     public int rewardPlays;
+    
+    public string URL;
+    private bool needsUpdate;
+
+    IEnumerator LoadTxtData(string url)
+    {
+        WWW www = new WWW(url);
+        yield return www;
+        string latestVersion = www.text;
+        Debug.Log(latestVersion);
+        needsUpdate = !Application.version.Equals(latestVersion);
+    }
     
     void Start()
     {
@@ -30,6 +42,7 @@ public class OnlineMenu : MonoBehaviour
             return;
         }
         
+        StartCoroutine(LoadTxtData(URL));
         arraysData = GameObject.Find(MainMenu.ArraysDataName).GetComponent<ArraysData>();
 
         rewardPlays = 0;
@@ -107,6 +120,11 @@ public class OnlineMenu : MonoBehaviour
     
     public void button_start_cancel_listener()
     {
+        if (needsUpdate)
+        {
+            Instantiate(notUpdatedPrefab, GameObject.Find("Canvas").transform, false);
+            return;
+        }
         setButtonSearch(scs.isGreen);
     }
 

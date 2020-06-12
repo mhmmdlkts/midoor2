@@ -89,8 +89,6 @@ public class ENEMY_SPAWN : MonoBehaviour
                 return;
             for (int i = 0; i < count; i++) {
                 game.enemysNameList.Add(i < data.otherTeam.Length ? data.otherTeam[i] : main.GetComponent<GetRandomEnemyName>().getRandomName());
-                Debug.Log("VAY0: " + game.enemysNameList[i]);
-                Debug.Log("VAY1: " + data.otherTeam[i]);
             }
         }
     }

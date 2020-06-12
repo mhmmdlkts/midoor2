@@ -125,6 +125,15 @@ public class LanguageSystem : MonoBehaviour
     private static string EXIT_GAME_MENU_BUTTON_LABEL_NO_EN = "No";
     private static string EXIT_GAME_MENU_BUTTON_LABEL_NO_DE = "Nein";
     private static string EXIT_GAME_MENU_BUTTON_LABEL_NO_TR = "Hayır";
+    
+    
+    private static string UPDATE_GAME_MENU_TITLE_EN = "You have to install the latest update to play online.";
+    private static string UPDATE_GAME_MENU_TITLE_DE = "Sie müssen das neueste Update installieren, um online spielen zu können.";
+    private static string UPDATE_GAME_MENU_TITLE_TR = "Çevrimiçi oynamak için en son güncellemeyi yüklemelisiniz.";
+    
+    private static string UPDATE_GAME_MENU_BUTTON_LABEL_CLOSE_EN = "Okey";
+    private static string UPDATE_GAME_MENU_BUTTON_LABEL_CLOSE_DE = "Okey";
+    private static string UPDATE_GAME_MENU_BUTTON_LABEL_CLOSE_TR = "Tamam";
 
 
     private static string MORE_PLAYS_MENU_TITLE_EN = "Get more plays.";
@@ -569,6 +578,30 @@ public class LanguageSystem : MonoBehaviour
                 return EXIT_GAME_MENU_BUTTON_LABEL_YES_TR;
         }
         return         EXIT_GAME_MENU_BUTTON_LABEL_YES_EN;
+    }
+
+    public static string GET_UPDATE_GAME_MENU_BUTTON_LABEL_CLOSE()
+    {
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.German:
+                return UPDATE_GAME_MENU_BUTTON_LABEL_CLOSE_DE;
+            case SystemLanguage.Turkish:
+                return UPDATE_GAME_MENU_BUTTON_LABEL_CLOSE_TR;
+        }
+        return         UPDATE_GAME_MENU_BUTTON_LABEL_CLOSE_EN;
+    }
+
+    public static string GET_UPDATE_GAME_MENU_TITLE()
+    {
+        switch (Application.systemLanguage)
+        {
+            case SystemLanguage.German:
+                return UPDATE_GAME_MENU_TITLE_DE;
+            case SystemLanguage.Turkish:
+                return UPDATE_GAME_MENU_TITLE_TR;
+        }
+        return         UPDATE_GAME_MENU_TITLE_EN;
     }
 
     public static string GET_EXIT_GAME_MENU_BUTTON_LABEL_NO()

@@ -12,7 +12,7 @@ public enum Ads
 }
 public class AdUnitIds : MonoBehaviour
 {
-    public static bool isTest = true;
+    public static bool isTest = false;
     
     private static string adUnitId_UNEXPECTED = "unexpected_platform";
     

@@ -225,6 +225,11 @@ public class GameScript : MonoBehaviour
         beforeNewRound();
     }
 
+    private void Awake()
+    {
+        Application.runInBackground = true;
+    }
+
     private void hideOnlineObjects()
     {
         plant_bomb_button.SetActive(false);
